@@ -42,10 +42,20 @@ class ArtikelController extends Controller
             'tanggal_publikasi' => 'nullable|date',
             'prestasi_id' => 'nullable|exists:prestasi,id',
             'status' => 'required|in:Draft,Publish',
+            'video_url' => ['nullable', 'url', 'max:2048', function ($attribute, $value, $fail) {
+                $host = strtolower((string) parse_url($value, PHP_URL_HOST));
+                $host = preg_replace('/^www\./', '', $host);
+                if (!in_array($host, ['youtube.com', 'youtu.be', 'instagram.com', 'tiktok.com'], true)
+                    && !str_ends_with($host, '.youtube.com')
+                    && !str_ends_with($host, '.instagram.com')
+                    && !str_ends_with($host, '.tiktok.com')) {
+                    $fail('Link video harus berasal dari YouTube, Instagram, atau TikTok.');
+                }
+            }],
         ]);
 
         $data = $request->only([
-            'judul', 'isi', 'penulis', 'tanggal_publikasi', 'prestasi_id', 'status',
+            'judul', 'isi', 'penulis', 'tanggal_publikasi', 'prestasi_id', 'status', 'video_url',
         ]);
 
         $data['slug'] = $this->uniqueSlug($request->judul);
@@ -97,10 +107,20 @@ class ArtikelController extends Controller
             'tanggal_publikasi' => 'nullable|date',
             'prestasi_id' => 'nullable|exists:prestasi,id',
             'status' => 'required|in:Draft,Publish',
+            'video_url' => ['nullable', 'url', 'max:2048', function ($attribute, $value, $fail) {
+                $host = strtolower((string) parse_url($value, PHP_URL_HOST));
+                $host = preg_replace('/^www\./', '', $host);
+                if (!in_array($host, ['youtube.com', 'youtu.be', 'instagram.com', 'tiktok.com'], true)
+                    && !str_ends_with($host, '.youtube.com')
+                    && !str_ends_with($host, '.instagram.com')
+                    && !str_ends_with($host, '.tiktok.com')) {
+                    $fail('Link video harus berasal dari YouTube, Instagram, atau TikTok.');
+                }
+            }],
         ]);
 
         $data = $request->only([
-            'judul', 'isi', 'penulis', 'tanggal_publikasi', 'prestasi_id', 'status',
+            'judul', 'isi', 'penulis', 'tanggal_publikasi', 'prestasi_id', 'status', 'video_url',
         ]);
 
         // Update slug jika judul berubah

@@ -22,8 +22,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('artikel', function (Blueprint $table) {
-            foreach (['judul', 'slug', 'isi', 'gambar', 'penulis', 'tanggal_publikasi', 'status'] as $col) {
-                if (Schema::hasColumn('artikel', $col)) $table->dropColumn($col);
+            foreach (['judul', 'slug', 'isi', 'gambar', 'penulis', 'tanggal_publikasi', 'status'] as $column) {
+                if (Schema::hasColumn('artikel', $column)) $table->dropColumn($column);
             }
         });
     }

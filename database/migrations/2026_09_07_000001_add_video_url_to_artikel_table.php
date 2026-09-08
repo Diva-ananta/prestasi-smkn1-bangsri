@@ -8,19 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (Schema::hasTable('artikel') && Schema::hasColumn('artikel', 'kejuaraan_id')) {
+        if (!Schema::hasColumn('artikel', 'video_url')) {
             Schema::table('artikel', function (Blueprint $table) {
-                $table->dropForeign(['kejuaraan_id']);
-                $table->dropColumn('kejuaraan_id');
+                $table->string('video_url', 2048)->nullable()->after('gambar');
             });
         }
     }
 
     public function down(): void
     {
-        if (Schema::hasTable('artikel') && !Schema::hasColumn('artikel', 'kejuaraan_id')) {
+        if (Schema::hasColumn('artikel', 'video_url')) {
             Schema::table('artikel', function (Blueprint $table) {
-                $table->unsignedBigInteger('kejuaraan_id')->nullable();
+                $table->dropColumn('video_url');
             });
         }
     }

@@ -85,6 +85,22 @@
                     </div>
                 </div>
 
+                @if($artikel->video_url)
+                    @php
+                        $videoHost = strtolower((string) parse_url($artikel->video_url, PHP_URL_HOST));
+                        $videoHost = preg_replace('/^www\./', '', $videoHost);
+                        $videoPlatform = str_contains($videoHost, 'youtube') ? 'YouTube' : (str_contains($videoHost, 'instagram') ? 'Instagram' : 'TikTok');
+                        $videoIcon = $videoPlatform === 'YouTube' ? 'fa-youtube' : ($videoPlatform === 'Instagram' ? 'fa-instagram' : 'fa-tiktok');
+                    @endphp
+                    <div class="mt-8 rounded-2xl border-2 border-red-100 bg-red-50 p-5 dark:border-red-900/40 dark:bg-red-950/20">
+                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-red-700 dark:text-red-300"><i class="fab {{ $videoIcon }} mr-2"></i>Video {{ $videoPlatform }}</p>
+                        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Tonton video terkait artikel ini di platform publik.</p>
+                        <a href="{{ $artikel->video_url }}" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-700">
+                            <i class="fas fa-play"></i> Buka Video
+                        </a>
+                    </div>
+                @endif
+
                 <!-- Related Achievement -->
                 @if($artikel->prestasi)
                     <div class="mt-10 animate-fade-in animate-delay-300">

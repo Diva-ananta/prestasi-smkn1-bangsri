@@ -11,7 +11,9 @@ return new class extends Migration
         if (Schema::hasTable('prestasi')) {
             Schema::table('prestasi', function (Blueprint $table) {
                 foreach (['nama_lomba', 'kategori', 'tingkat', 'penyelenggara', 'tanggal_mulai', 'tanggal_selesai', 'lokasi'] as $column) {
-                    if (!Schema::hasColumn('prestasi', $column)) $table->{$column === 'tanggal_mulai' || $column === 'tanggal_selesai' ? 'date' : 'string'}($column)->nullable();
+                    if (!Schema::hasColumn('prestasi', $column)) {
+                        $table->{$column === 'tanggal_mulai' || $column === 'tanggal_selesai' ? 'date' : 'string'}($column)->nullable();
+                    }
                 }
             });
             if (Schema::hasColumn('prestasi', 'kejuaraan_id')) {
@@ -21,6 +23,7 @@ return new class extends Migration
                 });
             }
         }
+
         if (Schema::hasTable('artikel') && !Schema::hasColumn('artikel', 'prestasi_id')) {
             Schema::table('artikel', function (Blueprint $table) {
                 $table->foreignId('prestasi_id')->nullable()->after('status')->constrained('prestasi')->nullOnDelete();

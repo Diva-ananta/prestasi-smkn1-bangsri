@@ -55,6 +55,13 @@
             @error('gambar') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
         </div>
 
+        <div>
+            <label for="video_url" class="mb-2 block text-sm font-semibold text-slate-700">Link Video Publik</label>
+            <input id="video_url" type="url" name="video_url" value="{{ old('video_url', $artikel->video_url ?? '') }}" placeholder="https://www.youtube.com/watch?v=..." class="admin-form-input">
+            <p class="mt-1.5 text-xs text-slate-500">Opsional. Gunakan link video dari YouTube, Instagram, atau TikTok. Link ini akan tampil di halaman publik.</p>
+            @error('video_url') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+        </div>
+
         <div class="grid gap-5 md:grid-cols-2">
             <div>
                 <label for="penulis" class="mb-2 block text-sm font-semibold text-slate-700">Penulis</label>

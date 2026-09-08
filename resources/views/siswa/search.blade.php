@@ -65,6 +65,12 @@
 
             <div id="siswa-results">
                 <div class="mb-5 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-800 dark:bg-slate-900"><p class="text-sm font-semibold text-slate-700 dark:text-slate-300">Ditemukan <span class="font-black text-emerald-700 dark:text-emerald-400">{{ number_format($siswas->total()) }}</span> siswa</p><span class="rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">Publish</span></div>
+                @if($keyword !== '' || request()->hasAny(['jurusan', 'kelas', 'angkatan', 'status']))
+                    <div role="status" aria-live="polite" class="mb-5 flex items-start gap-3 rounded-xl border {{ $siswas->total() ? 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-200' : 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200' }} px-4 py-3 text-sm">
+                        <i class="fas {{ $siswas->total() ? 'fa-circle-check' : 'fa-circle-info' }} mt-0.5 shrink-0"></i>
+                        <p>{{ $siswas->total() ? 'Pencarian berhasil. Menampilkan ' . number_format($siswas->total()) . ' siswa yang sesuai.' : 'Siswa tidak ditemukan. Coba gunakan kata kunci atau filter yang berbeda.' }}</p>
+                    </div>
+                @endif
                 <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             @forelse($siswas as $siswa)
                 @php $initials = collect(explode(' ', trim($siswa->nama)))->filter()->map(fn ($word) => strtoupper(substr($word, 0, 1)))->take(2)->join(''); @endphp
