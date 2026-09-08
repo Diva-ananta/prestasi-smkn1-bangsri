@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div>
+        <div>   
             <h2 class="text-lg font-bold text-white">Menu Utama</h2>
             <div class="mt-4 space-y-2 text-sm text-slate-300">
                 <a href="{{ route('home') }}" class="block transition hover:text-white">Beranda</a>

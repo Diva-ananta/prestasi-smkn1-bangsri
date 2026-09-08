@@ -33,6 +33,29 @@
                         </div>
                     @endif
 
+                    @if(session('success'))
+                        <div class="mb-6 animate-fade-in rounded-xl border border-green-200 bg-green-50 p-4">
+                            <div class="flex gap-3">
+                                <i class="fas fa-check-circle text-green-600 mt-0.5"></i>
+                                <div>
+                                    <p class="text-sm font-semibold text-green-900">{{ session('success') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="mb-6 animate-fade-in rounded-xl border border-red-200 bg-red-50 p-4">
+                            <div class="flex gap-3">
+                                <i class="fas fa-exclamation-circle text-red-600 mt-0.5 flex-shrink-0"></i>
+                                <div class="flex-1">
+                                    <p class="text-sm font-semibold text-red-900">Autentikasi Gagal</p>
+                                    <p class="mt-1 text-xs text-red-700">{{ session('error') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     @if($errors->any())
                         <div class="mb-6 animate-fade-in rounded-xl border border-red-200 bg-red-50 p-4">
                             <div class="flex gap-3">

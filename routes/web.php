@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\Admin\ImportPrestasiController;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\OAuthController;
 use App\Http\Middleware\AdminMiddleware;
 
 /*
@@ -73,6 +74,19 @@ Route::middleware(['auth', AdminMiddleware::class])
         // CRUD Galeri
         Route::resource('galeri', GaleriController::class)->only(['index', 'store', 'destroy']);
 
+        // Integrasi SiPintu Gateway
+        Route::get('sipintu', [\App\Http\Controllers\Admin\SiPintuController::class, 'index'])->name('sipintu.index');
+        Route::post('sipintu/ping', [\App\Http\Controllers\Admin\SiPintuController::class, 'ping'])->name('sipintu.ping');
+        Route::post('sipintu/validate-client', [\App\Http\Controllers\Admin\SiPintuController::class, 'validateClient'])->name('sipintu.validate-client');
+        Route::post('sipintu/sync-students', [\App\Http\Controllers\Admin\SiPintuController::class, 'syncStudents'])->name('sipintu.sync-students');
+        Route::get('sipintu/search-students', [\App\Http\Controllers\Admin\SiPintuController::class, 'searchStudents'])->name('sipintu.search-students');
+
     });
+
+// Endpoint penerima redirect SSO otomatis dari SiPintu Gateway
+Route::get('/oauth/callback', [OAuthController::class, 'callback'])->name('oauth.callback');
+
+// Alias dashboard untuk akses SSO
+Route::get('/dashboard', fn () => redirect()->route('admin.dashboard'))->middleware('auth')->name('dashboard');
 
 require __DIR__.'/auth.php';

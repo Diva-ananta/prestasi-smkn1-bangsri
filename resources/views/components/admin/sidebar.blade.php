@@ -47,6 +47,13 @@
             <i class="fas fa-images w-5"></i>
             <span x-show="sidebarOpen" x-transition.opacity>Galeri</span>
         </a>
+        <a href="{{ route('admin.sipintu.index') }}" class="sidebar-link {{ request()->routeIs('admin.sipintu.*') ? 'active' : 'text-slate-700 dark:text-slate-300' }}" :class="sidebarOpen ? '' : 'md:justify-center md:px-0'" title="SiPintu Gateway">
+            <i class="fas fa-door-open w-5 text-center text-emerald-600 dark:text-emerald-400"></i>
+            <span x-show="sidebarOpen" x-transition.opacity class="flex items-center justify-between flex-1">
+                <span>SiPintu Gateway</span>
+                <span class="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[9px] font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">API</span>
+            </span>
+        </a>
         <a href="{{ route('admin.deleted-records.index') }}" class="sidebar-link text-slate-700 dark:text-slate-300" :class="sidebarOpen ? '' : 'md:justify-center md:px-0'" title="Riwayat data"><i class="fas fa-trash-restore w-5 text-center"></i><span x-show="sidebarOpen" x-transition.opacity>Riwayat Data</span></a>
 
         <a href="{{ route('profile.edit') }}" class="sidebar-link text-slate-700 dark:text-slate-300" :class="sidebarOpen ? '' : 'md:justify-center md:px-0'" title="Profil">
