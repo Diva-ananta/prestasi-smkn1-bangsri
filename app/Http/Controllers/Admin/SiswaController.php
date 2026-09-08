@@ -15,7 +15,13 @@ class SiswaController extends Controller
 {
     public function index(Request $request)
     {
+        $status = $request->query('status'); // 'Aktif', 'Alumni', or null (all)
+
         $query = Siswa::query();
+
+        if ($request->filled('status') && in_array($request->status, ['Aktif', 'Alumni'])) {
+            $query->where('status', $request->status);
+        }
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -28,9 +34,13 @@ class SiswaController extends Controller
             });
         }
 
+        $totalAll = Siswa::count();
+        $totalAktif = Siswa::where('status', 'Aktif')->count();
+        $totalAlumni = Siswa::where('status', 'Alumni')->count();
+
         $siswas = $query->orderBy('nama')->paginate(10)->withQueryString();
 
-        return view('admin.siswa.index', compact('siswas'));
+        return view('admin.siswa.index', compact('siswas', 'totalAll', 'totalAktif', 'totalAlumni', 'status'));
     }
 
     public function create()

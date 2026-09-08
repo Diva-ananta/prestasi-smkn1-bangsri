@@ -40,18 +40,22 @@ class Siswa extends Model
     return $query->where('status', '!=', 'Alumni');
 }
 
-// Accessor untuk status (Aktif/Alumni)
-     public function getStatusAttribute()
-{
-    $tahunAngkatan = $this->angkatan;
-    $tahunSekarang = date('Y');
-    $tahunLulus = $tahunAngkatan + 3; // asumsi masa sekolah 3 tahun
+    // Accessor untuk status (Aktif/Alumni)
+    public function getStatusAttribute($value)
+    {
+        if (!empty($value)) {
+            return $value;
+        }
 
-    if ($tahunSekarang >= $tahunLulus) {
-        return 'Alumni';
+        $tahunAngkatan = $this->angkatan;
+        $tahunSekarang = (int) date('Y');
+        $tahunLulus = $tahunAngkatan ? ($tahunAngkatan + 3) : $tahunSekarang;
+
+        if ($tahunSekarang >= $tahunLulus) {
+            return 'Alumni';
+        }
+        return 'Aktif';
     }
-    return 'Aktif';
-}
 
      // Method untuk cek apakah siswa aktif
     public function isAktif()

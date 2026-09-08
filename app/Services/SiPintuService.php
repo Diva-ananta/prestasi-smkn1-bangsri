@@ -142,7 +142,7 @@ class SiPintuService
      * Ambil data siswa SIJUNA via Server-to-Server Gateway (Header Auth)
      * GET /api/v1/sijuna/students
      */
-    public function getStudents(?string $nis = null, ?string $search = null, ?int $limit = null): array
+    public function getStudents(?string $nis = null, ?string $search = null, ?int $limit = null, ?string $type = null): array
     {
         try {
             $params = [];
@@ -168,10 +168,29 @@ class SiPintuService
 
             if ($response->successful()) {
                 $json = $response->json();
+                $items = $json['data'] ?? (is_array($json) ? $json : []);
+
+                // Filter berdasarkan tipe:
+                // 'siswa': hanya yang memiliki kelas (classroom != null)
+                // 'alumni': hanya yang tidak memiliki kelas (classroom == null)
+                if ($type === 'siswa') {
+                    $items = array_values(array_filter($items, function ($item) {
+                        return !empty($item['classroom']) || !empty($item['classroom_name']) || !empty($item['kelas']);
+                    }));
+                } elseif ($type === 'alumni') {
+                    $items = array_values(array_filter($items, function ($item) {
+                        return empty($item['classroom']) && empty($item['classroom_name']) && empty($item['kelas']);
+                    }));
+                }
+
+                if ($limit && $limit > 0 && count($items) > $limit) {
+                    $items = array_slice($items, 0, $limit);
+                }
+
                 return [
                     'success' => true,
-                    'data' => $json['data'] ?? (is_array($json) ? $json : []),
-                    'total' => $json['count'] ?? count($json['data'] ?? []),
+                    'data' => $items,
+                    'total' => count($items),
                     'source' => $json['source'] ?? 'SiPintu Gateway',
                 ];
             }
@@ -242,7 +261,7 @@ class SiPintuService
     /**
      * Sinkronisasi data siswa dari SiPintu Gateway ke database lokal Siswa
      */
-    public function syncStudentsToLocalDatabase(?int $limit = null): array
+    public function syncStudentsToLocalDatabase(?int $limit = null, string $type = 'siswa'): array
     {
         @set_time_limit(300);
 
@@ -254,18 +273,42 @@ class SiPintuService
                 'created' => 0,
                 'updated' => 0,
                 'total' => 0,
+                'students' => [],
             ];
         }
 
-        $students = $fetchResult['data'];
+        $allStudents = $fetchResult['data'];
+
+        // Filter berdasarkan tipe:
+        // 'siswa': hanya yang memiliki kelas (classroom != null)
+        // 'alumni': hanya yang tidak memiliki kelas (classroom == null)
+        // 'all': semua siswa & alumni
+        if ($type === 'siswa') {
+            $students = array_values(array_filter($allStudents, function ($item) {
+                return !empty($item['classroom']) || !empty($item['classroom_name']) || !empty($item['kelas']);
+            }));
+        } elseif ($type === 'alumni') {
+            $students = array_values(array_filter($allStudents, function ($item) {
+                return empty($item['classroom']) && empty($item['classroom_name']) && empty($item['kelas']);
+            }));
+        } else {
+            $students = $allStudents;
+        }
+
         if ($limit && $limit > 0 && count($students) > $limit) {
             $students = array_slice($students, 0, $limit);
         }
+
         $created = 0;
         $updated = 0;
         $skipped = 0;
+        $syncedList = [];
 
-        DB::transaction(function () use ($students, &$created, &$updated, &$skipped) {
+        DB::transaction(function () use ($students, &$created, &$updated, &$skipped, &$syncedList) {
+            // Optimasi pencarian: ambil semua NIS siswa yang sudah ada secara batch
+            $allNis = array_values(array_filter(array_map(fn($item) => trim((string) ($item['nis'] ?? '')), $students)));
+            $existingSiswa = Siswa::whereIn('nis', $allNis)->get()->keyBy('nis');
+
             foreach ($students as $item) {
                 if (!is_array($item)) {
                     continue;
@@ -293,9 +336,20 @@ class SiPintuService
                 // Normalisasi NISN
                 $nisn = !empty($item['nisn']) ? trim((string) $item['nisn']) : null;
 
-                // Ekstraksi kelas & jurusan
-                $classroomName = $item['classroom']['name'] ?? $item['classroom_name'] ?? $item['kelas'] ?? '';
-                $parsedClass = $this->parseClassroom($classroomName);
+                // Cek ketersediaan kelas (classroom = null menandakan Alumni)
+                $classroomRaw = $item['classroom']['name'] ?? $item['classroom_name'] ?? $item['kelas'] ?? '';
+                $isAlumni = empty($classroomRaw);
+
+                if ($isAlumni) {
+                    $status = 'Alumni';
+                    $kelas = 'Alumni';
+                    $jurusan = '-';
+                } else {
+                    $status = 'Aktif';
+                    $parsedClass = $this->parseClassroom($classroomRaw);
+                    $kelas = $parsedClass['kelas'];
+                    $jurusan = $parsedClass['jurusan'];
+                }
 
                 // Angkatan perkiraan
                 $angkatan = $item['angkatan'] ?? null;
@@ -306,37 +360,58 @@ class SiPintuService
                     $angkatan = (int) date('Y');
                 }
 
-                $siswa = Siswa::where('nis', $nis)->first();
+                $tahunLulus = $isAlumni ? ($angkatan + 3) : null;
 
                 $payload = [
                     'nis' => $nis,
                     'nisn' => $nisn,
                     'nama' => $nama,
                     'jenis_kelamin' => $jk,
-                    'kelas' => $parsedClass['kelas'],
-                    'jurusan' => $parsedClass['jurusan'],
+                    'kelas' => $kelas,
+                    'jurusan' => $jurusan,
                     'angkatan' => $angkatan,
-                    'status' => 'Aktif',
+                    'status' => $status,
+                    'tahun_lulus' => $tahunLulus,
                     'is_published' => true,
                 ];
 
-                if ($siswa) {
-                    $siswa->update($payload);
+                $existing = $existingSiswa->get($nis);
+                if ($existing) {
+                    $existing->update($payload);
                     $updated++;
+                    $savedModel = $existing;
                 } else {
-                    Siswa::create($payload);
+                    $savedModel = Siswa::create($payload);
                     $created++;
+                    $existingSiswa->put($nis, $savedModel);
+                }
+
+                if (count($syncedList) < 50) {
+                    $syncedList[] = [
+                        'id' => $savedModel->id,
+                        'nis' => $savedModel->nis,
+                        'nisn' => $savedModel->nisn,
+                        'nama' => $savedModel->nama,
+                        'name' => $savedModel->nama,
+                        'jk' => $savedModel->jenis_kelamin,
+                        'kelas' => $savedModel->kelas . ($savedModel->jurusan !== '-' ? ' ' . $savedModel->jurusan : ''),
+                        'classroom' => ['name' => $savedModel->kelas . ($savedModel->jurusan !== '-' ? ' ' . $savedModel->jurusan : '')],
+                        'status' => $savedModel->status,
+                        'source' => $savedModel->status === 'Alumni' ? 'Alumni (Database Lokal)' : 'Siswa Aktif (Database Lokal)',
+                    ];
                 }
             }
         });
 
+        $label = $type === 'alumni' ? 'alumni' : ($type === 'siswa' ? 'siswa aktif' : 'siswa & alumni');
         return [
             'success' => true,
-            'message' => "Sinkronisasi berhasil: {$created} siswa baru ditambahkan, {$updated} siswa diperbarui.",
+            'message' => "Sinkronisasi berhasil: {$created} {$label} baru ditambahkan, {$updated} diperbarui.",
             'created' => $created,
             'updated' => $updated,
             'skipped' => $skipped,
             'total' => count($students),
+            'students' => $syncedList,
         ];
     }
 

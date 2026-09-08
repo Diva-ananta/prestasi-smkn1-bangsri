@@ -19,12 +19,24 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
-   public function store(LoginRequest $request)
+    public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
+
+        $user = Auth::user();
+        if (! ($user->is_admin || in_array($user->role, ['admin', 'master_admin']))) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->withErrors([
+                'email' => 'Akun Anda tidak memiliki hak akses administrator.',
+            ])->onlyInput('email');
+        }
+
         $request->session()->regenerate();
 
-        return redirect()->route('admin.dashboard')->with('success', 'Login berhasil. Selamat datang di dashboard admin.');
+        return redirect()->intended(route('admin.dashboard'))->with('success', 'Login berhasil. Selamat datang di dashboard admin.');
     }
 
     public function destroy(Request $request): RedirectResponse

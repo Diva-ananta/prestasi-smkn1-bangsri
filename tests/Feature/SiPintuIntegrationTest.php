@@ -113,4 +113,125 @@ class SiPintuIntegrationTest extends TestCase
         $this->assertNotNull($user);
         $this->assertEquals('Siswa Dari Portal SiPintu', $user->name);
     }
+
+    public function test_admin_can_search_teachers_from_gateway(): void
+    {
+        $admin = User::first() ?? User::factory()->create(['is_admin' => true, 'role' => 'admin']);
+
+        Http::fake([
+            '*/api/v1/sijuna/teachers*' => Http::response([
+                'success' => true,
+                'data' => [
+                    [
+                        'id' => 1,
+                        'nip' => '199301162022211008',
+                        'kode' => 'AW',
+                        'nama' => 'Iwan Safrudin',
+                        'jk' => 1,
+                        'hp' => '085758700025',
+                    ]
+                ]
+            ], 200),
+        ]);
+
+        $response = $this->actingAs($admin)->getJson('/admin/sipintu/search-teachers?search=Iwan');
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'data' => [
+                [
+                    'nip' => '199301162022211008',
+                    'nama' => 'Iwan Safrudin',
+                ]
+            ]
+        ]);
+    }
+
+    public function test_sync_students_separates_active_students_and_alumni(): void
+    {
+        $admin = User::first() ?? User::factory()->create(['is_admin' => true, 'role' => 'admin']);
+
+        Http::fake([
+            '*/api/v1/sijuna/students*' => Http::response([
+                'success' => true,
+                'data' => [
+                    [
+                        'id' => 1,
+                        'nis' => 'TEST_AKTIF_01',
+                        'nama' => 'Siswa Aktif Test',
+                        'classroom' => ['name' => 'XII PPLG 1'],
+                        'jk' => 'L',
+                        'angkatan' => 2024,
+                    ],
+                    [
+                        'id' => 2,
+                        'nis' => 'TEST_ALUMNI_01',
+                        'nama' => 'Alumni Test',
+                        'classroom' => null,
+                        'jk' => 'P',
+                        'angkatan' => 2021,
+                    ],
+                ]
+            ], 200),
+        ]);
+
+        // Sync siswa aktif saja
+        $responseSiswa = $this->actingAs($admin)->postJson('/admin/sipintu/sync-students', ['type' => 'siswa']);
+        $responseSiswa->assertStatus(200);
+        $this->assertDatabaseHas('siswa', [
+            'nis' => 'TEST_AKTIF_01',
+            'status' => 'Aktif',
+            'kelas' => '12',
+        ]);
+        $this->assertDatabaseMissing('siswa', [
+            'nis' => 'TEST_ALUMNI_01',
+        ]);
+
+        // Sync alumni saja
+        $responseAlumni = $this->actingAs($admin)->postJson('/admin/sipintu/sync-students', ['type' => 'alumni']);
+        $responseAlumni->assertStatus(200);
+        $this->assertDatabaseHas('siswa', [
+            'nis' => 'TEST_ALUMNI_01',
+            'status' => 'Alumni',
+            'kelas' => 'Alumni',
+        ]);
+    }
+
+    public function test_admin_siswa_index_filters_by_status(): void
+    {
+        $admin = User::first() ?? User::factory()->create(['is_admin' => true, 'role' => 'admin']);
+
+        \App\Models\Siswa::updateOrCreate(['nis' => 'FILT_AKTIF'], [
+            'nama' => 'Siswa Aktif Filter',
+            'jenis_kelamin' => 'L',
+            'kelas' => '11',
+            'jurusan' => 'PPLG',
+            'angkatan' => 2024,
+            'status' => 'Aktif',
+            'is_published' => true,
+        ]);
+
+        \App\Models\Siswa::updateOrCreate(['nis' => 'FILT_ALUMNI'], [
+            'nama' => 'Alumni Filter',
+            'jenis_kelamin' => 'P',
+            'kelas' => 'Alumni',
+            'jurusan' => '-',
+            'angkatan' => 2020,
+            'status' => 'Alumni',
+            'tahun_lulus' => 2023,
+            'is_published' => true,
+        ]);
+
+        $resAktif = $this->actingAs($admin)->get('/admin/siswa?status=Aktif');
+        $resAktif->assertStatus(200);
+        $resAktif->assertSee('Siswa Aktif Filter');
+        $resAktif->assertDontSee('Alumni Filter');
+
+        $resAlumni = $this->actingAs($admin)->get('/admin/siswa?status=Alumni');
+        $resAlumni->assertStatus(200);
+        $resAlumni->assertSee('Alumni Filter');
+        $resAlumni->assertDontSee('Siswa Aktif Filter');
+    }
 }
+

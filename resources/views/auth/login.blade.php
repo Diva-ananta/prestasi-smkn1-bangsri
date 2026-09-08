@@ -169,7 +169,6 @@
                         <button
                             type="submit"
                             id="submitBtn"
-                            onclick="handleSubmit()"
                             class="w-full rounded-xl bg-gradient-to-r from-emerald-700 to-emerald-800 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-900/20 transition duration-200
                             hover:from-emerald-800 hover:to-emerald-900 hover:shadow-xl hover:shadow-emerald-900/30
                             active:scale-[0.98]
@@ -180,10 +179,26 @@
                             <span id="btnText">Masuk ke Dashboard</span>
                             <i id="btnLoader" class="fas fa-spinner hidden animate-spin"></i>
                         </button>
+
+                        <!-- Demo Credentials Box -->
+                        <div class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/70 p-3 text-xs text-emerald-900">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="font-bold flex items-center gap-1.5 text-emerald-800">
+                                    <i class="fas fa-key text-[11px]"></i> Akun Default Admin
+                                </span>
+                                <button type="button" onclick="fillAdminCredentials()" class="text-[11px] font-semibold text-emerald-700 hover:text-emerald-950 underline cursor-pointer">
+                                    Gunakan Kredensial Ini
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] text-slate-600 font-mono">
+                                <span>Email: <strong class="text-slate-800 font-semibold">admin@smkn1bangsri.sch.id</strong></span>
+                                <span>Password: <strong class="text-slate-800 font-semibold">admin123</strong></span>
+                            </div>
+                        </div>
                     </form>
 
                     <!-- Footer -->
-                    <div class="mt-12 flex items-center justify-between gap-4 text-xs text-slate-500">
+                    <div class="mt-8 flex items-center justify-between gap-4 text-xs text-slate-500">
                         <span>&copy; {{ date('Y') }} SMK Negeri 1 Bangsri</span>
                         <a href="{{ route('home') }}" class="font-semibold text-emerald-700 hover:text-emerald-900 transition">
                             Kembali ke portal
@@ -258,24 +273,32 @@
             icon.className = password.type === 'password' ? 'fas fa-eye text-sm' : 'fas fa-eye-slash text-sm';
         }
 
-        function handleSubmit() {
-            const btn = document.getElementById('submitBtn');
-            const btnText = document.getElementById('btnText');
-            const btnLoader = document.getElementById('btnLoader');
+        function fillAdminCredentials() {
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            emailInput.value = 'admin@smkn1bangsri.sch.id';
+            passwordInput.value = 'admin123';
+            emailInput.focus();
+        }
 
-            // Validate form
-            const form = document.getElementById('loginForm');
-            if (!form.checkValidity()) {
-                return;
-            }
+        // Handle loading state properly on form submit
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function() {
+                const btn = document.getElementById('submitBtn');
+                const btnText = document.getElementById('btnText');
+                const btnLoader = document.getElementById('btnLoader');
 
-            // Show loading state
-            btn.disabled = true;
-            btnText.classList.add('hidden');
-            btnLoader.classList.remove('hidden');
-
-            // Submit the form
-            form.submit();
+                if (btn) {
+                    btn.disabled = true;
+                }
+                if (btnText) {
+                    btnText.classList.add('hidden');
+                }
+                if (btnLoader) {
+                    btnLoader.classList.remove('hidden');
+                }
+            });
         }
 
         // Add smooth focus effects

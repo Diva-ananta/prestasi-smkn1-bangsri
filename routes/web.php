@@ -80,6 +80,7 @@ Route::middleware(['auth', AdminMiddleware::class])
         Route::post('sipintu/validate-client', [\App\Http\Controllers\Admin\SiPintuController::class, 'validateClient'])->name('sipintu.validate-client');
         Route::post('sipintu/sync-students', [\App\Http\Controllers\Admin\SiPintuController::class, 'syncStudents'])->name('sipintu.sync-students');
         Route::get('sipintu/search-students', [\App\Http\Controllers\Admin\SiPintuController::class, 'searchStudents'])->name('sipintu.search-students');
+        Route::get('sipintu/search-teachers', [\App\Http\Controllers\Admin\SiPintuController::class, 'searchTeachers'])->name('sipintu.search-teachers');
 
     });
 
