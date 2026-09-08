@@ -12,6 +12,11 @@
         'title' => $prestasi->nama_lomba,
         'result' => $prestasi->hasil,
     ])->values();
+    $galleryImages = ($galeriPrestasi ?? collect())->take(4)->values();
+    $galleryImageOne = $galleryImages->get(0);
+    $galleryImageTwo = $galleryImages->get(1);
+    $galleryImageThree = $galleryImages->get(2);
+    $galleryImageFour = $galleryImages->get(3);
     $services = [
         ['icon' => 'fa-trophy', 'title' => 'Galeri Prestasi', 'text' => 'Jelajahi pencapaian terbaik siswa dan sekolah dengan mudah.', 'class' => 'border-emerald-200 bg-emerald-50/70 text-emerald-700 dark:border-emerald-800/60 dark:bg-emerald-950/20 dark:text-emerald-300'],
         ['icon' => 'fa-users', 'title' => 'Data Siswa', 'text' => 'Temukan riwayat prestasi siswa dengan pencarian NIS.', 'class' => 'border-blue-200 bg-blue-50/70 text-blue-700 dark:border-blue-800/60 dark:bg-blue-950/20 dark:text-blue-300'],
@@ -61,7 +66,7 @@
         </div>
 
         <div class="relative mx-auto flex min-h-[640px] max-w-7xl flex-col items-center justify-center px-4 py-28 sm:px-6 lg:px-8">
-            <div class="max-w-3xl text-center animate-fade-in">
+            <div class="reveal reveal-right max-w-3xl text-center is-visible">
                 <p class="mb-6 inline-flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-amber-300">
                     <span class="h-0.5 w-10 bg-amber-300"></span>
                     SMK Negeri 1 Bangsri
@@ -112,6 +117,22 @@
                 },
             };
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = [...document.querySelectorAll('[data-stack-index]')];
+            if (cards.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            const positions = ['stack-front', 'stack-middle', 'stack-back', 'stack-rear'];
+            let offset = 0;
+
+            setInterval(() => {
+                offset = (offset + 1) % cards.length;
+                cards.forEach((card, index) => {
+                    positions.forEach((position) => card.classList.remove(position));
+                    card.classList.add(positions[(index - offset + cards.length) % cards.length]);
+                });
+            }, 3000);
+        });
     </script>
     @endpush
 
@@ -119,7 +140,7 @@
     <section class="relative z-10 mx-auto -mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             @foreach($services as $index => $service)
-                <div class="animate-fade-in rounded-2xl border-2 border-slate-100 bg-white p-6 shadow-lg shadow-slate-900/10 transition-smooth hover:-translate-y-2 hover:shadow-xl dark:border-slate-700 dark:bg-slate-900" style="animation-delay: {{ $index * 100 }}ms">
+                <div class="reveal reveal-left rounded-2xl border-2 border-slate-100 bg-white p-6 shadow-lg shadow-slate-900/10 transition-smooth hover:-translate-y-2 hover:shadow-xl dark:border-slate-700 dark:bg-slate-900" style="--reveal-delay: {{ $index * 100 }}ms">
                     <div class="flex items-start gap-4">
                         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border {{ $service['class'] }} text-lg">
                             <i class="fas {{ $service['icon'] }}"></i>
@@ -138,36 +159,26 @@
     <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div class="grid items-center gap-16 lg:grid-cols-2">
             <!-- Image Collage -->
-            <div class="relative min-h-[480px] animate-fade-in order-last lg:order-first">
-                <div class="flex h-full gap-4">
-                    <!-- Left: Big Image (full height) -->
-                    <div class="relative h-[420px] w-[58%] overflow-hidden rounded-[2rem] border-4 border-white shadow-2xl dark:border-slate-800 sm:h-[480px]">
-                        <img
-                            src="{{ $heroImage }}"
-                            alt="Dokumentasi prestasi sekolah"
-                            class="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-                            loading="lazy"
-                        >
-                    </div>
-
-                    <!-- Right: Two Stacked Images -->
-                    <div class="flex w-[42%] flex-col gap-4">
-                        <div class="h-[200px] overflow-hidden rounded-[2rem] border-4 border-white shadow-2xl dark:border-slate-800 sm:h-[228px]">
-                            <img
-                                src="{{ $prestasiTerbaru[0]->foto ?? null ? asset('storage/' . $prestasiTerbaru[0]->foto) : $heroImage }}"
-                                alt="Kegiatan siswa"
-                                class="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-                                loading="lazy"
-                            >
-                        </div>
-                        <div class="h-[200px] overflow-hidden rounded-[2rem] border-4 border-white shadow-2xl dark:border-slate-800 sm:h-[228px]">
-                            <img
-                                src="{{ $prestasiTerbaru[1]->foto ?? null ? asset('storage/' . $prestasiTerbaru[1]->foto) : asset('images/logo-smk.png') }}"
-                                alt="Kegiatan siswa"
-                                class="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-                                loading="lazy"
-                            >
-                        </div>
+            <div class="reveal reveal-left order-last lg:order-first">
+                <div class="stack-gallery relative mx-auto aspect-[4/5] h-auto w-full max-w-[520px] sm:aspect-auto sm:h-[480px]" aria-label="Kolase dokumentasi prestasi">
+                    <div class="stack-gallery-track absolute inset-0">
+                        @foreach([
+                            $galleryImageOne,
+                            $galleryImageTwo,
+                            $galleryImageThree,
+                            $galleryImageFour,
+                        ] as $imageIndex => $galleryImage)
+                            <div class="stack-gallery-card {{ ['stack-front', 'stack-middle', 'stack-back', 'stack-rear'][$imageIndex] }}" data-stack-index="{{ $imageIndex }}">
+                                <div class="h-full w-full overflow-hidden rounded-[1.75rem] border-4 border-white bg-slate-100 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:rounded-[2rem]">
+                                    <img
+                                        src="{{ $galleryImage?->foto ? asset('storage/' . $galleryImage->foto) : asset('images/logo-smk.png') }}"
+                                        alt="{{ $galleryImage?->judul ?: 'Dokumentasi galeri sekolah' }}"
+                                        class="h-full w-full object-cover"
+                                        loading="lazy"
+                                    >
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -184,7 +195,7 @@
             </div>
 
             <!-- Content -->
-            <div class="animate-fade-in">
+            <div class="reveal reveal-right">
                 <p class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-amber-600 dark:text-amber-400">
                     <i class="fas fa-graduation-cap"></i> Tentang Sistem
                 </p>
@@ -196,7 +207,7 @@
                 </p>
 
                 <div class="mt-8 grid gap-6 sm:grid-cols-2">
-                    <div class="flex gap-4">
+                    <div class="reveal reveal-right flex gap-4">
                         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50/70 text-emerald-700 dark:border-emerald-800/60 dark:bg-emerald-950/20 dark:text-emerald-300">
                             <i class="fas fa-star"></i>
                         </span>
@@ -205,7 +216,7 @@
                             <p class="mt-1 text-xs leading-6 text-slate-600 dark:text-slate-400">{{ number_format($totalSiswaBerprestasi ?? 0) }} siswa telah tercatat meraih prestasi.</p>
                         </div>
                     </div>
-                    <div class="flex gap-4">
+                    <div class="reveal reveal-right flex gap-4" style="--reveal-delay: 120ms">
                         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-blue-200 bg-blue-50/70 text-blue-700 dark:border-blue-800/60 dark:bg-blue-950/20 dark:text-blue-300">
                             <i class="fas fa-users"></i>
                         </span>
@@ -216,7 +227,7 @@
                     </div>
                 </div>
 
-                <div class="mt-10 flex flex-wrap items-center gap-6">
+                <div class="reveal reveal-right mt-10 flex flex-wrap items-center gap-6" style="--reveal-delay: 180ms">
                     <a href="{{ route('public.tentang') }}" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-3 text-sm font-bold leading-5 text-white shadow-lg shadow-blue-600/30 transition-smooth hover:from-blue-700 hover:to-blue-800 hover:shadow-blue-600/50">
                         Pelajari lebih lanjut <i class="fas fa-arrow-right"></i>
                     </a>
@@ -235,7 +246,7 @@
     </section>
 
     <!-- Stats Section -->
-    <section class="relative overflow-hidden bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 py-16 text-white">
+    <section class="reveal reveal-left relative overflow-hidden bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 py-16 text-white">
         <div class="absolute inset-0 opacity-10">
             <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.06)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
         </div>
@@ -258,7 +269,7 @@
     </section>
 
     <!-- Latest Achievements Section -->
-    <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <section class="reveal reveal-right mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div class="mb-12 flex flex-col justify-between gap-4 sm:flex-row sm:items-center animate-fade-in">
             <div>
                 <p class="text-xs font-bold uppercase tracking-[0.25em] text-amber-600 dark:text-amber-400">Terbaru</p>
@@ -332,7 +343,7 @@
     </section>
 
     <!-- Top Active Students Section -->
-    <section class="bg-white py-16 dark:bg-slate-900">
+    <section class="reveal reveal-left bg-white py-16 dark:bg-slate-900">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
                 <div>
@@ -382,7 +393,7 @@
     </section>
 
     <!-- Gallery Section -->
-    <section class="bg-gradient-to-b from-emerald-50/70 to-blue-50/40 py-16 dark:from-emerald-950/20 dark:to-blue-950/20">
+    <section class="reveal reveal-right bg-gradient-to-b from-emerald-50/70 to-blue-50/40 py-16 dark:from-emerald-950/20 dark:to-blue-950/20">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="mb-10 flex items-end justify-between gap-4 animate-fade-in">
                 <div>
@@ -418,7 +429,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="relative overflow-hidden bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 py-20 text-white">
+    <section class="reveal reveal-left relative overflow-hidden bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 py-20 text-white">
         <div class="absolute inset-0 opacity-10">
             <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.06)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
         </div>

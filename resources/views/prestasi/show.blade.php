@@ -76,8 +76,8 @@
                         Detail prestasi &middot; {{ $tahun }}
                     </div>
 
-                    <h1 class="max-w-4xl break-words text-3xl font-black leading-tight tracking-tight text-slate-900 dark:text-white md:text-4xl">
-                        {{ $prestasi->nama_lomba }}
+                    <h1 class="max-w-4xl break-words text-3xl font-black leading-tight tracking-tight md:text-4xl">
+                        <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">{{ $prestasi->nama_lomba }}</span>
                     </h1>
 
                     <div class="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-300">

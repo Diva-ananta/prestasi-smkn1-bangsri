@@ -17,7 +17,7 @@
                 <p class="text-xs font-bold uppercase tracking-[0.24em] text-blue-700 dark:text-blue-400">📰 Informasi Sekolah</p>
                 <div class="mt-4 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
                     <div>
-                        <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">Artikel & Berita</h1>
+                        <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl"><span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">Artikel & Berita</span></h1>
                         <p class="mt-3 max-w-2xl text-lg text-slate-700 dark:text-slate-300">Cerita, kabar, pencapaian, dan update terbaru dari keluarga besar SMK Negeri 1 Bangsri.</p>
                     </div>
                     <div class="inline-flex shrink-0 items-center gap-3 rounded-xl bg-gradient-to-r from-blue-100 to-blue-50 px-5 py-3 dark:from-blue-950/50 dark:to-blue-950/30">

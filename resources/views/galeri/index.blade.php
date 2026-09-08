@@ -14,8 +14,8 @@
                 Dokumentasi sekolah
             </p>
 
-            <h1 class="page-title mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">
-                Galeri Prestasi
+            <h1 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">
+                <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">Galeri Prestasi</span>
             </h1>
 
             <p class="page-subtitle mt-4 max-w-xl text-sm leading-7 sm:text-base">

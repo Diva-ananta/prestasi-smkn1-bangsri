@@ -44,7 +44,7 @@
     </div>
 
     <div class="section-card animate-fade-in">
-        <x-admin.table class="admin-table">
+        <x-admin.table class="admin-table admin-table-mobile-cards">
             <thead>
                 <tr>
                     <th><input type="checkbox" onclick="document.querySelectorAll('.prestasi-select').forEach((item) => item.checked = this.checked)" aria-label="Pilih semua"></th><th>No</th>
@@ -59,16 +59,22 @@
                 @forelse($prestasis as $prestasi)
                     <tr>
                         <td><input type="checkbox" class="prestasi-select" value="{{ $prestasi->id }}" aria-label="Pilih {{ $prestasi->nama_lomba }}"></td><td>{{ $prestasis->firstItem() + $loop->index }}</td>
-                        <td class="font-semibold text-slate-700 dark:text-slate-200">{{ $prestasi->nama_lomba }}</td>
-                        <td>{{ $prestasi->jenis_peserta }}</td>
-                        <td>{{ $prestasi->hasil }}</td>
-                        <td>
+                        <td data-label="Nama lomba" class="font-semibold text-slate-700 dark:text-slate-200">{{ $prestasi->nama_lomba }}</td>
+                        <td data-label="Jenis peserta">{{ $prestasi->jenis_peserta }}</td>
+                        <td data-label="Hasil">{{ $prestasi->hasil }}</td>
+                        <td data-label="Status">
                             <span class="admin-badge {{ $prestasi->status == 'Publish' ? 'success' : 'warning' }}">
                                 {{ $prestasi->status }}
                             </span>
                         </td>
-                        <td>
+                        <td data-label="Aksi">
                             <div class="flex flex-wrap gap-2">
+                                <form action="{{ route('admin.prestasi.review', $prestasi) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="status" value="{{ $prestasi->status === 'Publish' ? 'Draft' : 'Publish' }}">
+                                    <button type="submit" title="{{ $prestasi->status === 'Publish' ? 'Kembalikan ke draft' : 'Review dan publikasikan' }}" aria-label="{{ $prestasi->status === 'Publish' ? 'Kembalikan ke draft' : 'Review dan publikasikan' }}" class="flex h-9 w-9 items-center justify-center rounded-xl {{ $prestasi->status === 'Publish' ? 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300' }}" onclick="return confirm('{{ $prestasi->status === 'Publish' ? 'Kembalikan prestasi menjadi draft?' : 'Setujui dan publikasikan prestasi ini?' }}')"><i class="fas {{ $prestasi->status === 'Publish' ? 'fa-eye-slash' : 'fa-check' }}"></i></button>
+                                </form>
                                 <a data-ajax-page href="{{ route('admin.prestasi.edit', $prestasi) }}" title="Edit prestasi" aria-label="Edit prestasi" class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 text-amber-700 transition hover:bg-amber-200 dark:bg-amber-900/40 dark:text-amber-300"><i class="fas fa-pen"></i></a>
                                 <form action="{{ route('admin.prestasi.destroy', $prestasi) }}" method="POST" class="inline">
                                     @csrf

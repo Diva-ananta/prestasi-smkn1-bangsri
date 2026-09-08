@@ -56,6 +56,7 @@ Route::middleware(['auth', AdminMiddleware::class])
         Route::post('prestasi/import', [ImportPrestasiController::class, 'store'])->name('prestasi.import.store');
         Route::get('siswa/export', [SiswaController::class, 'export'])->name('siswa.export');
         Route::get('prestasi/export', [PrestasiController::class, 'export'])->name('prestasi.export');
+        Route::patch('prestasi/{prestasi}/review', [PrestasiController::class, 'review'])->name('prestasi.review');
         Route::get('deleted-records', [\App\Http\Controllers\Admin\DeletedRecordController::class, 'index'])->name('deleted-records.index');
         Route::post('deleted-records/{deletedRecord?}/restore', [\App\Http\Controllers\Admin\DeletedRecordController::class, 'restore'])->name('deleted-records.restore');
         Route::delete('deleted-records/{deletedRecord?}', [\App\Http\Controllers\Admin\DeletedRecordController::class, 'destroy'])->name('deleted-records.destroy');

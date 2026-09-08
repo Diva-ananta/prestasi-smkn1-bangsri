@@ -19,6 +19,25 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+}
+
+code,
+pre,
+textarea,
+.prose {
+    overflow-wrap: anywhere;
 }
 
 .line-clamp-2 {
@@ -53,6 +72,99 @@ body {
 
 .animate-fade-in {
     animation: fadeInDown 0.5s ease-out both;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-left {
+    transform: translate3d(-56px, 20px, 0);
+}
+
+.reveal-right {
+    transform: translate3d(56px, 20px, 0);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.stack-gallery-track {
+    perspective: 900px;
+}
+
+.stack-gallery-card {
+    position: absolute;
+    transform-origin: center;
+    left: 16%;
+    top: 8%;
+    width: 68%;
+    height: 84%;
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease, filter 1s ease;
+}
+
+@media (max-width: 639px) {
+    .stack-gallery-card {
+        aspect-ratio: 4 / 5;
+        height: auto;
+    }
+}
+
+.stack-front {
+    z-index: 4;
+    transform: translate3d(0, 0, 70px) rotate(-2deg);
+}
+
+.stack-middle {
+    z-index: 3;
+    transform: translate3d(34px, -16px, 30px) rotate(6deg) scale(0.94);
+    filter: saturate(0.94);
+}
+
+.stack-back {
+    z-index: 2;
+    transform: translate3d(62px, -30px, 0) rotate(12deg) scale(0.88);
+    filter: saturate(0.86) brightness(0.96);
+}
+
+.stack-rear {
+    z-index: 1;
+    transform: translate3d(84px, -40px, -30px) rotate(18deg) scale(0.82);
+    filter: saturate(0.78) brightness(0.9);
+}
+
+.stack-gallery:hover .stack-front {
+    transform: translate3d(-8px, -4px, 70px) rotate(-3deg) scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal,
+    .reveal-left,
+    .reveal-right {
+        opacity: 1;
+        transform: none;
+    }
+
+    .stack-gallery-card {
+        transition: none;
+    }
 }
 
 .animate-rise-in {
@@ -150,6 +262,81 @@ textarea:focus-visible {
 
 .admin-table tbody tr {
     @apply transition-colors duration-200 hover:bg-slate-50/80 dark:hover:bg-slate-800/70;
+}
+
+.sipintu-page .admin-table-wrap {
+    @apply border-slate-200/90 bg-white dark:border-slate-700 dark:bg-slate-900;
+}
+
+.sipintu-page code {
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+    .admin-table-wrap:has(.admin-table-mobile-cards) {
+        overflow: visible;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .admin-table-mobile-cards,
+    .admin-table-mobile-cards tbody,
+    .admin-table-mobile-cards tr,
+    .admin-table-mobile-cards td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-table-mobile-cards {
+        min-width: 0 !important;
+    }
+
+    .admin-table-mobile-cards thead {
+        display: none;
+    }
+
+    .admin-table-mobile-cards tbody tr {
+        @apply mb-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900;
+    }
+
+    .admin-table-mobile-cards tbody td {
+        @apply flex items-center justify-between gap-3 border-0 px-1 py-1.5 text-right text-xs;
+    }
+
+    .admin-table-mobile-cards tbody td::before {
+        content: attr(data-label);
+        @apply text-left font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500;
+    }
+
+    .admin-table-mobile-cards tbody td:first-child,
+    .admin-table-mobile-cards tbody td:nth-child(2) {
+        display: none;
+    }
+
+    .admin-table-mobile-cards tbody td[colspan] {
+        display: block;
+        padding: 3rem 1rem;
+        text-align: center;
+    }
+
+    .admin-table-mobile-cards tbody td[colspan]::before {
+        display: none;
+    }
+
+    .admin-table-mobile-cards tbody td:last-child {
+        @apply mt-2 border-t border-slate-100 pt-3 dark:border-slate-800;
+    }
+
+    .sipintu-page .admin-table-wrap {
+        margin-inline: -0.25rem;
+        border-radius: 1rem;
+    }
+
+    .sipintu-page .admin-table th,
+    .sipintu-page .admin-table td {
+        @apply px-3 py-3;
+    }
 }
 
 .admin-form-input {

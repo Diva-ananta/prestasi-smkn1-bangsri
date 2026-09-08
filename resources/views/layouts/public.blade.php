@@ -10,7 +10,7 @@
             if (savedTheme === 'dark' || (!savedTheme && prefersDark)) document.documentElement.classList.add('dark');
         }());
     </script>
-    <title>@yield('title', 'SMK N 1 Bangsri')</title>
+    <title>Prestasimu | @yield('title', 'SMK N 1 Bangsri')</title>
     <meta name="description" content="@yield('meta_description', 'Portal resmi informasi dan dokumentasi prestasi siswa SMK Negeri 1 Bangsri, Jepara.')">
     <link rel="icon" type="image/png" href="{{ asset('images/logo-smk.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/logo-smk.png') }}">
@@ -53,7 +53,7 @@
                         </div>
                         <div>
                             <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-300">SMK N 1 Bangsri</p>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Prestasi Siswa</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Informasi Prestasi Siswa</p>
                         </div>
                     </a>
 
@@ -134,5 +134,26 @@
         </button>
 
         @stack('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const revealItems = document.querySelectorAll('.reveal');
+                if (!revealItems.length) return;
+
+                if (!('IntersectionObserver' in window)) {
+                    revealItems.forEach((item) => item.classList.add('is-visible'));
+                    return;
+                }
+
+                const revealObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    });
+                }, { threshold: 0.14, rootMargin: '0px 0px -48px' });
+
+                revealItems.forEach((item) => revealObserver.observe(item));
+            });
+        </script>
     </body>
 </html>

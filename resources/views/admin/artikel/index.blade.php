@@ -21,34 +21,33 @@
     @endif
 
     <div class="mb-4 flex items-center justify-between"><div><h2 class="text-lg font-bold text-slate-800">Daftar Artikel</h2><p class="text-sm text-slate-500">Artikel yang tersimpan di sistem.</p></div></div>
-    <div class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b border-gray-200">
+    <div class="admin-table-wrap">
+            <table class="admin-table min-w-[860px] text-sm">
+                <thead>
                     <tr>
-                        <th class="px-6 py-3 text-left font-semibold text-gray-600">No</th>
-                        <th class="px-6 py-3 text-left font-semibold text-gray-600">Judul</th>
-                        <th class="px-6 py-3 text-left font-semibold text-gray-600">Sumber Prestasi</th>
-                        <th class="px-6 py-3 text-left font-semibold text-gray-600">Penulis</th>
-                        <th class="px-6 py-3 text-left font-semibold text-gray-600">Status</th>
-                        <th class="px-6 py-3 text-left font-semibold text-gray-600">Tanggal</th>
-                        <th class="px-6 py-3 text-center font-semibold text-gray-600">Aksi</th>
+                        <th>No</th>
+                        <th>Judul</th>
+                        <th>Sumber Prestasi</th>
+                        <th>Penulis</th>
+                        <th>Status</th>
+                        <th>Tanggal</th>
+                        <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($artikels as $artikelRow)
-                    <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
-                        <td class="px-6 py-3">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-3 font-medium">{{ $artikelRow->judul }}</td>
-                        <td class="px-6 py-3">{{ $artikelRow->prestasi?->nama_lomba ?? 'Manual' }}</td>
-                        <td class="px-6 py-3">{{ $artikelRow->penulis ?? '-' }}</td>
-                        <td class="px-6 py-3">
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td class="font-medium text-slate-800 dark:text-slate-100">{{ $artikelRow->judul }}</td>
+                        <td>{{ $artikelRow->prestasi?->nama_lomba ?? 'Manual' }}</td>
+                        <td>{{ $artikelRow->penulis ?? '-' }}</td>
+                        <td>
                             <span class="inline-flex px-2 py-1 text-xs rounded-full {{ $artikelRow->status == 'Publish' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
                                 {{ $artikelRow->status }}
                             </span>
                         </td>
-                        <td class="px-6 py-3">{{ $artikelRow->tanggal_publikasi ? $artikelRow->tanggal_publikasi->format('d/m/Y') : '-' }}</td>
-                        <td class="px-6 py-3 text-center">
+                        <td>{{ $artikelRow->tanggal_publikasi ? $artikelRow->tanggal_publikasi->format('d/m/Y') : '-' }}</td>
+                        <td class="text-center">
                             <div class="flex items-center justify-center gap-2">
                                 <a data-ajax-page href="{{ route('admin.artikel.show', $artikelRow) }}" class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></a>
                                 <a data-ajax-page href="{{ route('admin.artikel.edit', $artikelRow) }}" title="Edit artikel" class="text-yellow-600 hover:text-yellow-800"><i class="fas fa-edit"></i></a>
@@ -61,12 +60,11 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-10 text-center text-gray-400">Belum ada artikel.</td>
+                        <td colspan="7" class="py-10 text-center text-slate-400">Belum ada artikel.</td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
-        </div>
     </div>
 
     <div class="mt-6">{{ $artikels->links() }}</div>

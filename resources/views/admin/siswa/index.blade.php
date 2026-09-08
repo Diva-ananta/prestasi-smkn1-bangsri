@@ -64,7 +64,7 @@
 
     <!-- Data Table -->
     <div class="section-card animate-fade-in">
-        <x-admin.table class="admin-table">
+        <x-admin.table class="admin-table admin-table-mobile-cards">
             <thead>
                 <tr>
                     <th><input type="checkbox" onclick="document.querySelectorAll('.siswa-select').forEach((item) => item.checked = this.checked)" aria-label="Pilih semua"></th>

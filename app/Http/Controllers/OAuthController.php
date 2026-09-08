@@ -54,6 +54,10 @@ class OAuthController extends Controller
 
         $sipintuUser = $userResponse->json('data') ?? $userResponse->json();
 
+        if (! User::isConfiguredAdminEmail($sipintuUser['email'] ?? null)) {
+            return redirect()->route('login')->with('error', 'Akun SiPintu ini tidak memiliki akses admin.');
+        }
+
         // 4. Auto-Provisioning & Pemetaan User Lokal
         // Akun otomatis dibuat jika belum ada, atau diupdate jika sudah ada
         $user = User::updateOrCreate(

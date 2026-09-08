@@ -118,6 +118,19 @@ class PrestasiController extends Controller
         return redirect()->route('admin.prestasi.index')->with('success', 'Data prestasi berhasil diperbarui.');
     }
 
+    public function review(Request $request, Prestasi $prestasi)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:Draft,Publish',
+        ]);
+
+        $prestasi->update(['status' => $validated['status']]);
+
+        return back()->with('success', $validated['status'] === 'Publish'
+            ? 'Prestasi berhasil disetujui dan dipublikasikan.'
+            : 'Prestasi dikembalikan menjadi draft.');
+    }
+
     public function destroy(Prestasi $prestasi)
     {
         DeletedRecord::create([

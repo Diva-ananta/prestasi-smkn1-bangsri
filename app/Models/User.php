@@ -17,6 +17,24 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    public function isAdmin(): bool
+    {
+        $adminEmail = config('auth.admin_email');
+
+        return $this->is_admin
+            && filled($adminEmail)
+            && strcasecmp((string) $this->email, (string) $adminEmail) === 0;
+    }
+
+    public static function isConfiguredAdminEmail(?string $email): bool
+    {
+        $adminEmail = config('auth.admin_email');
+
+        return filled($email)
+            && filled($adminEmail)
+            && strcasecmp($email, $adminEmail) === 0;
+    }
+
     /**
      * Get the attributes that should be cast.
      *

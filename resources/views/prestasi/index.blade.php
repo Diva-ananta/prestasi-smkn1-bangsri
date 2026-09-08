@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Pencapaian Siswa - SMK N 1 Bangsri')
+@section('title', 'Prestasi Siswa | SMK N 1 Bangsri')
 
 @section('content')
 @php
@@ -37,7 +37,7 @@
                         Portal prestasi sekolah
                     </div>
                     <h1 class="text-4xl font-black leading-[1.1] tracking-tight text-slate-900 dark:text-white sm:text-5xl">
-                        Prestasi siswa <span class="text-emerald-600 dark:text-emerald-400">SMK N 1 Bangsri</span>
+                        Prestasi siswa <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">SMK N 1 Bangsri</span>
                     </h1>
                     <p class="mt-5 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">
                         Jelajahi pencapaian siswa, lihat distribusi prestasi per jurusan, dan temukan data terbaik dari sekolah dalam satu tampilan yang profesional dan mudah dibaca.
@@ -127,10 +127,11 @@
                         <fieldset class="space-y-2">
                             <legend class="text-xs font-bold text-slate-900 dark:text-white">Kategori</legend>
                             <div class="space-y-1">
-                                @foreach(['' => 'Semua', 'Akademik' => 'Akademik', 'Non Akademik' => 'Non-Akademik'] as $value => $label)
+                                @foreach($kategoriOptions->prepend('')->unique() as $value)
+                                    @php($label = $value ?: 'Semua')
                                     <label class="flex cursor-pointer items-center gap-2 rounded-lg p-1.5 transition hover:bg-slate-50 dark:hover:bg-slate-800/60">
                                         <input type="radio" name="kategori" value="{{ $value }}" @checked(request('kategori', '') === $value) class="h-4 w-4 border-slate-300 text-emerald-600 focus:ring-emerald-600">
-                                        <span class="text-sm text-slate-700 dark:text-slate-300">{{ $label }}</span>
+                                        <span class="text-sm text-slate-700 dark:text-slate-300">{{ $label === 'Non Akademik' ? 'Non-Akademik' : $label }}</span>
                                     </label>
                                 @endforeach
                             </div>
@@ -222,8 +223,15 @@
                                 </h3>
 
                                 @if($item->nama_tim)
-                                    @php $ekstrakurikulerUrl = config('app.ekstrakurikuler.' . $item->nama_tim); @endphp
-                                    <p class="mt-2 truncate text-sm font-semibold text-blue-700 dark:text-blue-400"><i class="fas fa-users mr-1"></i>@if($ekstrakurikulerUrl)<a href="{{ $ekstrakurikulerUrl }}" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ $item->nama_tim }}</a>@else{{ $item->nama_tim }}@endif</p>
+                                    @php($ekstrakurikulerUrl = config('app.ekstrakurikuler.' . $item->nama_tim))
+                                    <p class="mt-2 truncate text-sm font-semibold text-blue-700 dark:text-blue-400">
+                                        <i class="fas fa-users mr-1"></i>
+                                        @if($ekstrakurikulerUrl)
+                                            <a href="{{ $ekstrakurikulerUrl }}" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ $item->nama_tim }}</a>
+                                        @else
+                                            {{ $item->nama_tim }}
+                                        @endif
+                                    </p>
                                 @endif
 
                                 @if($item->tanggal_mulai)

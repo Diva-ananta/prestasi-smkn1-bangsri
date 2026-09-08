@@ -11,10 +11,10 @@
                     <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
                     Tentang Sistem
                 </div>
-                <h1 class="mt-4 text-4xl font-black tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+                <h1 class="mt-4 break-words text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-5xl">
                     Tentang Sistem <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">Informasi Prestasi</span>
                 </h1>
-                <p class="mt-6 max-w-3xl text-base leading-7 text-slate-600 dark:text-slate-300">
+                <p class="mt-5 max-w-3xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-base sm:leading-7">
                     Platform inovatif yang mendokumentasikan, mengelola, dan merayakan pencapaian luar biasa siswa-siswi SMK N 1 Bangsri dengan profesional, terbuka, dan akuntabel.
                 </p>
             </div>
@@ -22,11 +22,11 @@
     </section>
 
     <main class="mx-auto max-w-7xl px-4 py-9 sm:px-6 lg:px-8">
-        <section class="mb-10 animate-fade-in rounded-2xl border border-slate-200 bg-white p-6 shadow-lg dark:border-slate-800 dark:bg-slate-900 sm:p-8">
-            <p class="text-lg leading-8 text-slate-700 dark:text-slate-300">
+        <section class="mb-8 animate-fade-in rounded-2xl border border-slate-200 bg-white p-4 shadow-lg dark:border-slate-800 dark:bg-slate-900 sm:mb-10 sm:p-8">
+            <p class="text-sm leading-6 text-slate-700 dark:text-slate-300 sm:text-lg sm:leading-8">
                 <span class="font-bold text-emerald-600 dark:text-emerald-400">Sistem Informasi Prestasi Siswa (SIPS)</span> adalah platform digital yang dirancang khusus untuk mendokumentasikan, mengelola, dan mempublikasikan pencapaian siswa SMK N 1 Bangsri. Kami percaya bahwa setiap prestasi, dari yang paling sederhana hingga yang paling prestisius, layak mendapatkan apresiasi dan catatan yang abadi.
             </p>
-            <p class="mt-6 text-lg leading-8 text-slate-700 dark:text-slate-300">
+            <p class="mt-5 text-sm leading-6 text-slate-700 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
                 Dibangun dengan prinsip <strong class="text-slate-900 dark:text-white">transparansi</strong>, <strong class="text-slate-900 dark:text-white">akuntabilitas</strong>, dan <strong class="text-slate-900 dark:text-white">kebanggaan almamater</strong>, sistem ini menjadi jembatan yang menghubungkan siswa, sekolah, orang tua, dan masyarakat luas. Melalui pendokumentasian yang teratur dan terverifikasi, kami mendorong seluruh peserta didik untuk terus berkembang di bidang akademik maupun non-akademik.
             </p>
         </section>
@@ -64,12 +64,12 @@
                             'teal' => 'border-teal-200 bg-teal-50 text-teal-700 dark:border-teal-900/40 dark:bg-teal-950/20 dark:text-teal-300',
                         ][$feature['accent']];
                     @endphp
-                    <div class="animate-fade-in rounded-[24px] border-2 bg-white p-8 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-900 {{ $classes }}" style="animation-delay: {{ $index * 100 }}ms">
-                        <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-white/80 text-2xl dark:bg-slate-900/60">
+                    <div class="animate-fade-in rounded-2xl border-2 bg-white p-4 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-900 sm:rounded-[24px] sm:p-8 {{ $classes }}" style="animation-delay: {{ $index * 100 }}ms">
+                        <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-white/80 text-xl dark:bg-slate-900/60 sm:h-14 sm:w-14 sm:text-2xl">
                             <i class="fas {{ $feature['icon'] }}"></i>
                         </div>
-                        <h3 class="mt-5 text-xl font-bold text-slate-900 dark:text-white">{{ $feature['title'] }}</h3>
-                        <p class="mt-3 text-slate-700 dark:text-slate-400">{{ $feature['desc'] }}</p>
+                        <h3 class="mt-4 text-lg font-bold text-slate-900 dark:text-white sm:mt-5 sm:text-xl">{{ $feature['title'] }}</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-700 dark:text-slate-400 sm:mt-3 sm:text-base">{{ $feature['desc'] }}</p>
                     </div>
                 @endforeach
             </div>
@@ -88,18 +88,18 @@
                     ['step' => '3', 'icon' => 'fa-globe', 'title' => 'Publikasi Online', 'desc' => 'Prestasi yang sudah diverifikasi dipublikasikan ke portal agar mudah diakses siswa, orang tua, dan masyarakat.'],
                     ['step' => '4', 'icon' => 'fa-chart-bar', 'title' => 'Analitik & Laporan', 'desc' => 'Sistem menampilkan ringkasan dan trend prestasi untuk mendukung evaluasi sekolah.']
                 ] as $index => $step)
-                    <div class="animate-fade-in group relative flex gap-6 rounded-2xl border-2 border-slate-100 bg-white p-6 shadow-sm transition duration-300 hover:border-emerald-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-emerald-600 lg:p-8" style="animation-delay: {{ $index * 100 }}ms">
-                        <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-50 font-bold text-emerald-700 dark:from-emerald-950/50 dark:to-emerald-950/30 dark:text-emerald-400">
-                            <span class="text-2xl">{{ $step['step'] }}</span>
+                    <div class="animate-fade-in group relative flex gap-3 rounded-2xl border-2 border-slate-100 bg-white p-4 shadow-sm transition duration-300 hover:border-emerald-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-emerald-600 sm:gap-6 sm:p-6 lg:p-8" style="animation-delay: {{ $index * 100 }}ms">
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-50 font-bold text-emerald-700 dark:from-emerald-950/50 dark:to-emerald-950/30 dark:text-emerald-400 sm:h-16 sm:w-16">
+                            <span class="text-xl sm:text-2xl">{{ $step['step'] }}</span>
                         </div>
                         <div class="flex-1">
                             <div class="flex items-start gap-4">
-                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400">
+                                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 sm:h-10 sm:w-10">
                                     <i class="fas {{ $step['icon'] }} text-sm"></i>
                                 </div>
                                 <div class="flex-1">
-                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">{{ $step['title'] }}</h3>
-                                    <p class="mt-2 text-slate-700 dark:text-slate-400">{{ $step['desc'] }}</p>
+                                    <h3 class="text-base font-bold text-slate-900 dark:text-white sm:text-lg">{{ $step['title'] }}</h3>
+                                    <p class="mt-2 text-sm leading-6 text-slate-700 dark:text-slate-400 sm:text-base">{{ $step['desc'] }}</p>
                                 </div>
                             </div>
                         </div>

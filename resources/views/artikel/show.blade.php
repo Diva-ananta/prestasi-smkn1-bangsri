@@ -29,8 +29,8 @@
                         <i class="fas fa-newspaper"></i> Artikel
                     </div>
 
-                    <h1 class="mt-4 max-w-4xl text-5xl font-extrabold leading-tight text-slate-900 dark:text-white sm:text-6xl">
-                        {{ $artikel->judul }}
+                    <h1 class="mt-4 max-w-4xl text-5xl font-extrabold leading-tight sm:text-6xl">
+                        <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">{{ $artikel->judul }}</span>
                     </h1>
 
                     <!-- Meta Information -->

@@ -57,6 +57,7 @@ class PublicController extends Controller
         $publishedSiswaQuery = Siswa::where('is_published', true);
         $siswas = Siswa::query()
             ->where('is_published', true)
+            ->whereHas('detailPrestasi.prestasi', fn ($query) => $query->where('status', 'Publish'))
             ->when($keyword !== '', fn ($query) => $query->where(function ($query) use ($keyword) {
                 $query->where('nis', 'like', "%{$keyword}%")
                     ->orWhere('nisn', 'like', "%{$keyword}%")
@@ -65,8 +66,8 @@ class PublicController extends Controller
             ->when($request->filled('jurusan'), fn ($query) => $query->where('jurusan', $request->jurusan))
             ->when($request->filled('kelas'), fn ($query) => $query->where('kelas', $request->kelas))
             ->when($request->filled('angkatan'), fn ($query) => $query->where('angkatan', $request->angkatan))
-            ->when($request->status === 'Aktif', fn ($query) => $query->where('angkatan', '>=', $tahunAktifMulai))
-            ->when($request->status === 'Alumni', fn ($query) => $query->where('angkatan', '<', $tahunAktifMulai))
+            ->when($request->status === 'Aktif', fn ($query) => $query->where('angkatan', '>', $tahunAktifMulai))
+            ->when($request->status === 'Alumni', fn ($query) => $query->where('angkatan', '<=', $tahunAktifMulai))
             ->withCount(['detailPrestasi as prestasi_publish_count' => fn ($query) => $query->whereHas('prestasi', fn ($prestasiQuery) => $prestasiQuery->where('status', 'Publish'))])
             ->orderByDesc('prestasi_publish_count')
             ->orderBy('nama')
@@ -90,8 +91,8 @@ class PublicController extends Controller
             ->orderBy('angkatan')
             ->get();
         $analitikSiswaStatus = collect([
-            ['status' => 'Aktif', 'total' => (clone $publishedSiswaQuery)->where('angkatan', '>=', $tahunAktifMulai)->count()],
-            ['status' => 'Alumni', 'total' => (clone $publishedSiswaQuery)->where('angkatan', '<', $tahunAktifMulai)->count()],
+            ['status' => 'Aktif', 'total' => (clone $publishedSiswaQuery)->where('angkatan', '>', $tahunAktifMulai)->count()],
+            ['status' => 'Alumni', 'total' => (clone $publishedSiswaQuery)->where('angkatan', '<=', $tahunAktifMulai)->count()],
         ]);
 
         return view('siswa.search', compact('siswas', 'keyword', 'jurusanOptions', 'kelasOptions', 'angkatanOptions', 'analitikSiswaJurusan', 'analitikSiswaAngkatan', 'analitikSiswaStatus'));

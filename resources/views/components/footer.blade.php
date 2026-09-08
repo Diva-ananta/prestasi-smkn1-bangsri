@@ -13,9 +13,9 @@
                 <i class="fas fa-globe"></i> Website Sekolah
             </a>
             <div class="mt-5 flex items-center gap-3">
-                <a href="#" class="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 transition hover:bg-emerald-700" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 transition hover:bg-emerald-700" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 transition hover:bg-emerald-700" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/smkn1bangsri.official?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" class="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 transition hover:bg-emerald-700" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://youtube.com/@smkn1bangsri?si=8bC8yFdWzTy6Thdo" class="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 transition hover:bg-emerald-700" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.tiktok.com/@smkn1bangsri.official?is_from_webapp=1&sender_device=pc" class="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 transition hover:bg-emerald-700" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
             </div>
         </div>
 

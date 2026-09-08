@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\SiPintuService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -74,6 +75,10 @@ class SiPintuAuthController extends Controller
         }
 
         $userProfile = $profileResult['data'] ?? [];
+
+        if (! User::isConfiguredAdminEmail($userProfile['email'] ?? null)) {
+            return redirect()->route('login')->with('error', 'Akun SiPintu ini tidak memiliki akses admin.');
+        }
 
         try {
             // 6. Sinkronkan atau buat data user lokal

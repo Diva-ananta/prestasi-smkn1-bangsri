@@ -11,7 +11,7 @@
     <section class="relative overflow-hidden border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
         <div class="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-slate-100 dark:bg-slate-800/60"></div>
         <div class="relative mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 lg:px-8 lg:py-14">
-            <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">Profil Siswa</h1>
+            <h1 class="text-3xl font-black tracking-tight sm:text-4xl"><span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">Profil Siswa</span></h1>
             <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-500 dark:text-slate-400">{{ $siswa->nama }}</p>
         </div>
     </section>

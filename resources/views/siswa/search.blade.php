@@ -24,7 +24,7 @@
                     <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span></span>
                     Direktori sekolah
                 </div>
-                <h1 class="text-3xl font-black leading-[1.1] tracking-tight text-slate-900 dark:text-white sm:text-5xl">Siswa berprestasi <span class="text-emerald-600 dark:text-emerald-400">SMK N 1 Bangsri</span></h1>
+                <h1 class="text-3xl font-black leading-[1.1] tracking-tight text-slate-900 dark:text-white sm:text-5xl">Siswa berprestasi <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">SMK N 1 Bangsri</span></h1>
                 <p class="mt-5 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">Temukan siswa dengan riwayat prestasi publik berdasarkan nama, NIS, kelas, jurusan, dan angkatan.</p>
                 <form action="{{ route('public.siswa.search') }}" method="GET" class="mt-5 flex flex-col gap-2 sm:flex-row">
                     <label for="hero-student-search" class="sr-only">Cari siswa</label>

@@ -7,7 +7,7 @@
             <div x-show="sidebarOpen" x-transition.opacity>
                 <div class="flex items-center justify-between gap-3">
                     <div>
-                        <h1 class="text-lg font-bold text-slate-800 dark:text-white">Admin Panel</h1>
+                        <h1 class="text-lg font-bold text-slate-800 dark:text-white">SIPRES</h1>
                         <p class="text-xs text-slate-500 dark:text-slate-400">SMK N 1 Bangsri</p>
                     </div>
                     <button type="button" @click="sidebarOpen = false" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-slate-800 dark:hover:text-emerald-300" title="Sembunyikan sidebar" aria-label="Sembunyikan sidebar">
