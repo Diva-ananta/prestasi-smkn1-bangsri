@@ -53,8 +53,8 @@
                     <div class="relative aspect-[4/3] overflow-hidden bg-emerald-50 dark:bg-emerald-950">
 
                         <img
-                            src="{{ asset('storage/' . $item->foto) }}"
-                            alt="{{ $item->judul ?: 'Foto galeri' }}"
+                            src="{{ asset('storage/' . ($item->prestasi?->foto ?: $item->foto)) }}"
+                            alt="{{ $item->judul ?: $item->prestasi?->nama_lomba ?: 'Foto galeri' }}"
                             class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                             loading="lazy"
                         >

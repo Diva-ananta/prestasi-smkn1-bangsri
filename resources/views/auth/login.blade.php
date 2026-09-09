@@ -180,21 +180,6 @@
                             <i id="btnLoader" class="fas fa-spinner hidden animate-spin"></i>
                         </button>
 
-                        <!-- Demo Credentials Box -->
-                        <div class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/70 p-3 text-xs text-emerald-900">
-                            <div class="flex items-center justify-between mb-1.5">
-                                <span class="font-bold flex items-center gap-1.5 text-emerald-800">
-                                    <i class="fas fa-key text-[11px]"></i> Akun Default Admin
-                                </span>
-                                <button type="button" onclick="fillAdminCredentials()" class="text-[11px] font-semibold text-emerald-700 hover:text-emerald-950 underline cursor-pointer">
-                                    Gunakan Kredensial Ini
-                                </button>
-                            </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] text-slate-600 font-mono">
-                                <span>Email: <strong class="text-slate-800 font-semibold">admin@smkn1bangsri.sch.id</strong></span>
-                                <span>Password: <strong class="text-slate-800 font-semibold">admin123</strong></span>
-                            </div>
-                        </div>
                     </form>
 
                     <!-- Footer -->
@@ -271,14 +256,6 @@
             const icon = document.getElementById('eyeIcon');
             password.type = password.type === 'password' ? 'text' : 'password';
             icon.className = password.type === 'password' ? 'fas fa-eye text-sm' : 'fas fa-eye-slash text-sm';
-        }
-
-        function fillAdminCredentials() {
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            emailInput.value = 'admin@smkn1bangsri.sch.id';
-            passwordInput.value = 'admin123';
-            emailInput.focus();
         }
 
         // Handle loading state properly on form submit

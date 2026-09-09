@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Sistem Informasi Prestasi Siswa | SMK N 1 Bangsri'),
 
     // Isi URL website setiap ekstrakurikuler. Nama di sebelah kiri harus sama
     // dengan nama ekstrakurikuler yang dipilih pada form prestasi.

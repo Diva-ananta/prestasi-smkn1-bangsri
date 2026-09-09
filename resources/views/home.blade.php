@@ -171,8 +171,8 @@
                             <div class="stack-gallery-card {{ ['stack-front', 'stack-middle', 'stack-back', 'stack-rear'][$imageIndex] }}" data-stack-index="{{ $imageIndex }}">
                                 <div class="h-full w-full overflow-hidden rounded-[1.75rem] border-4 border-white bg-slate-100 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:rounded-[2rem]">
                                     <img
-                                        src="{{ $galleryImage?->foto ? asset('storage/' . $galleryImage->foto) : asset('images/logo-smk.png') }}"
-                                        alt="{{ $galleryImage?->judul ?: 'Dokumentasi galeri sekolah' }}"
+                                        src="{{ ($galleryImage?->prestasi?->foto ?: $galleryImage?->foto) ? asset('storage/' . ($galleryImage?->prestasi?->foto ?: $galleryImage?->foto)) : asset('images/logo-smk.png') }}"
+                                        alt="{{ $galleryImage?->judul ?: $galleryImage?->prestasi?->nama_lomba ?: 'Dokumentasi galeri sekolah' }}"
                                         class="h-full w-full object-cover"
                                         loading="lazy"
                                     >

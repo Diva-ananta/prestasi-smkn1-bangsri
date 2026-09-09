@@ -15,7 +15,7 @@ class AdminMiddleware
         }
 
         $user = Auth::user();
-        if ($user->is_admin || in_array($user->role, ['admin', 'master_admin'])) {
+        if ($user->isAdmin()) {
             return $next($request);
         }
 

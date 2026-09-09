@@ -43,7 +43,8 @@ class PublicController extends Controller
             ->latest()
             ->take(5)
             ->get();
-        $galeriPrestasi = Galeri::latest()
+        $galeriPrestasi = Galeri::with('prestasi')
+            ->where('is_published', true)
             ->take(6)
             ->get();
 
@@ -254,7 +255,8 @@ class PublicController extends Controller
 
     public function galeriIndex()
     {
-        $galeri = Galeri::latest()
+        $galeri = Galeri::with('prestasi')
+            ->where('is_published', true)
             ->paginate(12);
 
         return view('galeri.index', compact('galeri'));
