@@ -12,7 +12,10 @@
                 <p class="mt-2 text-sm text-slate-500 dark:text-slate-300">Kelola semua prestasi dan penempatan anggota dengan mudah.</p>
             </div>
             <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-3">
-                <button type="button" onclick="exportSelectedPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-secondary w-full sm:w-auto"><i class="fas fa-file-export mr-2"></i>Export terpilih</button>
+                <div class="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto" data-export-controls="prestasi">
+                    <button type="button" onclick="togglePrestasiExportMode()" class="admin-btn-secondary min-w-0 w-full sm:w-auto" data-export-start><i class="fas fa-file-export mr-2"></i>Export</button>
+                    <button type="button" onclick="exportSelectedPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-primary col-span-2 hidden min-w-0 w-full sm:w-auto" data-export-download><i class="fas fa-download mr-2"></i>Download</button>
+                </div>
                 <a href="{{ route('admin.prestasi.import') }}" class="admin-btn-secondary w-full sm:w-auto"><i class="fas fa-file-import mr-2"></i>Import Excel</a>
                 <button type="button" onclick="openPrestasiModal()" class="admin-btn-primary w-full sm:w-auto"><i class="fas fa-plus mr-2"></i>Tambah Prestasi</button>
             </div>
@@ -47,7 +50,7 @@
         <x-admin.table class="admin-table admin-table-mobile-cards">
             <thead>
                 <tr>
-                    <th><input type="checkbox" onclick="document.querySelectorAll('.prestasi-select').forEach((item) => item.checked = this.checked)" aria-label="Pilih semua"></th><th>No</th>
+                    <th data-export-column class="hidden"><input type="checkbox" id="select-all-prestasi" onclick="document.querySelectorAll('.prestasi-select').forEach((item) => item.checked = this.checked)" aria-label="Pilih semua"></th><th>No</th>
                     <th>Nama Lomba</th>
                     <th>Jenis Peserta</th>
                     <th>Hasil</th>
@@ -58,7 +61,7 @@
             <tbody>
                 @forelse($prestasis as $prestasi)
                     <tr>
-                        <td><input type="checkbox" class="prestasi-select" value="{{ $prestasi->id }}" aria-label="Pilih {{ $prestasi->nama_lomba }}"></td><td>{{ $prestasis->firstItem() + $loop->index }}</td>
+                        <td data-export-column class="hidden"><input type="checkbox" class="prestasi-select" value="{{ $prestasi->id }}" aria-label="Pilih {{ $prestasi->nama_lomba }}"></td><td>{{ $prestasis->firstItem() + $loop->index }}</td>
                         <td data-label="Nama lomba" class="font-semibold text-slate-700 dark:text-slate-200">{{ $prestasi->nama_lomba }}</td>
                         <td data-label="Jenis peserta">{{ $prestasi->jenis_peserta }}</td>
                         <td data-label="Hasil">{{ $prestasi->hasil }}</td>
@@ -127,6 +130,16 @@
         const ids = [...document.querySelectorAll('.prestasi-select:checked')].map((item) => `ids[]=${encodeURIComponent(item.value)}`);
         if (!ids.length) return window.adminNotify?.('Pilih minimal satu data untuk diekspor.', 'error');
         window.location.href = `${url}?${ids.join('&')}`;
+    }
+
+    function togglePrestasiExportMode() {
+        const active = !document.querySelector('.admin-table-mobile-cards')?.classList.contains('export-mode');
+        document.querySelector('.admin-table-mobile-cards')?.classList.toggle('export-mode', active);
+        document.querySelector('[data-export-controls="prestasi"] [data-export-start]')?.classList.toggle('bg-amber-100', active);
+        document.querySelector('[data-export-controls="prestasi"] [data-export-start]')?.classList.toggle('text-amber-800', active);
+        document.querySelector('[data-export-controls="prestasi"] [data-export-download]')?.classList.toggle('hidden', !active);
+        document.querySelectorAll('[data-export-column]').forEach((element) => element.classList.toggle('hidden', !active));
+        if (!active) document.querySelectorAll('.prestasi-select, #select-all-prestasi').forEach((item) => item.checked = false);
     }
 </script>
 @endsection
