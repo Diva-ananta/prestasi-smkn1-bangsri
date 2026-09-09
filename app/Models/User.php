@@ -19,20 +19,17 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        $adminEmail = config('auth.admin_email');
-
-        return $this->is_admin
-            && filled($adminEmail)
-            && strcasecmp((string) $this->email, (string) $adminEmail) === 0;
+        return (bool) $this->is_admin && $this->role === 'master_admin';
     }
 
     public static function isConfiguredAdminEmail(?string $email): bool
     {
-        $adminEmail = config('auth.admin_email');
-
         return filled($email)
-            && filled($adminEmail)
-            && strcasecmp($email, $adminEmail) === 0;
+            && static::query()
+                ->where('email', $email)
+                ->where('is_admin', true)
+                ->where('role', 'master_admin')
+                ->exists();
     }
 
     /**

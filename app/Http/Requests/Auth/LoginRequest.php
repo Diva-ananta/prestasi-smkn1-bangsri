@@ -47,10 +47,10 @@ class LoginRequest extends FormRequest
             'email' => $this->string('email')->toString(),
             'password' => $this->string('password')->toString(),
             'is_admin' => true,
+            'role' => 'master_admin',
         ];
 
-        if (! User::isConfiguredAdminEmail($credentials['email'])
-            || ! Auth::attempt($credentials, $this->boolean('remember'))) {
+        if (! Auth::attempt($credentials, $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
