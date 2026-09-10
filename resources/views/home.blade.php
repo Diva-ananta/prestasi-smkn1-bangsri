@@ -13,7 +13,11 @@
         'result' => $prestasi->hasil,
     ])->values();
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     $galleryImages = ($heroPrestasis ?? collect())->take(4)->values();
+=======
+    $galleryImages = ($galeriPrestasi ?? collect())->take(4)->values();
+>>>>>>> Stashed changes
 =======
     $galleryImages = ($galeriPrestasi ?? collect())->take(4)->values();
 >>>>>>> Stashed changes

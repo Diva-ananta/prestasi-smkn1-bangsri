@@ -3,7 +3,7 @@
 @section('title', 'SiPintu Gateway')
 
 @section('content')
-<div class="space-y-6" x-data="sipintuHub()">
+<div class="sipintu-page space-y-6" x-data="sipintuHub()">
     <!-- Header Section -->
     <div class="flex flex-col gap-4 rounded-3xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 p-6 text-white shadow-xl lg:flex-row lg:items-center lg:justify-between lg:p-8">
         <div class="space-y-2">
@@ -419,7 +419,7 @@
 
                 <!-- TABEL DATA -->
                 <div class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
-                    <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                    <table class="min-w-[680px] w-full text-left text-xs text-slate-600 dark:text-slate-300">
                         <thead class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
                             <tr>
                                 <th class="px-4 py-3">NIS / NISN</th>
