@@ -26,7 +26,7 @@
                 </div>
                 <h1 class="text-3xl font-black leading-[1.1] tracking-tight text-slate-900 dark:text-white sm:text-5xl">Siswa berprestasi <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">SMK N 1 Bangsri</span></h1>
                 <p class="mt-5 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">Temukan siswa dengan riwayat prestasi publik berdasarkan nama, NIS, kelas, jurusan, dan angkatan.</p>
-                <form action="{{ route('public.siswa.search') }}" method="GET" class="mt-5 flex flex-col gap-2 sm:flex-row">
+                <form id="siswa-search" action="{{ route('public.siswa.search') }}" method="GET" class="mt-5 flex flex-col gap-2 sm:flex-row">
                     <label for="hero-student-search" class="sr-only">Cari siswa</label>
                     <div class="relative flex-1"><i class="fas fa-search pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i><input id="hero-student-search" name="q" value="{{ $keyword }}" type="search" placeholder="Cari nama atau NIS" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pl-11 text-sm text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white"></div>
                     <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-700 sm:w-auto"><i class="fas fa-search"></i>Cari siswa</button>
@@ -120,6 +120,7 @@
                 const updatedResults = new DOMParser().parseFromString(html, 'text/html').getElementById('siswa-results');
                 if (updatedResults && results) results.replaceWith(updatedResults);
                 bindResultLinks();
+                document.getElementById('siswa-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } catch (error) {
                 if (error.name !== 'AbortError') window.location.assign(url);
             } finally {
@@ -136,6 +137,15 @@
             event.preventDefault();
             const url = new URL(this.action, window.location.origin);
             new FormData(this).forEach((value, key) => { if (value) url.searchParams.set(key, value); });
+            applyFilter(url);
+        });
+        document.getElementById('siswa-search')?.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const url = new URL(this.action, window.location.origin);
+            new FormData(this).forEach((value, key) => {
+                if (value) url.searchParams.set(key, value);
+                else url.searchParams.delete(key);
+            });
             applyFilter(url);
         });
         document.querySelector('[data-ajax-filter-reset]')?.addEventListener('click', function (event) { event.preventDefault(); applyFilter(new URL(this.href, window.location.origin)); });

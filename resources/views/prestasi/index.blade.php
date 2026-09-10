@@ -42,7 +42,7 @@
                     <p class="mt-5 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">
                         Jelajahi pencapaian siswa, lihat distribusi prestasi per jurusan, dan temukan data terbaik dari sekolah dalam satu tampilan yang profesional dan mudah dibaca.
                     </p>
-                    <form action="{{ route('public.prestasi.index') }}" method="GET" class="mt-5 flex flex-col gap-2 sm:flex-row">
+                    <form id="prestasi-search" action="{{ route('public.prestasi.index') }}" method="GET" class="mt-5 flex flex-col gap-2 sm:flex-row">
                         <label for="hero-achievement-search" class="sr-only">Cari prestasi</label>
                         <div class="relative flex-1"><i class="fas fa-search pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i><input id="hero-achievement-search" name="q" value="{{ request('q') }}" type="search" placeholder="Cari nama lomba, siswa, atau NIS" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pl-11 text-sm text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white"></div>
                         <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-700 sm:w-auto"><i class="fas fa-search"></i>Cari prestasi</button>
@@ -298,6 +298,7 @@
                 if (refreshedAnalytics && window.Alpine) window.Alpine.initTree(refreshedAnalytics);
                 initPrestasiCharts();
                 bindResultLinks();
+                document.getElementById('prestasi-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } catch (error) {
                 if (error.name !== 'AbortError') {
                     window.location.assign(url);
@@ -312,6 +313,16 @@
             const url = new URL(this.action, window.location.origin);
             new FormData(this).forEach((value, key) => {
                 if (value) url.searchParams.set(key, value);
+            });
+            applyFilter(url);
+        });
+
+        document.getElementById('prestasi-search')?.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const url = new URL(this.action, window.location.origin);
+            new FormData(this).forEach((value, key) => {
+                if (value) url.searchParams.set(key, value);
+                else url.searchParams.delete(key);
             });
             applyFilter(url);
         });

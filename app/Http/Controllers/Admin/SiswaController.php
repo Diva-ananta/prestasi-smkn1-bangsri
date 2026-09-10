@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SiswaExport;
 use App\Models\DeletedRecord;
+use App\Services\ImageOptimizationService;
 
 class SiswaController extends Controller
 {
@@ -58,12 +59,12 @@ class SiswaController extends Controller
         return view('admin.siswa.create', compact('jenisKelamin', 'kelasOptions', 'jurusanOptions'));
     }
 
-    public function store(StoreSiswaRequest $request)
+    public function store(StoreSiswaRequest $request, ImageOptimizationService $imageOptimizer)
     {
         $validated = $request->validated();
 
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('foto-siswa', 'public');
+            $validated['foto'] = $imageOptimizer->storeSiswa($request->file('foto'));
         }
 
         // Angkatan otomatis jika kosong (tapi sudah required, jadi aman)
@@ -97,13 +98,14 @@ class SiswaController extends Controller
         return view('admin.siswa.edit', compact('siswa', 'jenisKelamin', 'kelasOptions', 'jurusanOptions'));
     }
 
-    public function update(UpdateSiswaRequest $request, Siswa $siswa)
+    public function update(UpdateSiswaRequest $request, Siswa $siswa, ImageOptimizationService $imageOptimizer)
     {
         $validated = $request->validated();
 
         if ($request->hasFile('foto')) {
+            $newPhoto = $imageOptimizer->storeSiswa($request->file('foto'));
             if ($siswa->foto) Storage::disk('public')->delete($siswa->foto);
-            $validated['foto'] = $request->file('foto')->store('foto-siswa', 'public');
+            $validated['foto'] = $newPhoto;
         }
 
         $siswa->update($validated);

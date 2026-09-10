@@ -32,7 +32,7 @@ class StorePrestasiRequest extends FormRequest
                 Rule::when($this->input('jenis_peserta') === 'Individu', 'max:1'),
             ],
             'siswa_id.*' => 'integer|exists:siswa,id',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
             'status' => 'required|in:Draft,Publish',
             'keterangan' => 'nullable|string',
         ];
@@ -50,7 +50,7 @@ class StorePrestasiRequest extends FormRequest
             'siswa_id.max' => 'Peserta individu hanya boleh memiliki satu siswa.',
             'siswa_id.*.exists' => 'Siswa yang dipilih tidak ditemukan.',
             'tanggal_selesai.after_or_equal' => 'Tanggal selesai harus setelah atau sama dengan tanggal mulai.',
-            'foto.max' => 'Ukuran foto maksimal 2MB.',
+            'foto.max' => 'Ukuran foto maksimal 10MB.',
             'foto.mimes' => 'Format foto harus JPG, JPEG, atau PNG.',
         ];
     }

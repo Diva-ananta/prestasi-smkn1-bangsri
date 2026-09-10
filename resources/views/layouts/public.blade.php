@@ -10,7 +10,7 @@
             if (savedTheme === 'dark' || (!savedTheme && prefersDark)) document.documentElement.classList.add('dark');
         }());
     </script>
-    <title>Prestasimu | @yield('title', 'SMK N 1 Bangsri')</title>
+    <title>  @yield('title', 'SMK N 1 Bangsri')</title>
     <meta name="description" content="@yield('meta_description', 'Portal resmi informasi dan dokumentasi prestasi siswa SMK Negeri 1 Bangsri, Jepara.')">
     <link rel="icon" type="image/png" href="{{ asset('images/logo-smk.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/logo-smk.png') }}">
@@ -52,8 +52,8 @@
                             <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK" class="h-full w-full object-contain">
                         </div>
                         <div>
-                            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-300">SMK N 1 Bangsri</p>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Informasi Prestasi Siswa</p>
+                            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-500 dark:text-emerald-300">SIPRES ESKASABA</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Sistem Informasi Prestasi Siswa</p>
                         </div>
                     </a>
 

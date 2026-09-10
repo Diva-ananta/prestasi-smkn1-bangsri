@@ -12,7 +12,7 @@
         'title' => $prestasi->nama_lomba,
         'result' => $prestasi->hasil,
     ])->values();
-    $galleryImages = ($galeriPrestasi ?? collect())->take(4)->values();
+    $galleryImages = ($heroPrestasis ?? collect())->take(4)->values();
     $galleryImageOne = $galleryImages->get(0);
     $galleryImageTwo = $galleryImages->get(1);
     $galleryImageThree = $galleryImages->get(2);
@@ -171,8 +171,8 @@
                             <div class="stack-gallery-card {{ ['stack-front', 'stack-middle', 'stack-back', 'stack-rear'][$imageIndex] }}" data-stack-index="{{ $imageIndex }}">
                                 <div class="h-full w-full overflow-hidden rounded-[1.75rem] border-4 border-white bg-slate-100 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:rounded-[2rem]">
                                     <img
-                                        src="{{ ($galleryImage?->prestasi?->foto ?: $galleryImage?->foto) ? asset('storage/' . ($galleryImage?->prestasi?->foto ?: $galleryImage?->foto)) : asset('images/logo-smk.png') }}"
-                                        alt="{{ $galleryImage?->judul ?: $galleryImage?->prestasi?->nama_lomba ?: 'Dokumentasi galeri sekolah' }}"
+                                        src="{{ $galleryImage?->foto ? asset('storage/' . $galleryImage->foto) : $heroImage }}"
+                                        alt="{{ $galleryImage?->nama_lomba ?: 'Dokumentasi prestasi sekolah' }}"
                                         class="h-full w-full object-cover"
                                         loading="lazy"
                                     >
@@ -283,7 +283,7 @@
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             @forelse($prestasiTerbaru ?? [] as $index => $item)
                 <article class="group flex h-full animate-fade-in flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-900/5 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-emerald-700" style="animation-delay: {{ $index * 100 }}ms">
-                    <a href="{{ route('public.prestasi.show', $item->public_token) }}" class="relative block aspect-[4/3] shrink-0 overflow-hidden bg-gradient-to-br from-slate-100 to-emerald-50 dark:from-slate-800 dark:to-slate-900">
+                    <a href="{{$item->prestasi ? route('public.prestasi.show', $item->public_token) : '#' }}" class="relative block aspect-[4/3] shrink-0 overflow-hidden bg-gradient-to-br from-slate-100 to-emerald-50 dark:from-slate-800 dark:to-slate-900">
                         <img
                             src="{{ $item->foto ? asset('storage/' . $item->foto) : asset('images/logo-smk.png') }}"
                             alt="{{ $item->nama_lomba }}"
@@ -407,7 +407,7 @@
             </div>
             <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
                 @forelse($galeriPrestasi ?? [] as $index => $item)
-                    <a href="{{ route('public.prestasi.show', $item->public_token) }}" class="group relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-200 shadow-sm transition-smooth hover:-translate-y-1 hover:shadow-lg dark:from-emerald-950/50 dark:to-emerald-950/30 animate-fade-in" style="animation-delay: {{ $index * 50 }}ms">
+                    <a href="{{$item->prestasi ? route('public.prestasi.show', $item->prestasi->public_token):'#'}}" class="group relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-200 shadow-sm transition-smooth hover:-translate-y-1 hover:shadow-lg dark:from-emerald-950/50 dark:to-emerald-950/30 animate-fade-in" style="animation-delay: {{ $index * 50 }}ms">
                         <img
                             src="{{ asset('storage/' . $item->foto) }}"
                             alt="{{ $item->judul ?: 'Foto galeri' }}"

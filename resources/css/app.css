@@ -353,6 +353,7 @@ select.admin-form-input {
     width: 100%;
     color: #1e293b;
     background-color: #ffffff;
+    background-image: none;
 }
 
 select.admin-form-input option {

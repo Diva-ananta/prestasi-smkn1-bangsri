@@ -32,7 +32,6 @@
         <div>
             <h2 class="text-lg font-bold text-white">Kontak</h2>
             <div class="mt-4 space-y-3 text-sm text-slate-300">
-                <a href="#kontak" class="block transition hover:text-emerald-300">Hubungi Kami</a>
                 <a href="tel:0291772321" class="block transition hover:text-emerald-300">(0291) 772321</a>
                 <a href="mailto:smkn1bangsri@yahoo.co.id" class="block break-words transition hover:text-emerald-300">smkn1bangsri@yahoo.co.id</a>
             </div>

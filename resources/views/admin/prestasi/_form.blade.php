@@ -129,8 +129,7 @@
 
                     <div id="siswaSearchContainer" class="relative mt-2">
                         <div class="relative">
-                            <i class="fas fa-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
-                            <input id="siswa_query" type="text" placeholder="Cari nama siswa atau NIS..." class="{{ $inputClass }} pl-9" autocomplete="off">
+                            <input id="siswa_query" type="text" placeholder="Cari nama siswa atau NIS..." class="{{ $inputClass }} pl-11" autocomplete="off">
                         </div>
                         <ul id="siswaResults" class="absolute z-20 mt-2 max-h-48 w-full overflow-auto rounded-xl border border-slate-200 bg-white p-2 shadow-lg hidden dark:border-slate-700 dark:bg-slate-800"></ul>
                     </div>

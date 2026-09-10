@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PrestasiExport;
 use App\Models\DeletedRecord;
+use App\Services\ImageOptimizationService;
 
 class PrestasiController extends Controller
 {
@@ -52,14 +53,14 @@ class PrestasiController extends Controller
         return view('admin.prestasi.create', compact('siswas'));
     }
    
-    public function store(StorePrestasiRequest $request)
+    public function store(StorePrestasiRequest $request, ImageOptimizationService $imageOptimizer)
     {
         $data = $request->validated();
         $siswaIds = $data['siswa_id'];
         unset($data['siswa_id']);
 
         if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('foto-prestasi', 'public');
+            $data['foto'] = $imageOptimizer->storePrestasi($request->file('foto'));
         }
 
         $prestasi = Prestasi::create($data);
@@ -86,17 +87,16 @@ class PrestasiController extends Controller
         return view('admin.prestasi.edit', compact('prestasi', 'siswas', 'selectedSiswa'));
     }
 
-    public function update(UpdatePrestasiRequest $request, Prestasi $prestasi)
+    public function update(UpdatePrestasiRequest $request, Prestasi $prestasi, ImageOptimizationService $imageOptimizer)
     {
         $data = $request->validated();
         $siswaIds = $data['siswa_id'];
         unset($data['siswa_id']);
 
         if ($request->hasFile('foto')) {
-            if ($prestasi->foto) {
-                Storage::disk('public')->delete($prestasi->foto);
-            }
-            $data['foto'] = $request->file('foto')->store('foto-prestasi', 'public');
+            $newPhoto = $imageOptimizer->storePrestasi($request->file('foto'));
+            if ($prestasi->foto) Storage::disk('public')->delete($prestasi->foto);
+            $data['foto'] = $newPhoto;
         }
 
         $prestasi->update($data);

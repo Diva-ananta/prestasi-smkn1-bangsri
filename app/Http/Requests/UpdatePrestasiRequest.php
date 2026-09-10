@@ -36,7 +36,7 @@ class UpdatePrestasiRequest extends FormRequest
             'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
             'jenis_peserta' => 'required|in:Individu,Tim',
             'nama_tim' => 'required_if:jenis_peserta,Tim|nullable|string|max:255',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
             'status' => 'required|in:Draft,Publish',
             'keterangan' => 'nullable|string',
             'siswa_id' => [
@@ -57,6 +57,8 @@ class UpdatePrestasiRequest extends FormRequest
             'siswa_id.min' => 'Pilih minimal satu siswa.',
             'siswa_id.max' => 'Peserta individu hanya boleh memiliki satu siswa.',
             'siswa_id.*.exists' => 'Siswa yang dipilih tidak ditemukan.',
+            'foto.max' => 'Ukuran foto maksimal 10MB.',
+            'foto.mimes' => 'Format foto harus JPG, JPEG, atau PNG.',
         ];
     }
 }

@@ -22,7 +22,7 @@ class UpdateSiswaRequest extends FormRequest
             'nis' => ['required', 'string', 'max:20', Rule::unique('siswa', 'nis')->ignore($id)],
             'nisn' => ['required', 'string', 'max:20', Rule::unique('siswa', 'nisn')->ignore($id)],
             'nama' => 'required|string|max:100',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'jenis_kelamin' => 'required|in:L,P',
             'kelas' => 'required|string|max:10',
             'jurusan' => 'required|string|max:50',
@@ -45,6 +45,8 @@ class UpdateSiswaRequest extends FormRequest
             'angkatan.required' => 'Angkatan wajib diisi.',
             'angkatan.min' => 'Angkatan minimal tahun 2000.',
             'angkatan.max' => 'Angkatan maksimal tahun ' . (date('Y') + 1) . '.',
+            'foto.max' => 'Ukuran foto maksimal 5MB.',
+            'foto.mimes' => 'Format foto harus JPG, JPEG, atau PNG.',
         ];
     }
 }
