@@ -3,7 +3,7 @@
 @section('title', 'SiPintu Gateway')
 
 @section('content')
-<div class="space-y-6" x-data="sipintuHub()" x-cloak>
+<div class="space-y-6" x-data="sipintuHub()">
     <!-- Header Section -->
     <div class="flex flex-col gap-4 rounded-3xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 p-6 text-white shadow-xl lg:flex-row lg:items-center lg:justify-between lg:p-8">
         <div class="space-y-2">
@@ -419,176 +419,51 @@
 
                 <!-- TABEL DATA -->
                 <div class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
-                    <!-- TABLE 1: SISWA AKTIF -->
-                    <template x-if="activeTab === 'siswa'">
-                        <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
-                            <thead class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
+                    <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                        <thead class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
+                            <tr>
+                                <th class="px-4 py-3">NIS / NISN</th>
+                                <th class="px-4 py-3">Nama Siswa</th>
+                                <th class="px-4 py-3">JK</th>
+                                <th class="px-4 py-3">Kelas / Jurusan</th>
+                                <th class="px-4 py-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                            <template x-if="searchLoading">
                                 <tr>
-                                    <th class="px-4 py-3">NIS</th>
-                                    <th class="px-4 py-3">Nama Siswa Aktif</th>
-                                    <th class="px-4 py-3">JK</th>
-                                    <th class="px-4 py-3">Kelas / Tingkat</th>
-                                    <th class="px-4 py-3">Status</th>
+                                    <td colspan="5" class="px-4 py-8 text-center text-slate-400">
+                                        <i class="fas fa-circle-notch animate-spin text-xl text-emerald-600 mb-2"></i>
+                                        <p>Menghubungi SiPintu API Gateway...</p>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                                <template x-if="syncLoading">
-                                    <tr>
-                                        <td colspan="5" class="px-4 py-12 text-center text-slate-500">
-                                            <i class="fas fa-arrows-rotate animate-spin text-2xl text-emerald-600 mb-2"></i>
-                                            <p class="font-bold">Sedang Menyinkronkan Data Siswa Aktif...</p>
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template x-if="!syncLoading && searchLoading">
-                                    <tr>
-                                        <td colspan="5" class="px-4 py-8 text-center text-slate-400">
-                                            <i class="fas fa-circle-notch animate-spin text-xl text-emerald-600 mb-2"></i>
-                                            <p>Mencari siswa di SiPintu Gateway...</p>
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template x-if="!syncLoading && !searchLoading && studentResults.length === 0">
-                                    <tr>
-                                        <td colspan="5" class="px-4 py-8 text-center text-slate-400">
-                                            <i class="fas fa-inbox text-2xl text-slate-300 dark:text-slate-600 mb-2"></i>
-                                            <p>Belum ada data siswa aktif yang ditampilkan. Klik tombol Sinkronisasi atau lakukan pencarian.</p>
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template x-if="!syncLoading && !searchLoading">
-                                    <template x-for="student in studentResults" :key="student.id || student.nis">
-                                        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors">
-                                            <td class="px-4 py-3 font-mono font-bold text-slate-800 dark:text-slate-200" x-text="student.nis"></td>
-                                            <td class="px-4 py-3 font-semibold text-slate-900 dark:text-white" x-text="student.nama || student.name"></td>
-                                            <td class="px-4 py-3">
-                                                <span class="inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold" :class="(student.jk == 1 || student.jk == 'L') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300'" x-text="(student.jk == 1 || student.jk == 'L') ? 'L' : 'P'"></span>
-                                            </td>
-                                            <td class="px-4 py-3 text-slate-700 dark:text-slate-300 font-medium" x-text="student.classroom ? student.classroom.name : (student.kelas || '-')"></td>
-                                            <td class="px-4 py-3">
-                                                <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
-                                                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span>
-                                                    <span>Siswa Aktif</span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                </template>
-                            </tbody>
-                        </table>
-                    </template>
-
-                    <!-- TABLE 2: ALUMNI -->
-                    <template x-if="activeTab === 'alumni'">
-                        <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
-                            <thead class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
+                            </template>
+                            <template x-if="!searchLoading && studentResults.length === 0">
                                 <tr>
-                                    <th class="px-4 py-3">NIS</th>
-                                    <th class="px-4 py-3">Nama Alumni</th>
-                                    <th class="px-4 py-3">JK</th>
-                                    <th class="px-4 py-3">Keterangan / Lulus</th>
-                                    <th class="px-4 py-3">Status</th>
+                                    <td colspan="5" class="px-4 py-8 text-center text-slate-400">
+                                        <i class="fas fa-inbox text-2xl text-slate-300 dark:text-slate-600 mb-2"></i>
+                                        <p>Silakan masukkan NIS atau nama siswa untuk mencari langsung dari SiPintu Gateway.</p>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                                <template x-if="syncLoading">
-                                    <tr>
-                                        <td colspan="5" class="px-4 py-12 text-center text-slate-500">
-                                            <i class="fas fa-arrows-rotate animate-spin text-2xl text-purple-600 mb-2"></i>
-                                            <p class="font-bold">Sedang Menyinkronkan Data Alumni...</p>
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template x-if="!syncLoading && searchLoading">
-                                    <tr>
-                                        <td colspan="5" class="px-4 py-8 text-center text-slate-400">
-                                            <i class="fas fa-circle-notch animate-spin text-xl text-purple-600 mb-2"></i>
-                                            <p>Mencari alumni di SiPintu Gateway...</p>
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template x-if="!syncLoading && !searchLoading && alumniResults.length === 0">
-                                    <tr>
-                                        <td colspan="5" class="px-4 py-8 text-center text-slate-400">
-                                            <i class="fas fa-graduation-cap text-2xl text-slate-300 dark:text-slate-600 mb-2"></i>
-                                            <p>Belum ada data alumni yang ditampilkan. Klik tombol Sinkronisasi (Pilih Alumni Saja / Semua) atau lakukan pencarian.</p>
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template x-if="!syncLoading && !searchLoading">
-                                    <template x-for="alumni in alumniResults" :key="alumni.id || alumni.nis">
-                                        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors">
-                                            <td class="px-4 py-3 font-mono font-bold text-slate-800 dark:text-slate-200" x-text="alumni.nis"></td>
-                                            <td class="px-4 py-3 font-semibold text-slate-900 dark:text-white" x-text="alumni.nama || alumni.name"></td>
-                                            <td class="px-4 py-3">
-                                                <span class="inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold" :class="(alumni.jk == 1 || alumni.jk == 'L') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300'" x-text="(alumni.jk == 1 || alumni.jk == 'L') ? 'L' : 'P'"></span>
-                                            </td>
-                                            <td class="px-4 py-3 text-slate-500 italic" x-text="alumni.kelas || 'Alumni'"></td>
-                                            <td class="px-4 py-3">
-                                                <span class="inline-flex items-center gap-1 rounded-full bg-purple-100 px-2.5 py-0.5 text-[10px] font-semibold text-purple-800 dark:bg-purple-900/50 dark:text-purple-300">
-                                                    <i class="fas fa-graduation-cap text-[9px]"></i>
-                                                    <span>Alumni</span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                </template>
-                            </tbody>
-                        </table>
-                    </template>
-
-                    <!-- TABLE 3: GURU -->
-                    <template x-if="activeTab === 'guru'">
-                        <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
-                            <thead class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
-                                <tr>
-                                    <th class="px-4 py-3">NIP / Kode</th>
-                                    <th class="px-4 py-3">Nama Guru</th>
-                                    <th class="px-4 py-3">JK</th>
-                                    <th class="px-4 py-3">No. Kontak / HP</th>
-                                    <th class="px-4 py-3">Akun / Email</th>
+                            </template>
+                            <template x-for="student in studentResults" :key="student.id || student.nis">
+                                <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-4 py-3 font-mono font-bold text-slate-800 dark:text-slate-200" x-text="student.nis"></td>
+                                    <td class="px-4 py-3 font-semibold text-slate-900 dark:text-white" x-text="student.nama || student.name"></td>
+                                    <td class="px-4 py-3">
+                                        <span class="inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold" :class="(student.jk == 1 || student.jk == 'L') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300'" x-text="(student.jk == 1 || student.jk == 'L') ? 'L' : 'P'"></span>
+                                    </td>
+                                    <td class="px-4 py-3 text-slate-600 dark:text-slate-400" x-text="student.classroom ? student.classroom.name : (student.kelas || '-')"></td>
+                                    <td class="px-4 py-3">
+                                        <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
+                                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+                                            SIJUNA
+                                        </span>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                                <template x-if="searchLoading || teachersLoading">
-                                    <tr>
-                                        <td colspan="5" class="px-4 py-8 text-center text-slate-400">
-                                            <i class="fas fa-circle-notch animate-spin text-xl text-teal-600 mb-2"></i>
-                                            <p>Mengambil data guru dari SIJUNA Gateway...</p>
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template x-if="!searchLoading && !teachersLoading && teacherResults.length === 0">
-                                    <tr>
-                                        <td colspan="5" class="px-4 py-8 text-center text-slate-400">
-                                            <i class="fas fa-chalkboard-user text-2xl text-slate-300 dark:text-slate-600 mb-2"></i>
-                                            <p>Belum ada data guru yang dimuat. Klik tombol <strong>Cari Guru</strong> untuk memuat data guru dari SIJUNA.</p>
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template x-if="!searchLoading && !teachersLoading">
-                                    <template x-for="teacher in teacherResults" :key="teacher.id || teacher.nip">
-                                        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors">
-                                            <td class="px-4 py-3 font-mono">
-                                                <span class="font-bold text-slate-800 dark:text-slate-200" x-text="teacher.nip || '-'"></span>
-                                                <template x-if="teacher.kode">
-                                                    <span class="ml-1 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300" x-text="teacher.kode"></span>
-                                                </template>
-                                            </td>
-                                            <td class="px-4 py-3 font-semibold text-slate-900 dark:text-white" x-text="teacher.nama || teacher.name"></td>
-                                            <td class="px-4 py-3">
-                                                <span class="inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold" :class="(teacher.jk == 1 || teacher.jk == 'L') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300'" x-text="(teacher.jk == 1 || teacher.jk == 'L') ? 'L' : 'P'"></span>
-                                            </td>
-                                            <td class="px-4 py-3 text-slate-600 dark:text-slate-400" x-text="teacher.hp || '-'"></td>
-                                            <td class="px-4 py-3 text-slate-500">
-                                                <span x-text="teacher.user && teacher.user.email ? teacher.user.email : '-'"></span>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                </template>
-                            </tbody>
-                        </table>
-                    </template>
+                            </template>
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- API Response Preview (Collapsible) -->

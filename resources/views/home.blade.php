@@ -12,7 +12,11 @@
         'title' => $prestasi->nama_lomba,
         'result' => $prestasi->hasil,
     ])->values();
+<<<<<<< Updated upstream
     $galleryImages = ($heroPrestasis ?? collect())->take(4)->values();
+=======
+    $galleryImages = ($galeriPrestasi ?? collect())->take(4)->values();
+>>>>>>> Stashed changes
     $galleryImageOne = $galleryImages->get(0);
     $galleryImageTwo = $galleryImages->get(1);
     $galleryImageThree = $galleryImages->get(2);

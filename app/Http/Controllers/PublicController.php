@@ -58,6 +58,7 @@ class PublicController extends Controller
         $publishedSiswaQuery = Siswa::where('is_published', true);
         $siswas = Siswa::query()
             ->where('is_published', true)
+            ->whereHas('detailPrestasi.prestasi', fn ($query) => $query->where('status', 'Publish'))
             ->when($keyword !== '', fn ($query) => $query->where(function ($query) use ($keyword) {
                 $query->where('nis', 'like', "%{$keyword}%")
                     ->orWhere('nisn', 'like', "%{$keyword}%")
