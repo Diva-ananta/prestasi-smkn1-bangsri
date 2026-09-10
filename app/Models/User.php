@@ -31,6 +31,8 @@ class User extends Authenticatable
                 ->where('role', 'master_admin')
                 ->exists();
     }
+
+    protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
