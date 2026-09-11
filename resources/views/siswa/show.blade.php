@@ -18,7 +18,7 @@
 
     <main class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
         <div class="grid items-start gap-6 lg:grid-cols-[235px_minmax(0,1fr)]">
-            <aside class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <aside class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:sticky lg:top-24">
                 <div class="relative h-20 bg-emerald-700">
                     <div class="absolute -bottom-9 left-1/2 flex h-[74px] w-[74px] -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-slate-100 text-xl font-bold text-emerald-700 shadow-md dark:border-slate-900 dark:bg-slate-800 dark:text-emerald-300">
                         @if($siswa->foto)

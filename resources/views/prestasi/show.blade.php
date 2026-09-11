@@ -250,7 +250,7 @@
             </div>
 
             {{-- Sidebar --}}
-            <aside class="space-y-4">
+            <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
                 <div class="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <p class="text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-400">Ringkasan</p>
                     <dl class="mt-4 space-y-4 text-sm">
