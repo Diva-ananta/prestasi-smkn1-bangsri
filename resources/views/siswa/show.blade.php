@@ -18,7 +18,7 @@
 
     <main class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
         <div class="grid items-start gap-6 lg:grid-cols-[235px_minmax(0,1fr)]">
-            <aside class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:sticky lg:top-24">
+            <aside class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <div class="relative h-20 bg-emerald-700">
                     <div class="absolute -bottom-9 left-1/2 flex h-[74px] w-[74px] -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-slate-100 text-xl font-bold text-emerald-700 shadow-md dark:border-slate-900 dark:bg-slate-800 dark:text-emerald-300">
                         @if($siswa->foto)
@@ -47,7 +47,7 @@
                     <span class="rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-bold text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300">{{ $prestasi->count() }} prestasi</span>
                 </div>
 
-                <div class="space-y-3 lg:max-h-[calc(100vh-10rem)] lg:overflow-y-auto lg:overscroll-contain lg:pr-1">
+                <div class="space-y-3">
                     @forelse($prestasi as $index => $item)
                         @php $year = $item->tanggal_mulai ? \Carbon\Carbon::parse($item->tanggal_mulai)->format('Y') : optional($item->created_at)->format('Y'); @endphp
                         <article class="animate-fade-in rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900" style="animation-delay: {{ $index * 80 }}ms">

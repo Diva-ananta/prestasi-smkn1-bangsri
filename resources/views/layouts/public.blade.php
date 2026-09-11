@@ -52,7 +52,7 @@
                             <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK" class="h-full w-full object-contain">
                         </div>
                         <div>
-                            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-500 dark:text-emerald-300">SIPRES ESKASABA</p>
+                            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-300">SIPRES ESKASABA</p>
                             <p class="text-xs text-slate-500 dark:text-slate-400">Sistem Informasi Prestasi Siswa</p>
                         </div>
                     </a>

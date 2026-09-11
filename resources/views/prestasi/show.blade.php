@@ -33,7 +33,7 @@
     </div>
 
     {{-- ===================== HERO ===================== --}}
-    <section class="relative overflow-hidden border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+    <section class="relative overflow-clip border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
         <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-emerald-100 blur-3xl dark:bg-emerald-900/20"></div>
         <div class="pointer-events-none absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-teal-100 blur-3xl dark:bg-teal-900/10"></div>
 
@@ -41,7 +41,7 @@
             <div class="grid gap-7 lg:grid-cols-[380px_1fr] lg:items-start">
 
                 {{-- Foto --}}
-                <div class="animate-fade-in lg:sticky lg:top-24">
+                <div class="animate-fade-in">
                     <div class="relative h-72 overflow-hidden rounded-[26px] border border-slate-200 bg-gradient-to-br from-slate-100 to-emerald-50 shadow-lg dark:border-slate-800 dark:from-slate-800 dark:to-slate-900 sm:h-80 lg:h-96">
                         @if($prestasi->foto)
                             <img src="{{ asset('storage/' . $prestasi->foto) }}" alt="{{ $prestasi->nama_lomba }}" class="h-full w-full object-cover">
@@ -250,7 +250,7 @@
             </div>
 
             {{-- Sidebar --}}
-            <aside class="space-y-4 lg:sticky lg:top-24 lg:h-fit">
+            <aside class="space-y-4">
                 <div class="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <p class="text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-400">Ringkasan</p>
                     <dl class="mt-4 space-y-4 text-sm">

@@ -112,9 +112,9 @@
             </button>
         </div>
 
-        <div class="grid gap-5 lg:grid-cols-[240px_minmax(0,1fr)]">
-            <div x-show="filtersOpen" x-cloak @click.self="filtersOpen = false" class="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-sm lg:static lg:z-auto lg:!block lg:bg-transparent lg:backdrop-blur-none">
-                <aside class="h-fit w-[min(88vw,320px)] bg-white p-4 shadow-xl dark:bg-slate-900 lg:sticky lg:top-24 lg:w-auto lg:rounded-2xl lg:border lg:border-slate-200 lg:shadow-sm dark:lg:border-slate-700" @click.stop>
+        <div class="grid items-start gap-5 lg:grid-cols-[240px_minmax(0,1fr)]">
+                        <div x-show="filtersOpen" x-cloak @click.self="filtersOpen = false" class="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-sm lg:static lg:z-auto lg:!block lg:bg-transparent lg:backdrop-blur-none">
+                                <aside class="h-fit w-[min(88vw,320px)] bg-white p-4 shadow-xl dark:bg-slate-900 lg:w-auto lg:rounded-2xl lg:border lg:border-slate-200 lg:shadow-sm dark:lg:border-slate-700" @click.stop>
                     <div class="mb-4 flex items-center justify-between">
                         <h3 class="text-base font-bold text-slate-900 dark:text-white">Filter</h3>
                         <button type="button" @click="filtersOpen = false" class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 lg:hidden dark:hover:bg-slate-800 dark:hover:text-slate-300" aria-label="Tutup filter">

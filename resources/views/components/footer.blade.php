@@ -4,7 +4,7 @@
             <div class="flex items-center gap-3">
                 <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK Negeri 1 Bangsri" class="h-11 w-11 rounded-full bg-white p-1 object-contain">
                 <div>
-                    <p class="font-bold">SMK Negeri 1 Bangsri</p>
+                    <p class="font-bold">SIPRES ESKASABA</p>
                     <p class="text-xs text-slate-300">Sistem Informasi Prestasi Siswa</p>
                 </div>
             </div>
