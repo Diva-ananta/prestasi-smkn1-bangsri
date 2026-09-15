@@ -7,7 +7,7 @@
     <section class="border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80">
         <div class="mx-auto max-w-7xl px-4 py-9 sm:px-6 lg:px-8 lg:py-11">
             <div class="animate-fade-in">
-                <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300">
+                <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300">
                     <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
                     Tentang Sistem
                 </div>
@@ -39,19 +39,19 @@
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach([
                     [
-                        'icon' => 'fa-graduation-cap',
+                        'icon' => 'graduation-cap',
                         'accent' => 'emerald',
                         'title' => 'Untuk Siswa',
                         'desc' => 'Platform untuk mendokumentasikan pencapaian dan membangun portofolio digital yang berguna untuk masa depan siswa.'
                     ],
                     [
-                        'icon' => 'fa-school',
+                        'icon' => 'school',
                         'accent' => 'blue',
                         'title' => 'Untuk Sekolah',
                         'desc' => 'Sistem manajemen prestasi yang terorganisir, memudahkan sekolah dalam mencatat dan melaporkan pencapaian siswa.'
                     ],
                     [
-                        'icon' => 'fa-users-line',
+                        'icon' => 'users-line',
                         'accent' => 'teal',
                         'title' => 'Untuk Masyarakat',
                         'desc' => 'Portal terbuka yang menampilkan prestasi siswa dan reputasi sekolah secara transparan dan profesional.'
@@ -66,7 +66,7 @@
                     @endphp
                     <div class="animate-fade-in rounded-2xl border-2 bg-white p-4 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-900 sm:rounded-[24px] sm:p-8 {{ $classes }}" style="animation-delay: {{ $index * 100 }}ms">
                         <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-white/80 text-xl dark:bg-slate-900/60 sm:h-14 sm:w-14 sm:text-2xl">
-                            <i class="fas {{ $feature['icon'] }}"></i>
+                            <x-icon :name="$feature['icon']" />
                         </div>
                         <h3 class="mt-4 text-lg font-bold text-slate-900 dark:text-white sm:mt-5 sm:text-xl">{{ $feature['title'] }}</h3>
                         <p class="mt-2 text-sm leading-6 text-slate-700 dark:text-slate-400 sm:mt-3 sm:text-base">{{ $feature['desc'] }}</p>
@@ -83,10 +83,10 @@
 
             <div class="space-y-4">
                 @foreach([
-                    ['step' => '1', 'icon' => 'fa-pen-to-square', 'title' => 'Pencatatan Prestasi', 'desc' => 'Admin sekolah mencatat prestasi siswa dengan detail lengkap seperti nama lomba, hasil, tingkat, dan dokumentasi foto.'],
-                    ['step' => '2', 'icon' => 'fa-check-double', 'title' => 'Verifikasi Data', 'desc' => 'Setiap data divalidasi agar akurat, valid, dan sesuai dengan bukti yang tersedia.'],
-                    ['step' => '3', 'icon' => 'fa-globe', 'title' => 'Publikasi Online', 'desc' => 'Prestasi yang sudah diverifikasi dipublikasikan ke portal agar mudah diakses siswa, orang tua, dan masyarakat.'],
-                    ['step' => '4', 'icon' => 'fa-chart-bar', 'title' => 'Analitik & Laporan', 'desc' => 'Sistem menampilkan ringkasan dan trend prestasi untuk mendukung evaluasi sekolah.']
+                    ['step' => '1', 'icon' => 'pen-to-square', 'title' => 'Pencatatan Prestasi', 'desc' => 'Admin sekolah mencatat prestasi siswa dengan detail lengkap seperti nama lomba, hasil, tingkat, dan dokumentasi foto.'],
+                    ['step' => '2', 'icon' => 'check-double', 'title' => 'Verifikasi Data', 'desc' => 'Setiap data divalidasi agar akurat, valid, dan sesuai dengan bukti yang tersedia.'],
+                    ['step' => '3', 'icon' => 'globe', 'title' => 'Publikasi Online', 'desc' => 'Prestasi yang sudah diverifikasi dipublikasikan ke portal agar mudah diakses siswa, orang tua, dan masyarakat.'],
+                    ['step' => '4', 'icon' => 'chart-bar', 'title' => 'Analitik & Laporan', 'desc' => 'Sistem menampilkan ringkasan dan trend prestasi untuk mendukung evaluasi sekolah.']
                 ] as $index => $step)
                     <div class="animate-fade-in group relative flex gap-3 rounded-2xl border-2 border-slate-100 bg-white p-4 shadow-sm transition duration-300 hover:border-emerald-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-emerald-600 sm:gap-6 sm:p-6 lg:p-8" style="animation-delay: {{ $index * 100 }}ms">
                         <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-50 font-bold text-emerald-700 dark:from-emerald-950/50 dark:to-emerald-950/30 dark:text-emerald-400 sm:h-16 sm:w-16">
@@ -95,7 +95,7 @@
                         <div class="flex-1">
                             <div class="flex items-start gap-4">
                                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 sm:h-10 sm:w-10">
-                                    <i class="fas {{ $step['icon'] }} text-sm"></i>
+                                    <x-icon :name="$step['icon']" class="text-sm" />
                                 </div>
                                 <div class="flex-1">
                                     <h3 class="text-base font-bold text-slate-900 dark:text-white sm:text-lg">{{ $step['title'] }}</h3>
@@ -111,7 +111,7 @@
         <div class="mb-12 animate-fade-in flex justify-center">
             <div class="inline-flex items-center gap-3 rounded-full border-2 border-emerald-200 bg-gradient-to-r from-emerald-50 to-blue-50 px-6 py-4 dark:border-emerald-900/40 dark:from-emerald-950/30 dark:to-blue-950/20">
                 <div class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400">
-                    <i class="fas fa-shield-check"></i>
+                    <x-icon name="shield-check" />
                 </div>
                 <div>
                     <p class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">✓ Terverifikasi</p>
@@ -126,10 +126,10 @@
                 <p class="mt-4 text-lg text-emerald-100">Akses portal lengkap untuk melihat semua prestasi siswa dan data analitik sekolah kami.</p>
                 <div class="mt-8 flex flex-wrap justify-center gap-4">
                     <a href="{{ route('public.prestasi.index') }}" class="inline-flex items-center gap-2 rounded-xl bg-lime-300 px-5 py-3 text-sm font-bold leading-5 text-slate-950 shadow-2xl shadow-lime-300/40 transition hover:bg-lime-200 active:scale-95 sm:px-6">
-                        <i class="fas fa-arrow-right"></i> Portal Prestasi
+                        <x-icon name="arrow-right" /> Portal Prestasi
                     </a>
                     <a href="{{ route('home') }}" class="inline-flex items-center gap-2 rounded-xl border-2 border-white/30 px-5 py-3 text-sm font-bold leading-5 text-white backdrop-blur-sm transition hover:bg-white/20 hover:border-white/50 sm:px-6">
-                        <i class="fas fa-home"></i> Beranda
+                        <x-icon name="home" /> Beranda
                     </a>
                 </div>
             </div>

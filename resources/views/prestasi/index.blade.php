@@ -22,7 +22,7 @@
 <div class="min-h-screen bg-slate-50 dark:bg-slate-950">
     <div id="prestasi-loading" class="pointer-events-none fixed inset-0 z-[80] hidden items-center justify-center bg-transparent" role="status" aria-live="polite" aria-label="Memuat data prestasi">
         <div class="flex items-center gap-3 text-sm font-semibold text-slate-700 dark:text-slate-200">
-            <i class="fas fa-circle-notch fa-spin text-emerald-600 dark:text-emerald-400"></i>
+            <x-icon name="circle-notch" class="text-emerald-600 dark:text-emerald-400 animate-spin" />
             <span>Memuat...</span>
         </div>
     </div>
@@ -35,7 +35,7 @@
         <div class="relative mx-auto max-w-7xl px-4 py-9 sm:px-6 lg:px-8 lg:py-11">
             <div class="grid items-stretch gap-6 lg:grid-cols-2">
                 <div class="animate-fade-in flex min-w-0 flex-col">
-                    <div class="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300">
+                    <div class="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300">
                         <span class="relative flex h-2 w-2">
                             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
                             <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
@@ -50,10 +50,10 @@
                     </p>
                     <form id="prestasi-search" action="{{ route('public.prestasi.index') }}" method="GET" class="mt-5 flex flex-col gap-2 sm:flex-row">
                         <label for="hero-achievement-search" class="sr-only">Cari prestasi</label>
-                        <div class="relative flex-1"><i class="fas fa-search pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i><input id="hero-achievement-search" name="q" value="{{ request('q') }}" type="search" placeholder="Cari nama lomba, siswa, atau NIS" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pl-11 text-sm text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white"></div>
-                        <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-700 sm:w-auto"><i class="fas fa-search"></i>Cari prestasi</button>
+                        <div class="relative flex-1"><x-icon name="search" class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-400" /><input id="hero-achievement-search" name="q" value="{{ request('q') }}" type="search" placeholder="Cari nama lomba, siswa, atau NIS" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pl-11 text-sm text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white"></div>
+                        <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-700 sm:w-auto"><x-icon name="search" />Cari prestasi</button>
                     </form>
-                    <a href="{{ route('public.siswa.search') }}" class="mt-3 inline-flex max-w-full items-center gap-2 self-start rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300 dark:hover:bg-emerald-950/50"><i class="fas fa-user-graduate"></i><span class="truncate">Lihat siswa berprestasi</span><i class="fas fa-arrow-right shrink-0 text-[10px]"></i></a>
+                    <a href="{{ route('public.siswa.search') }}" class="mt-3 inline-flex max-w-full items-center gap-2 self-start rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300 dark:hover:bg-emerald-950/50"><x-icon name="user-graduate" /><span class="truncate">Lihat siswa berprestasi</span><x-icon name="arrow-right" class="shrink-0 text-xs" /></a>
                 </div>
 
                 <div id="prestasi-analytics" x-data="{ activeChart: 'tahun', selectChart(name) { this.activeChart = name; requestAnimationFrame(() => window.dispatchEvent(new Event('resize'))); } }" class="min-w-0 rounded-[20px] border border-slate-200 bg-white p-4 shadow-lg dark:border-slate-800 dark:bg-slate-900 sm:rounded-[24px] sm:p-5">
@@ -82,10 +82,10 @@
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             @php
                 $overview = [
-                    ['label' => 'Total Prestasi', 'value' => number_format($analitikRingkasan['total']), 'icon' => 'fa-trophy', 'classes' => 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300'],
-                    ['label' => 'Juara / Finalis', 'value' => number_format($analitikRingkasan['juara']), 'icon' => 'fa-medal', 'classes' => 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'],
-                    ['label' => 'Tingkat Kompetisi', 'value' => number_format($analitikRingkasan['tingkat']), 'icon' => 'fa-layer-group', 'classes' => 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'],
-                    ['label' => 'Tahun aktif', 'value' => number_format($analitikRingkasan['tahun']), 'icon' => 'fa-calendar-alt', 'classes' => 'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300'],
+                    ['label' => 'Total Prestasi', 'value' => number_format($analitikRingkasan['total']), 'icon' => 'trophy', 'classes' => 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300'],
+                    ['label' => 'Juara / Finalis', 'value' => number_format($analitikRingkasan['juara']), 'icon' => 'medal', 'classes' => 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'],
+                    ['label' => 'Tingkat Kompetisi', 'value' => number_format($analitikRingkasan['tingkat']), 'icon' => 'layer-group', 'classes' => 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'],
+                    ['label' => 'Tahun aktif', 'value' => number_format($analitikRingkasan['tahun']), 'icon' => 'calendar-alt', 'classes' => 'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300'],
                 ];
             @endphp
 
@@ -97,7 +97,7 @@
                             <p class="mt-3 text-3xl font-black text-slate-900 dark:text-white">{{ $item['value'] }}</p>
                         </div>
                         <div class="flex h-12 w-12 items-center justify-center rounded-2xl transition duration-300 group-hover:scale-110 {{ $item['classes'] }}">
-                            <i class="fas {{ $item['icon'] }}"></i>
+                            <x-icon :name="$item['icon']" />
                         </div>
                     </div>
                 </div>
@@ -113,26 +113,26 @@
                 <h2 class="mt-2 text-3xl font-black text-slate-900 dark:text-white">Daftar prestasi</h2>
             </div>
             <button type="button" @click="filtersOpen = true" class="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-white px-3.5 py-2 text-sm font-bold leading-5 text-emerald-700 shadow-sm transition hover:bg-emerald-50 md:hidden dark:border-slate-700 dark:bg-slate-900 dark:text-emerald-400 dark:hover:bg-slate-800">
-                <i class="fas fa-filter"></i>
+                <x-icon name="filter" />
                 Filter
             </button>
         </div>
 
-        <div class="grid items-stretch gap-5 md:grid-cols-[240px_minmax(0,1fr)]">
+        <div class="grid items-stretch gap-4 md:grid-cols-[210px_minmax(0,1fr)]">
             <div x-show="filtersOpen" x-cloak @click.self="filtersOpen = false" class="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-sm md:static md:z-auto md:!block md:bg-transparent md:backdrop-blur-none">
-                <aside class="h-fit w-[min(88vw,320px)] bg-white p-4 shadow-xl dark:bg-slate-900 md:sticky md:top-24 md:self-start md:w-auto md:rounded-2xl md:border md:border-slate-200 md:shadow-sm dark:md:border-slate-700" @click.stop>
-                    <div class="mb-4 flex items-center justify-between">
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Filter</h3>
+                    <aside class="h-fit w-[min(88vw,300px)] bg-white p-3 shadow-xl dark:bg-slate-900 md:sticky md:top-24 md:self-start md:w-auto md:rounded-2xl md:border md:border-slate-200 md:shadow-sm dark:md:border-slate-700" @click.stop>
+                    <div class="mb-3 flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-slate-900 dark:text-white">Filter</h3>
                         <button type="button" @click="filtersOpen = false" class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 md:hidden dark:hover:bg-slate-800 dark:hover:text-slate-300" aria-label="Tutup filter">
-                            <i class="fas fa-times"></i>
+                            <x-icon name="times" />
                         </button>
                     </div>
 
-                    <form id="prestasi-filter" action="{{ route('public.prestasi.index') }}" method="GET" class="space-y-4">
+                    <form id="prestasi-filter" action="{{ route('public.prestasi.index') }}" method="GET" class="space-y-3">
                         <input type="hidden" name="q" value="{{ request('q') }}">
                         <div>
                             <label for="prestasi-kategori" class="text-xs font-bold text-slate-900 dark:text-white">Kategori</label>
-                            <select id="prestasi-kategori" name="kategori" class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
+                            <select id="prestasi-kategori" name="kategori" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
                                 @foreach($kategoriOptions->prepend('')->unique() as $value)
                                     @php($label = $value ?: 'Semua kategori')
                                     <option value="{{ $value }}" @selected(request('kategori', '') === $value)>{{ $label === 'Non Akademik' ? 'Non-Akademik' : $label }}</option>
@@ -140,9 +140,9 @@
                             </select>
                         </div>
 
-                        <div class="border-t border-slate-200 pt-4 dark:border-slate-700">
+                        <div class="border-t border-slate-200 pt-3 dark:border-slate-700">
                             <label class="text-xs font-bold text-slate-900 dark:text-white">Tingkat kompetisi</label>
-                            <select name="tingkat" class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
+                            <select name="tingkat" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
                                 <option value="">Semua tingkat</option>
                                 @foreach($tingkatOptions as $option)
                                     <option value="{{ $option }}" @selected(request('tingkat') === $option)>{{ $option }}</option>
@@ -150,9 +150,9 @@
                             </select>
                         </div>
 
-                        <div class="border-t border-slate-200 pt-4 dark:border-slate-700">
+                        <div class="border-t border-slate-200 pt-3 dark:border-slate-700">
                             <label class="text-xs font-bold text-slate-900 dark:text-white">Tahun</label>
-                            <select name="tahun" class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
+                            <select name="tahun" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
                                 <option value="">Semua tahun</option>
                                 @foreach($tahunOptions as $option)
                                     <option value="{{ $option }}" @selected((string) request('tahun') === (string) $option)>{{ $option }}</option>
@@ -160,9 +160,9 @@
                             </select>
                         </div>
 
-                        <div class="border-t border-slate-200 pt-4 dark:border-slate-700">
+                        <div class="border-t border-slate-200 pt-3 dark:border-slate-700">
                             <label class="text-xs font-bold text-slate-900 dark:text-white">Jurusan</label>
-                            <select name="jurusan" class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
+                            <select name="jurusan" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
                                 <option value="">Semua jurusan</option>
                                 @foreach($jurusanOptions as $option)
                                     <option value="{{ $option }}" @selected(request('jurusan') === $option)>{{ $option }}</option>
@@ -170,9 +170,9 @@
                             </select>
                         </div>
 
-                        <div class="border-t border-slate-200 pt-4 dark:border-slate-700">
+                        <div class="border-t border-slate-200 pt-3 dark:border-slate-700">
                             <label class="text-xs font-bold text-slate-900 dark:text-white">Ekstrakurikuler</label>
-                            <select name="ekstrakurikuler" class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
+                            <select name="ekstrakurikuler" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
                                 <option value="">Semua ekstrakurikuler</option>
                                 @foreach($ekstrakurikulerOptions as $option)
                                     <option value="{{ $option }}" @selected(request('ekstrakurikuler') === $option)>{{ $option }}</option>
@@ -180,7 +180,7 @@
                             </select>
                         </div>
 
-                        <a href="{{ route('public.prestasi.index') }}" data-ajax-filter-reset class="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-center text-xs font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                        <a href="{{ route('public.prestasi.index') }}" data-ajax-filter-reset class="block w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-center text-xs font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
                             Reset filter
                         </a>
                     </form>
@@ -192,7 +192,7 @@
                     <p class="text-sm font-semibold text-slate-700 dark:text-slate-300">
                         Ditemukan <span class="font-black text-emerald-700 dark:text-emerald-400">{{ number_format($prestasis->total()) }}</span> prestasi
                     </p>
-                    <span class="rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">Live</span>
+                    <span class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold uppercase tracking-[0.18em] text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">Live</span>
                 </div>
 
                 <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -203,32 +203,32 @@
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
 
                                 {{-- Ribbon hasil di pojok foto --}}
-                                <div class="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-black uppercase tracking-wide text-amber-700 shadow-lg backdrop-blur dark:bg-slate-900/90 dark:text-amber-400">
-                                    <i class="fas fa-medal"></i>
+                                <div class="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-sm font-black uppercase tracking-wide text-amber-700 shadow-lg backdrop-blur dark:bg-slate-900/90 dark:text-amber-400 sm:text-xs">
+                                    <x-icon name="medal" />
                                     {{ $item->hasil }}
                                 </div>
                             </a>
 
-                            <div class="flex min-w-0 flex-1 flex-col p-3.5">
-                                <div class="mb-2 flex flex-wrap gap-1.5">
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.1em] text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">
-                                        <i class="fas fa-layer-group"></i>
+                            <div class="flex min-w-0 flex-1 flex-col p-4 sm:p-3.5">
+                                <div class="mb-2.5 flex flex-wrap gap-1.5 sm:mb-2">
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300 sm:px-2 sm:py-1 sm:text-[10px] sm:tracking-[0.1em]">
+                                        <x-icon name="layer-group" />
                                         {{ $item->tingkat ?? 'Umum' }}
                                     </span>
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.1em] text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                                        <i class="fas fa-tag"></i>
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-slate-600 dark:bg-slate-800 dark:text-slate-300 sm:px-2 sm:py-1 sm:text-[10px] sm:tracking-[0.1em]">
+                                        <x-icon name="tag" />
                                         {{ $item->kategori ?? 'Umum' }}
                                     </span>
                                 </div>
 
-                                <h3 class="min-h-[2.75rem] break-words text-sm font-black leading-5 text-slate-900 transition group-hover:text-emerald-700 sm:text-base dark:text-white dark:group-hover:text-emerald-400">
+                                <h3 class="min-h-[3.25rem] break-words text-base font-black leading-snug text-slate-900 transition group-hover:text-emerald-700 sm:min-h-[2.5rem] sm:text-sm sm:leading-5 dark:text-white dark:group-hover:text-emerald-400">
                                     <a href="{{ route('public.prestasi.show', $item->public_token) }}" class="block [overflow-wrap:anywhere]">{{ $item->nama_lomba }}</a>
                                 </h3>
 
                                 @if($item->nama_tim)
                                     @php($ekstrakurikulerUrl = config('app.ekstrakurikuler.' . $item->nama_tim))
-                                    <p class="mt-2 truncate text-sm font-semibold text-blue-700 dark:text-blue-400">
-                                        <i class="fas fa-users mr-1"></i>
+                                    <p class="mt-2 truncate text-sm font-semibold text-blue-700 dark:text-blue-400 sm:text-xs">
+                                        <x-icon name="users" class="mr-1" />
                                         @if($ekstrakurikulerUrl)
                                             <a href="{{ $ekstrakurikulerUrl }}" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ $item->nama_tim }}</a>
                                         @else
@@ -238,24 +238,24 @@
                                 @endif
 
                                 @if($item->tanggal_mulai)
-                                    <p class="mt-2 flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-                                        <i class="fas fa-calendar text-emerald-600 dark:text-emerald-400"></i>
+                                    <p class="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 sm:text-xs">
+                                        <x-icon name="calendar" class="text-emerald-600 dark:text-emerald-400" />
                                         {{ \Carbon\Carbon::parse($item->tanggal_mulai)->translatedFormat('d M Y') }}
                                     </p>
                                 @endif
 
-                                <div class="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 text-[11px] text-slate-500 dark:border-slate-800 dark:text-slate-400">
+                                <div class="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400 sm:text-xs">
                                     <span>{{ $item->jenis_peserta ?? 'Individu' }}</span>
                                     <a href="{{ route('public.prestasi.show', $item->public_token) }}" class="inline-flex items-center gap-2 font-bold text-emerald-700 transition group-hover:gap-3 dark:text-emerald-400">
                                         Detail
-                                        <i class="fas fa-arrow-right text-[10px]"></i>
+                                        <x-icon name="arrow-right" class="text-xs" />
                                     </a>
                                 </div>
                             </div>
                         </article>
                     @empty
                         <div class="col-span-full rounded-[26px] border-2 border-dashed border-slate-300 bg-slate-50 p-12 text-center dark:border-slate-700 dark:bg-slate-900/30">
-                            <i class="fas fa-box-open text-4xl text-slate-400 dark:text-slate-600"></i>
+                            <x-icon name="box-open" class="text-4xl text-slate-400 dark:text-slate-600" />
                             <p class="mt-4 text-lg font-bold text-slate-700 dark:text-slate-300">Belum ada prestasi yang sesuai</p>
                             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Coba ubah filter untuk melihat data prestasi yang lain.</p>
                         </div>
