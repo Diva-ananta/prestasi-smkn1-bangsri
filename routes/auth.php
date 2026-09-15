@@ -22,7 +22,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 // OAuth 2.0 / OpenID Connect SSO SiPintu (Manual Redirect endpoint)
 Route::get('/oauth/sipintu', [SiPintuAuthController::class, 'redirect'])->name('oauth.sipintu.redirect');
 Route::get('/health', fn ()=>response()->json(['status' =>'ok']));
-Route::post('/api/sipintu/sync-user', [OAuthController::class, 'syncIser']);
+Route::post('/api/sipintu/sync-user', [OAuthController::class, 'syncUser']);
 
 // Logout
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
