@@ -11,6 +11,7 @@ class Galeri extends Model
     protected $fillable = [
         'judul',
         'foto',
+        'video_url',
         'prestasi_id',
         'is_published',
     ];

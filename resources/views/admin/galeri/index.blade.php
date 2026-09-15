@@ -9,7 +9,7 @@
             <div>
                 <p class="mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-500 dark:text-emerald-400">Media sekolah</p>
                 <h1 class="text-2xl font-bold text-slate-800 dark:text-white md:text-3xl">Galeri</h1>
-                <p class="mt-2 text-sm text-slate-500 dark:text-slate-300">Pilih foto dari prestasi yang sudah diinput, lalu validasi tampilannya.</p>
+                <p class="mt-2 text-sm text-slate-500 dark:text-slate-300">Tambahkan foto manual, video YouTube, atau salin media dari prestasi.</p>
             </div>
         </div>
     </div>
@@ -25,30 +25,56 @@
     @endif
 
     <div class="section-card mb-6 animate-fade-in">
-        <form action="{{ route('admin.galeri.store') }}" method="POST" class="grid gap-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
+        <form action="{{ route('admin.galeri.store') }}" method="POST" enctype="multipart/form-data" x-data="galleryForm()" class="grid gap-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
             @csrf
             <div>
                 <label for="judul" class="admin-form-label">Judul foto <span class="font-normal text-slate-400">(opsional)</span></label>
                 <input id="judul" name="judul" type="text" value="{{ old('judul') }}" placeholder="Contoh: Juara LKS 2026" class="admin-form-input w-full">
             </div>
             <div>
-                <label for="prestasi_id" class="admin-form-label">Foto dari prestasi</label>
-                <select id="prestasi_id" name="prestasi_id" required class="admin-form-input w-full">
-                    <option value="">Pilih prestasi berfoto</option>
+                <label for="source" class="admin-form-label">Sumber media</label>
+                <select id="source" x-model="source" class="admin-form-input w-full">
+                    <option value="manual">Input manual</option>
+                    <option value="prestasi">Ikuti prestasi</option>
+                </select>
+            </div>
+            <div x-show="source === 'prestasi'" x-cloak>
+                <label for="prestasi_id" class="admin-form-label">Prestasi</label>
+                <select id="prestasi_id" name="prestasi_id" x-bind:disabled="source !== 'prestasi'" class="admin-form-input w-full">
+                    <option value="">Pilih prestasi bermedia</option>
                     @foreach($prestasis as $prestasi)
-                        <option value="{{ $prestasi->id }}" @selected(old('prestasi_id') == $prestasi->id)>{{ $prestasi->nama_lomba }} - {{ $prestasi->hasil }}</option>
+                        <option value="{{ $prestasi->id }}" @selected(old('prestasi_id') == $prestasi->id)>{{ $prestasi->nama_lomba }} - {{ $prestasi->hasil }}{{ $prestasi->video_url ? ' · YouTube' : '' }}</option>
                     @endforeach
                 </select>
             </div>
+            <div x-show="source === 'manual'" x-cloak>
+                <label for="foto" class="admin-form-label">Foto manual <span class="font-normal text-slate-400">(opsional)</span></label>
+                <input id="foto" name="foto" type="file" accept=".jpg,.jpeg,.png" class="admin-form-input w-full">
+            </div>
+            <div x-show="source === 'manual'" x-cloak class="md:col-span-2">
+                <label for="video_url" class="admin-form-label">Link YouTube <span class="font-normal text-slate-400">(opsional)</span></label>
+                <input id="video_url" name="video_url" type="url" value="{{ old('video_url') }}" placeholder="https://youtu.be/..." class="admin-form-input w-full">
+            </div>
             <button type="submit" class="admin-btn-primary gap-2"><i class="fas fa-upload"></i>Tambah foto</button>
         </form>
+        @error('prestasi_id') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
+        @error('foto') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
+        @error('video_url') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
+        @error('media') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
     </div>
 
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         @forelse($galeri as $item)
             <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <div class="aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-800">
-                    <img src="{{ asset('storage/' . ($item->prestasi?->foto ?: $item->foto)) }}" alt="{{ $item->judul ?: $item->prestasi?->nama_lomba ?: 'Foto galeri' }}" class="h-full w-full object-cover">
+                    @php($videoUrl = $item->video_url ?: $item->prestasi?->video_url)
+                    @if($videoUrl)
+                        <img src="{{ \App\Helpers\YouTube::thumbnail($videoUrl) }}" alt="Thumbnail video {{ $item->judul ?: $item->prestasi?->nama_lomba ?: 'galeri' }}" class="h-full w-full object-cover">
+                    @elseif($item->prestasi?->foto || $item->foto)
+                        <img src="{{ asset('storage/' . ($item->prestasi?->foto ?: $item->foto)) }}" alt="{{ $item->judul ?: $item->prestasi?->nama_lomba ?: 'Foto galeri' }}" class="h-full w-full object-cover">
+                    @else
+                        <div class="flex h-full items-center justify-center text-slate-400"><i class="fas fa-photo-film text-3xl"></i></div>
+                    @endif
                 </div>
                 <div class="flex items-center justify-between gap-3 p-3">
                     <div class="min-w-0">
@@ -77,4 +103,9 @@
 
     <div class="mt-6">{{ $galeri->links() }}</div>
 </div>
+<script>
+    function galleryForm() {
+        return { source: @js(old('prestasi_id') ? 'prestasi' : 'manual') };
+    }
+</script>
 @endsection

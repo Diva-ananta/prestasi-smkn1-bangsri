@@ -14,6 +14,12 @@
     ];
 @endphp
 <div class="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div id="siswa-loading" class="pointer-events-none fixed inset-0 z-[80] hidden items-center justify-center bg-slate-950/20 backdrop-blur-[1px]" role="status" aria-live="polite" aria-label="Memuat data siswa">
+        <div class="flex items-center gap-3 rounded-xl bg-white/95 px-4 py-3 text-sm font-semibold text-slate-700 shadow-lg dark:bg-slate-900/95 dark:text-slate-200">
+            <i class="fas fa-circle-notch fa-spin text-emerald-600 dark:text-emerald-400"></i>
+            <span>Memuat...</span>
+        </div>
+    </div>
     <section class="relative overflow-hidden border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
         <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-emerald-100 blur-3xl dark:bg-emerald-900/20"></div>
         <div class="pointer-events-none absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-teal-100 blur-3xl dark:bg-teal-900/10"></div>
@@ -108,8 +114,12 @@
 
         async function applyFilter(url) {
             const results = document.getElementById('siswa-results');
+            const loading = document.getElementById('siswa-loading');
             history.replaceState({}, '', url);
-            results?.classList.add('opacity-50', 'pointer-events-none', 'transition-opacity');
+            loading?.classList.remove('hidden');
+            loading?.classList.add('flex');
+            results?.setAttribute('aria-busy', 'true');
+            results?.classList.add('opacity-30', 'pointer-events-none', 'transition-opacity');
             filterRequest?.abort();
             filterRequest = new AbortController();
 
@@ -124,7 +134,11 @@
             } catch (error) {
                 if (error.name !== 'AbortError') window.location.assign(url);
             } finally {
-                document.getElementById('siswa-results')?.classList.remove('opacity-50', 'pointer-events-none');
+                loading?.classList.add('hidden');
+                loading?.classList.remove('flex');
+                const refreshedResults = document.getElementById('siswa-results');
+                refreshedResults?.removeAttribute('aria-busy');
+                refreshedResults?.classList.remove('opacity-30', 'pointer-events-none');
             }
         }
 

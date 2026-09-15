@@ -24,6 +24,7 @@ class Prestasi extends Model
         'kategori_juara',
         'sertifikat',
         'foto',
+        'video_url',
         'status',
         'keterangan',
     ];

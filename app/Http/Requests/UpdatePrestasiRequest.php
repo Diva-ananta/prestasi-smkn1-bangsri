@@ -37,6 +37,12 @@ class UpdatePrestasiRequest extends FormRequest
             'jenis_peserta' => 'required|in:Individu,Tim',
             'nama_tim' => 'required_if:jenis_peserta,Tim|nullable|string|max:255',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
+            'video_url' => ['nullable', 'url', 'max:2048', function ($attribute, $value, $fail) {
+                $host = preg_replace('/^www\./', '', strtolower((string) parse_url($value, PHP_URL_HOST)));
+                if ($host !== 'youtube.com' && $host !== 'youtu.be' && ! str_ends_with($host, '.youtube.com')) {
+                    $fail('Link video harus berasal dari YouTube.');
+                }
+            }],
             'status' => 'required|in:Draft,Publish',
             'keterangan' => 'nullable|string',
             'siswa_id' => [

@@ -47,17 +47,21 @@
 
             @forelse($galeri as $item)
 
-                {{-- Tidak menggunakan <a>, sehingga foto tidak menuju detail --}}
                 <div class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
 
                     <div class="relative aspect-[4/3] overflow-hidden bg-emerald-50 dark:bg-emerald-950">
-
-                        <img
-                            src="{{ asset('storage/' . ($item->prestasi?->foto ?: $item->foto)) }}"
-                            alt="{{ $item->judul ?: $item->prestasi?->nama_lomba ?: 'Foto galeri' }}"
-                            class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                            loading="lazy"
-                        >
+                        @php($videoUrl = $item->video_url ?: $item->prestasi?->video_url)
+                        @if($videoUrl && \App\Helpers\YouTube::embed($videoUrl))
+                            <details class="group/video h-full">
+                                <summary class="relative h-full cursor-pointer list-none">
+                                    <img src="{{ \App\Helpers\YouTube::thumbnail($videoUrl) }}" alt="Thumbnail video {{ $item->judul ?: 'galeri' }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+                                    <span class="absolute inset-0 flex items-center justify-center bg-slate-950/20 text-white"><span class="flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg"><i class="fas fa-play"></i></span></span>
+                                </summary>
+                                <iframe src="{{ \App\Helpers\YouTube::embed($videoUrl) }}" title="{{ $item->judul ?: 'Video galeri' }}" class="absolute inset-0 h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                            </details>
+                        @elseif($item->prestasi?->foto || $item->foto)
+                            <img src="{{ asset('storage/' . ($item->prestasi?->foto ?: $item->foto)) }}" alt="{{ $item->judul ?: $item->prestasi?->nama_lomba ?: 'Foto galeri' }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+                        @endif
 
                     </div>
 

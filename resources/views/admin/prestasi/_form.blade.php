@@ -184,6 +184,13 @@
                     @error('foto') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
                 </div>
 
+                <div class="md:col-span-2">
+                    <label for="video_url" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Link Video YouTube</label>
+                    <input id="video_url" type="url" name="video_url" value="{{ old('video_url', $prestasi->video_url ?? '') }}" class="{{ $inputClass }} w-full" placeholder="https://www.youtube.com/watch?v=...">
+                    <p class="mt-2 text-xs text-slate-400">Opsional. Link ini dapat otomatis ditambahkan ke galeri sebagai thumbnail dan embed.</p>
+                    @error('video_url') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
+                </div>
+
                 <div>
                     <label for="status" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Status Publikasi <span class="text-red-500">*</span></label>
                     <select id="status" name="status" class="{{ $inputClass }}" required>

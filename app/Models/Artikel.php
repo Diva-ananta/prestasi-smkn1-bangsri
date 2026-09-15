@@ -18,7 +18,6 @@ class Artikel extends Model
         'tanggal_publikasi',
         'status',
         'prestasi_id',
-        'video_url',
     ];
 
     protected $casts = [
