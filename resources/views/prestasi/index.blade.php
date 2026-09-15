@@ -118,7 +118,7 @@
             </button>
         </div>
 
-        <div class="grid items-start gap-5 md:grid-cols-[240px_minmax(0,1fr)]">
+        <div class="grid items-stretch gap-5 md:grid-cols-[240px_minmax(0,1fr)]">
             <div x-show="filtersOpen" x-cloak @click.self="filtersOpen = false" class="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-sm md:static md:z-auto md:!block md:bg-transparent md:backdrop-blur-none">
                 <aside class="h-fit w-[min(88vw,320px)] bg-white p-4 shadow-xl dark:bg-slate-900 md:sticky md:top-24 md:self-start md:w-auto md:rounded-2xl md:border md:border-slate-200 md:shadow-sm dark:md:border-slate-700" @click.stop>
                     <div class="mb-4 flex items-center justify-between">
