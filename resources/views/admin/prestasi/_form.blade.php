@@ -169,20 +169,139 @@
             </div>
 
             <div class="grid gap-5 md:grid-cols-2">
-                <div class="md:col-span-2">
-                    <label for="foto" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Thumbnail Prestasi</label>
-                    <div class="mt-2 flex flex-col gap-4 sm:flex-row sm:items-center">
-                        <div id="fotoPreviewWrap" class="flex h-28 w-44 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-600 dark:bg-slate-800">
-                            <img id="fotoPreview" src="{{ $currentFoto }}" alt="Preview thumbnail" class="h-full w-full object-cover {{ $currentFoto ? '' : 'hidden' }}">
-                            <i id="fotoPreviewIcon" class="fas fa-image text-2xl text-slate-300 dark:text-slate-600 {{ $currentFoto ? 'hidden' : '' }}"></i>
-                        </div>
-                        <div class="flex-1">
-                            <input id="foto" type="file" name="foto" accept=".jpg,.jpeg,.png" class="{{ $inputClass }} file:mr-3 file:rounded-xl file:border-0 file:bg-emerald-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-emerald-700 dark:file:bg-emerald-900/40 dark:file:text-emerald-300">
-                            <p class="mt-2 text-xs text-slate-400">Format JPG/PNG, disarankan rasio 4:3, maks 2MB.</p>
+            <div class="md:col-span-2">
+                <label for="foto" class="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                    Thumbnail Prestasi
+                </label>
+
+                <div class="mt-2 flex flex-col gap-4 sm:flex-row sm:items-start">
+
+                    {{-- Preview foto hasil crop --}}
+                    <div id="fotoPreviewWrap"
+                        class="flex aspect-[4/5] w-36 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-600 dark:bg-slate-800">
+
+                        <img id="fotoPreview"
+                            src="{{ $currentFoto }}"
+                            alt="Preview thumbnail"
+                            class="h-full w-full object-cover {{ $currentFoto ? '' : 'hidden' }}">
+
+                        <i id="fotoPreviewIcon"
+                        class="fas fa-image text-2xl text-slate-300 dark:text-slate-600 {{ $currentFoto ? 'hidden' : '' }}"></i>
+                    </div>
+
+                    <div class="flex-1">
+
+                        {{-- Input foto asli --}}
+                        <input
+                            id="foto"
+                            type="file"
+                            name="foto"
+                            accept=".jpg,.jpeg,.png"
+                            class="{{ $inputClass }} file:mr-3 file:rounded-xl file:border-0 file:bg-emerald-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-emerald-700 dark:file:bg-emerald-900/40 dark:file:text-emerald-300"
+                        >
+
+                        <p class="mt-2 text-xs leading-5 text-slate-400">
+                            JPG/PNG, maksimal 2MB.
+                            Foto akan dipotong manual dengan rasio <strong>4:5</strong>
+                            sebelum disimpan.
+                        </p>
+
+                        <div class="mt-3 flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400">
+                            <i class="fas fa-crop-alt"></i>
+                            <span>Gunakan crop 4:5 agar tampilan foto konsisten.</span>
                         </div>
                     </div>
-                    @error('foto') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
                 </div>
+
+                @error('foto')
+                    <p class="mt-2 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+
+            {{-- ===================== MODAL CROP FOTO ===================== --}}
+            <div id="cropModal"
+                class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm">
+
+                <div class="flex max-h-[95vh] w-full max-w-3xl flex-col overflow-hidden rounded-[24px] bg-white shadow-2xl dark:bg-slate-900">
+
+                    {{-- Header --}}
+                    <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4 dark:border-slate-700">
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white">
+                                Potong Foto Prestasi
+                            </h3>
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                Atur posisi foto sesuai keinginan. Rasio dikunci 4:5.
+                            </p>
+                        </div>
+
+                        <button type="button"
+                                id="cropCancelTop"
+                                class="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    {{-- Area Crop --}}
+                    <div class="min-h-0 flex-1 overflow-auto bg-slate-950 p-4">
+                        <div class="mx-auto max-h-[65vh] max-w-2xl">
+                            <img id="cropImage"
+                                src=""
+                                alt="Foto yang akan dipotong"
+                                class="block max-h-[65vh] max-w-full">
+                        </div>
+                    </div>
+
+                    {{-- Kontrol --}}
+                    <div class="border-t border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+
+                        <div class="mb-4 flex items-center gap-3">
+                            <button type="button"
+                                    id="cropZoomOut"
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+                                <i class="fas fa-minus"></i>
+                            </button>
+
+                            <input id="cropZoom"
+                                type="range"
+                                min="0.1"
+                                max="3"
+                                step="0.05"
+                                value="1"
+                                class="h-2 flex-1 cursor-pointer appearance-none rounded-lg bg-slate-200 accent-emerald-600 dark:bg-slate-700">
+
+                            <button type="button"
+                                    id="cropZoomIn"
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                            <button type="button"
+                                    id="cropCancel"
+                                    class="admin-btn-secondary">
+                                Batal
+                            </button>
+
+                            <button type="button"
+                                    id="cropReset"
+                                    class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+                                <i class="fas fa-undo"></i>
+                                Reset
+                            </button>
+
+                            <button type="button"
+                                    id="cropApply"
+                                    class="admin-btn-primary">
+                                <i class="fas fa-check mr-2"></i>
+                                Gunakan Foto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
                 <div class="md:col-span-2">
                     <label for="video_url" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Link Video YouTube</label>
@@ -251,6 +370,8 @@
     </aside>
 </div>
 
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const jenisPeserta = document.getElementById('jenis_peserta');
@@ -391,23 +512,295 @@
             previewStatus.innerHTML = `<i class="fas fa-circle mr-1 text-[6px]"></i>${this.value}`;
             previewStatus.className = 'mt-3 text-[11px] font-semibold ' + (this.value === 'Publish' ? 'text-emerald-600' : 'text-slate-400');
         });
+        // ============================================================
+        // CROP FOTO PRESTASI - RASIO 4:5
+        // ============================================================
 
-        // --- Foto preview (both inline + sidebar) ---
         const fotoInput = document.getElementById('foto');
         const fotoPreview = document.getElementById('fotoPreview');
         const fotoPreviewIcon = document.getElementById('fotoPreviewIcon');
         const previewFoto = document.getElementById('previewFoto');
         const previewFotoIcon = document.getElementById('previewFotoIcon');
 
+        const cropModal = document.getElementById('cropModal');
+        const cropImage = document.getElementById('cropImage');
+
+        const cropCancel = document.getElementById('cropCancel');
+        const cropCancelTop = document.getElementById('cropCancelTop');
+        const cropApply = document.getElementById('cropApply');
+        const cropReset = document.getElementById('cropReset');
+
+        const cropZoom = document.getElementById('cropZoom');
+        const cropZoomIn = document.getElementById('cropZoomIn');
+        const cropZoomOut = document.getElementById('cropZoomOut');
+
+        let cropper = null;
+        let originalFotoFile = null;
+        let cropObjectUrl = null;
+
+
+        // ------------------------------------------------------------
+        // Buka cropper ketika memilih foto
+        // ------------------------------------------------------------
+
         fotoInput?.addEventListener('change', function () {
+
             const file = this.files?.[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                [fotoPreview, previewFoto].forEach(img => { img.src = e.target.result; img.classList.remove('hidden'); });
-                [fotoPreviewIcon, previewFotoIcon].forEach(icon => icon.classList.add('hidden'));
+
+            if (!file) {
+                return;
+            }
+
+            // Validasi tipe file
+            if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                alert('Foto harus berformat JPG atau PNG.');
+
+                this.value = '';
+                return;
+            }
+
+            // Validasi ukuran file
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Ukuran foto maksimal 2MB.');
+
+                this.value = '';
+                return;
+            }
+
+            originalFotoFile = file;
+
+            // Hapus object URL sebelumnya
+            if (cropObjectUrl) {
+                URL.revokeObjectURL(cropObjectUrl);
+            }
+
+            cropObjectUrl = URL.createObjectURL(file);
+
+            cropImage.src = cropObjectUrl;
+
+            // Tampilkan modal
+            cropModal.classList.remove('hidden');
+            cropModal.classList.add('flex');
+
+            // Tunggu gambar selesai dimuat
+            cropImage.onload = function () {
+
+                if (cropper) {
+                    cropper.destroy();
+                }
+
+                cropper = new Cropper(cropImage, {
+                    aspectRatio: 4 / 4,
+
+                    viewMode: 1,
+
+                    dragMode: 'move',
+
+                    autoCropArea: 0.9,
+
+                    responsive: true,
+
+                    restore: false,
+
+                    guides: true,
+
+                    center: true,
+
+                    highlight: true,
+
+                    background: false,
+
+                    movable: true,
+
+                    zoomable: true,
+
+                    rotatable: false,
+
+                    scalable: false,
+
+                    cropBoxMovable: true,
+
+                    cropBoxResizable: true,
+
+                    toggleDragModeOnDblclick: false,
+
+                    ready() {
+                        cropZoom.value = 1;
+                    }
+                });
             };
-            reader.readAsDataURL(file);
+        });
+
+
+        // ------------------------------------------------------------
+        // Zoom slider
+        // ------------------------------------------------------------
+
+        cropZoom?.addEventListener('input', function () {
+
+            if (!cropper) {
+                return;
+            }
+
+            const value = parseFloat(this.value);
+
+            cropper.zoomTo(value);
+        });
+
+
+        // ------------------------------------------------------------
+        // Tombol zoom +
+        // ------------------------------------------------------------
+
+        cropZoomIn?.addEventListener('click', function () {
+
+            if (!cropper) {
+                return;
+            }
+
+            const current = parseFloat(cropZoom.value);
+            const next = Math.min(3, current + 0.1);
+
+            cropZoom.value = next;
+            cropper.zoomTo(next);
+        });
+
+
+        // ------------------------------------------------------------
+        // Tombol zoom -
+        // ------------------------------------------------------------
+
+        cropZoomOut?.addEventListener('click', function () {
+
+            if (!cropper) {
+                return;
+            }
+
+            const current = parseFloat(cropZoom.value);
+            const next = Math.max(0.1, current - 0.1);
+
+            cropZoom.value = next;
+            cropper.zoomTo(next);
+        });
+
+
+        // ------------------------------------------------------------
+        // Reset crop
+        // ------------------------------------------------------------
+
+        cropReset?.addEventListener('click', function () {
+
+            if (!cropper) {
+                return;
+            }
+
+            cropper.reset();
+            cropZoom.value = 1;
+        });
+
+
+        // ------------------------------------------------------------
+        // Tutup modal
+        // ------------------------------------------------------------
+
+        function closeCropModal() {
+
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+
+            cropModal.classList.add('hidden');
+            cropModal.classList.remove('flex');
+
+            if (cropObjectUrl) {
+                URL.revokeObjectURL(cropObjectUrl);
+                cropObjectUrl = null;
+            }
+
+            cropImage.src = '';
+        }
+
+
+        cropCancel?.addEventListener('click', closeCropModal);
+        cropCancelTop?.addEventListener('click', closeCropModal);
+
+
+        // ------------------------------------------------------------
+        // Terapkan hasil crop
+        // ------------------------------------------------------------
+
+        cropApply?.addEventListener('click', function () {
+
+            if (!cropper) {
+                return;
+            }
+
+            const canvas = cropper.getCroppedCanvas({
+                aspectRatio: 4 / 5,
+
+                width: 1200,
+                height: 1500,
+
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high'
+            });
+
+            if (!canvas) {
+                alert('Foto gagal diproses.');
+                return;
+            }
+
+            // Hasil crop menjadi JPEG.
+            // Controller Laravel tetap menerima sebagai file "foto".
+            canvas.toBlob(function (blob) {
+
+                if (!blob) {
+                    alert('Foto gagal diproses.');
+                    return;
+                }
+
+                const croppedFile = new File(
+                    [blob],
+                    'foto-prestasi-4x5.jpg',
+                    {
+                        type: 'image/jpeg',
+                        lastModified: Date.now()
+                    }
+                );
+
+                // Masukkan hasil crop ke input file.
+                const dataTransfer = new DataTransfer();
+
+                dataTransfer.items.add(croppedFile);
+
+                fotoInput.files = dataTransfer.files;
+
+                // Preview
+                const previewUrl = URL.createObjectURL(croppedFile);
+
+                [fotoPreview, previewFoto].forEach(img => {
+
+                    if (!img) {
+                        return;
+                    }
+
+                    img.src = previewUrl;
+                    img.classList.remove('hidden');
+                });
+
+                [fotoPreviewIcon, previewFotoIcon].forEach(icon => {
+
+                    if (!icon) {
+                        return;
+                    }
+
+                    icon.classList.add('hidden');
+                });
+
+                closeCropModal();
+
+            }, 'image/jpeg', 0.92);
         });
 
         // --- Keterangan counter ---

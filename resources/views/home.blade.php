@@ -255,7 +255,7 @@
                 ['value' => $totalPrestasi ?? 0, 'label' => 'Total Prestasi', 'icon' => 'fa-trophy'],
                 ['value' => $totalSiswaBerprestasi ?? 0, 'label' => 'Siswa Berprestasi', 'icon' => 'fa-star'],
                 ['value' => $totalPrestasiTim ?? 0, 'label' => 'Prestasi Tim', 'icon' => 'fa-users'],
-                ['value' => $totalSiswaAktif ?? 0, 'label' => 'Data Siswa', 'icon' => 'fa-user-graduate']
+                ['value' => $totalSiswaAktif ?? 0, 'label' => 'Siswa Aktif', 'icon' => 'fa-user-graduate']
             ] as $index => $stat)
                 <div class="animate-fade-in" style="animation-delay: {{ $index * 100 }}ms">
                     <div class="flex items-center justify-center h-14 w-14 rounded-full bg-white/20 backdrop-blur-sm mx-auto mb-3">
@@ -283,7 +283,7 @@
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             @forelse($prestasiTerbaru ?? [] as $index => $item)
                 <article class="group flex h-full animate-fade-in flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-900/5 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-emerald-700" style="animation-delay: {{ $index * 100 }}ms">
-                    <a href="{{$item->prestasi ? route('public.prestasi.show', $item->public_token) : '#' }}" class="relative block aspect-[4/3] shrink-0 overflow-hidden bg-gradient-to-br from-slate-100 to-emerald-50 dark:from-slate-800 dark:to-slate-900">
+                    <a href="{{$item->prestasi ? route('public.prestasi.show', $item->public_token) : '#' }}" class="relative block aspect-[4/4] shrink-0 overflow-hidden bg-gradient-to-br from-slate-100 to-emerald-50 dark:from-slate-800 dark:to-slate-900">
                         <img
                             src="{{ $item->foto ? asset('storage/' . $item->foto) : asset('images/logo-smk.png') }}"
                             alt="{{ $item->nama_lomba }}"
@@ -308,7 +308,7 @@
                             </span>
                         </div>
 
-                        <h3 class="min-h-[2.75rem] break-words text-sm font-black leading-5 text-slate-900 transition group-hover:text-emerald-700 sm:text-base dark:text-white dark:group-hover:text-emerald-400">
+                        <h3 class="line-clamp-2 break-words text-sm font-extrabold leading-5 text-slate-900 transition group-hover:text-emerald-700 sm:text-[15px] dark:text-white dark:group-hover:text-emerald-400">
                             <a href="{{ route('public.prestasi.show', $item->public_token) }}" class="block [overflow-wrap:anywhere]">{{ $item->nama_lomba }}</a>
                         </h3>
 

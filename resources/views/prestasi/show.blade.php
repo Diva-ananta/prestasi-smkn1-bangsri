@@ -38,121 +38,159 @@
         <div class="pointer-events-none absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-teal-100 blur-3xl dark:bg-teal-900/10"></div>
 
         <div class="relative mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
-            <div class="grid gap-7 lg:grid-cols-[380px_1fr] lg:items-start">
+                <div class="grid gap-6 lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] lg:items-start">
 
-                {{-- Foto --}}
-                <div class="animate-fade-in">
-                    <div class="relative h-72 overflow-hidden rounded-[26px] border border-slate-200 bg-gradient-to-br from-slate-100 to-emerald-50 shadow-lg dark:border-slate-800 dark:from-slate-800 dark:to-slate-900 sm:h-80 lg:h-96">
-                        @if($prestasi->foto)
-                            <img src="{{ asset('storage/' . $prestasi->foto) }}" alt="{{ $prestasi->nama_lomba }}" class="h-full w-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
-                        @else
-                            <div class="flex h-full w-full items-center justify-center text-emerald-300 dark:text-emerald-800">
-                                <x-icon name="trophy" class="text-7xl" />
-                            </div>
-                        @endif
-
-                        <div class="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-black uppercase tracking-wide text-amber-700 shadow-lg backdrop-blur dark:bg-slate-900/90 dark:text-amber-400">
-                            <x-icon name="medal" />
-                            {{ $prestasi->hasil }}
+                {{-- FOTO --}}
+                <div class="relative aspect-[4/4] overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                    @if($prestasi->foto)
+                        <img
+                            src="{{ asset('storage/' . $prestasi->foto) }}"
+                            alt="{{ $prestasi->nama_lomba }}"
+                            class="h-full w-full object-cover" >
+                    @else
+                        <div class="flex h-full items-center justify-center">
+                            <i class="fas fa-trophy text-6xl text-emerald-300"></i>
                         </div>
-                    </div>
-
-                    @if($prestasi->sertifikat)
-                        <a href="{{ asset('storage/' . $prestasi->sertifikat) }}" target="_blank" rel="noopener" class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300 dark:hover:bg-emerald-950/50">
-                            <x-icon name="file-certificate" />
-                            Lihat sertifikat
-                        </a>
                     @endif
+
+                    {{-- Badge juara --}}
+                    <div class="absolute left-4 top-4">
+                        <span class="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-extrabold text-amber-700 shadow-lg backdrop-blur">
+                            <i class="fas fa-medal"></i>
+                            JUARA {{ $prestasi->hasil }}
+                        </span>
+                    </div>
                 </div>
 
-                {{-- Judul & ringkasan --}}
-                <div class="animate-fade-in flex flex-col" style="animation-delay: 80ms">
-                    <div class="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300">
-                        <span class="relative flex h-2 w-2">
-                            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
-                        </span>
-                        Detail prestasi &middot; {{ $tahun }}
+                {{-- INFORMASI --}}
+                <div class="min-w-0">
+
+                    {{-- Label --}}
+                    <div class="mb-2 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em] text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-400">
+                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                        Detail Prestasi · {{ $tahun }}
                     </div>
 
-                    <h1 class="max-w-4xl break-words text-3xl font-black leading-tight tracking-tight md:text-4xl">
-                        <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">{{ $prestasi->nama_lomba }}</span>
+                    {{-- JUDUL --}}
+                    <h1 class="text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+                        {{ $prestasi->nama_lomba }}
                     </h1>
 
-                    <div class="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                        @if($prestasi->tanggal_mulai)
-                            <div class="flex items-start gap-2.5">
-                                <x-icon name="calendar-days" class="mt-1 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                                <div>
-                                    <span class="font-semibold text-slate-500 dark:text-slate-400">Tanggal pelaksanaan:</span>
-                                    <span class="font-bold text-slate-800 dark:text-slate-100">{{ \Carbon\Carbon::parse($prestasi->tanggal_mulai)->translatedFormat('d F Y') }}</span>
-                                    @if($prestasi->tanggal_selesai && $prestasi->tanggal_selesai != $prestasi->tanggal_mulai)
-                                        <span class="font-medium text-slate-500 dark:text-slate-400">s/d {{ \Carbon\Carbon::parse($prestasi->tanggal_selesai)->translatedFormat('d F Y') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                        @endif
-
-                        @if($prestasi->nama_tim)
-                            <div class="flex items-start gap-2.5">
-                                <x-icon name="people-group" class="mt-1 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                                <span class="font-semibold text-slate-500 dark:text-slate-400">Ekstrakurikuler:</span>
-                                @if($ekstrakurikulerUrl)<a href="{{ $ekstrakurikulerUrl }}" target="_blank" rel="noopener noreferrer" class="font-bold text-emerald-700 hover:underline dark:text-emerald-400">{{ $prestasi->nama_tim }}</a>@else<span class="font-bold text-slate-800 dark:text-slate-100">{{ $prestasi->nama_tim }}</span>@endif
-                            </div>
-                        @elseif($pesertaIndividu)
-                            <div class="flex items-start gap-2.5">
-                                <x-icon name="user" class="mt-1 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                                <span class="font-semibold text-slate-500 dark:text-slate-400">Nama siswa:</span>
-                                <a href="{{ route('public.siswa.profile', ['nama' => \Illuminate\Support\Str::slug($ketuaTim->nama)]) }}" class="font-bold text-emerald-700 hover:underline dark:text-emerald-400">{{ $pesertaIndividu }}</a>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="mt-4 flex flex-wrap items-center gap-2">
-                        <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.1em] text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">
-                            <x-icon name="layer-group" />{{ $prestasi->tingkat ?? 'Umum' }}
-                        </span>
-                        <span class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.1em] text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                            <x-icon name="tag" />{{ $prestasi->kategori ?? 'Umum' }}
-                        </span>
-                    </div>
-
-                    <p class="mt-5 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">
-                        @if($prestasi->jenis_peserta == 'Tim' && $prestasi->nama_tim)
-                            Diraih oleh tim @if($ekstrakurikulerUrl)<a href="{{ $ekstrakurikulerUrl }}" target="_blank" rel="noopener noreferrer" class="font-bold text-emerald-700 hover:underline dark:text-emerald-400">{{ $prestasi->nama_tim }}</a>@else<span class="font-bold text-slate-900 dark:text-white">{{ $prestasi->nama_tim }}</span>@endif
-                            @if($prestasi->detailPrestasi->isNotEmpty())
-                                beranggotakan {{ $prestasi->detailPrestasi->count() }} siswa.
+                    {{-- DESKRIPSI --}}
+                    <p class="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">
+                        Diraih oleh
+                        @if($prestasi->jenis_peserta === 'Tim' && $prestasi->nama_tim)
+                            @if($ekstrakurikulerUrl)
+                                <a href="{{ $ekstrakurikulerUrl }}" target="_blank" rel="noopener noreferrer" class="font-bold text-emerald-700 hover:underline dark:text-emerald-400">{{ $prestasi->nama_tim }}</a>
+                            @else
+                                <span class="font-bold text-emerald-700 dark:text-emerald-400">{{ $prestasi->nama_tim }}</span>
                             @endif
                         @elseif($ketuaTim)
-                            Diraih oleh <a href="{{ route('public.siswa.profile', ['nama' => \Illuminate\Support\Str::slug($ketuaTim->nama)]) }}" class="font-bold text-emerald-700 hover:underline dark:text-emerald-400">{{ $ketuaTim->nama }}</a>
-                            @if($ketuaTim->jurusan) dari jurusan {{ $ketuaTim->jurusan }} @endif.
+                            <a href="{{ route('public.siswa.show', ['token' => $ketuaTim->public_token]) }}" class="font-bold text-emerald-700 hover:underline dark:text-emerald-400">{{ $ketuaTim->nama }}</a>
                         @else
-                            Prestasi siswa SMK N 1 Bangsri.
+                            <span class="font-bold text-emerald-700 dark:text-emerald-400">-</span>
+                        @endif
+                        @if($prestasi->jenis_peserta !== 'Tim' && $ketuaTim?->jurusan)
+                            dari jurusan {{ $ketuaTim->jurusan }}.
                         @endif
                     </p>
 
-                    {{-- Info cepat --}}
-                    <div class="mt-8 grid gap-3 sm:grid-cols-2">
-                        @foreach($metaItems as $meta)
-                            @if($meta['value'])
-                                <div class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/60">
-                                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-                                        <x-icon :name="$meta['icon']" class="text-sm" />
-                                    </span>
-                                    <div class="min-w-0">
-                                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{{ $meta['label'] }}</p>
-                                        <p class="mt-0.5 truncate text-sm font-bold text-slate-800 dark:text-slate-100" title="{{ $meta['value'] }}">
-                                            @if($meta['url'] ?? null)
-                                                <a href="{{ $meta['url'] }}" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:underline dark:text-emerald-400">{{ $meta['value'] }}</a>
-                                            @else
-                                                {{ $meta['value'] }}
-                                            @endif
-                                        </p>
-                                    </div>
+                    {{-- BADGE --}}
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        @if($prestasi->tingkat)
+                            <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
+                                <i class="fas fa-layer-group"></i>
+                                {{ $prestasi->tingkat }}
+                            </span>
+                        @endif
+                        @if($prestasi->kategori)
+                            <span class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                                <i class="fas fa-tag"></i>
+                                {{ $prestasi->kategori }}
+                            </span>
+                        @endif
+                    </div>
+
+                    {{-- DETAIL GRID --}}
+                    <div class="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                        {{-- PERAIH --}}
+                        <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-900">
+                            <div class="flex items-start gap-3">
+                                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
+                                    <i class="fas fa-user text-xs"></i>
+                                </span>
+                                <div class="min-w-0">
+                                    <p class="text-[9px] font-extrabold uppercase tracking-wider text-slate-400">
+                                        Nama Peraih
+                                    </p>
+                                    <p class="mt-0.5 truncate text-xs font-bold text-slate-800 dark:text-slate-100">
+                                        @if($ketuaTim)
+                                            <a href="{{ route('public.siswa.show', ['token' => $ketuaTim->public_token]) }}" class="text-emerald-700 hover:underline dark:text-emerald-400">{{ $ketuaTim->nama }}</a>
+                                        @else
+                                            -
+                                        @endif
+                                    </p>
                                 </div>
-                            @endif
-                        @endforeach
+                            </div>
+                        </div>
+
+                        {{-- TANGGAL --}}
+                        <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-900">
+                            <div class="flex items-start gap-3">
+                                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400">
+                                    <i class="fas fa-calendar-alt text-xs"></i>
+                                </span>
+                                <div class="min-w-0">
+                                    <p class="text-[9px] font-extrabold uppercase tracking-wider text-slate-400">
+                                        Tanggal Pelaksanaan
+                                    </p>
+                                    <p class="mt-0.5 text-xs font-bold text-slate-800 dark:text-slate-100">
+                                        @if($prestasi->tanggal_mulai)
+                                            {{ $prestasi->tanggal_mulai->translatedFormat('d F Y') }}
+                                            @if($prestasi->tanggal_selesai && $prestasi->tanggal_selesai->ne($prestasi->tanggal_mulai))
+                                                <span class="font-medium text-slate-500 dark:text-slate-400">s/d {{ $prestasi->tanggal_selesai->translatedFormat('d F Y') }}</span>
+                                            @endif
+                                        @else
+                                            -
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- PENYELENGGARA --}}
+                        <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-900">
+                            <div class="flex items-start gap-3">
+                                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
+                                    <i class="fas fa-university text-xs"></i>
+                                </span>
+                                <div class="min-w-0">
+                                    <p class="text-[9px] font-extrabold uppercase tracking-wider text-slate-400">
+                                        Penyelenggara
+                                    </p>
+                                    <p class="mt-0.5 truncate text-xs font-bold text-slate-800 dark:text-slate-100">
+                                        {{ $prestasi->penyelenggara ?? '-' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- KATEGORI --}}
+                        <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-900">
+                            <div class="flex items-start gap-3">
+                                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
+                                    <i class="fas fa-shapes text-xs"></i>
+                                </span>
+                                <div class="min-w-0">
+                                    <p class="text-[9px] font-extrabold uppercase tracking-wider text-slate-400">
+                                        Kategori
+                                    </p>
+                                    <p class="mt-0.5 truncate text-xs font-bold text-slate-800 dark:text-slate-100">
+                                        {{ $prestasi->kategori ?? '-' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -174,7 +212,7 @@
                         <div class="mt-4 grid gap-2 sm:grid-cols-3">
                             @foreach($prestasi->detailPrestasi as $detail)
                                 @if($detail->siswa)
-                                    <a href="{{ route('public.siswa.profile', ['nama' => \Illuminate\Support\Str::slug($detail->siswa->nama)]) }}" class="flex min-w-0 items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-300">
+                                    <a href="{{ route('public.siswa.show', ['token' => $detail->siswa->public_token]) }}" class="flex min-w-0 items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-300">
                                         <x-icon name="user" class="shrink-0 text-xs text-slate-400" />
                                         <span class="min-w-0 break-words">{{ $detail->siswa->nama }}</span>
                                         @if($detail->peran)

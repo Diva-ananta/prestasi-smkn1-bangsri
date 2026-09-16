@@ -93,6 +93,13 @@
                 @endif
             </section>
         </div>
+        <div class="mt-5">
+        <a href="{{ url()->previous() }}"
+        class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 shadow-sm transition hover:-translate-x-0.5 hover:bg-slate-50 hover:text-emerald-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-emerald-400">
+            <i class="fas fa-arrow-left text-xs"></i>
+            Kembali
+        </a>
+    </div>
     </main>
 </div>
 @endsection

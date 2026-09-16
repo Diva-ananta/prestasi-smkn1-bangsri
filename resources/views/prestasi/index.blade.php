@@ -198,7 +198,7 @@
                 <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                     @forelse($prestasis as $item)
                         <article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-900/5 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-emerald-700 animate-fade-in">
-                            <a href="{{ route('public.prestasi.show', $item->public_token) }}" class="relative block aspect-[4/3] shrink-0 overflow-hidden bg-gradient-to-br from-slate-100 to-emerald-50 dark:from-slate-800 dark:to-slate-900">
+                            <a href="{{ route('public.prestasi.show', $item->public_token) }}" class="relative block aspect-[4/4] shrink-0 overflow-hidden bg-gradient-to-br from-slate-100 to-emerald-50 dark:from-slate-800 dark:to-slate-900">
                                 <img src="{{ $item->foto ? asset('storage/' . $item->foto) : asset('images/logo-smk.png') }}" alt="{{ $item->nama_lomba }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-110" loading="lazy">
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
 

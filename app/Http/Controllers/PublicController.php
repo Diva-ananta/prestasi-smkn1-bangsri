@@ -19,7 +19,7 @@ class PublicController extends Controller
             ->where('jenis_peserta', 'Tim')
             ->count();
         $totalSiswaBerprestasi = \App\Models\DetailPrestasi::distinct('siswa_id')->count('siswa_id');
-        $totalSiswaAktif = Siswa::count();
+        $totalSiswaAktif = Siswa::aktif()->count();
         $tahunAktifMulai = now()->year - 3;
         $topSiswaAktif = Siswa::query()
             ->where('is_published', true)
@@ -59,8 +59,8 @@ class PublicController extends Controller
         $siswas = Siswa::query()
             ->where('is_published', true)
             ->when($keyword !== '', fn ($query) => $query->where(function ($query) use ($keyword) {
-                $query->where('nis', 'like', "%{$keyword}%")
-                    ->orWhere('nisn', 'like', "%{$keyword}%")
+                $query->where('nis', 'like', $keyword)
+                    ->orWhere('nisn', 'like', $keyword)
                     ->orWhere('nama', 'like', "%{$keyword}%");
             }))
             ->when($request->filled('jurusan'), fn ($query) => $query->where('jurusan', $request->jurusan))

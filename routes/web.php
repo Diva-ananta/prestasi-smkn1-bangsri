@@ -21,7 +21,6 @@ Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/siswa', [PublicController::class, 'siswaSearch'])->name('public.siswa.search');
 Route::get('/prestasi', [PublicController::class, 'prestasiIndex'])->name('public.prestasi.index');
 Route::get('/prestasi/{prestasi}', [PublicController::class, 'prestasiShow'])->name('public.prestasi.show');
-Route::get('/siswaberprestasi/{nama}', [PublicController::class, 'siswaShowByName'])->name('public.siswa.profile');
 Route::get('/siswa/{token}', [PublicController::class, 'siswaShow'])->name('public.siswa.show');
 Route::get('/artikel', [PublicController::class, 'artikelIndex'])->name('public.artikel.index');
 Route::get('/galeri', [PublicController::class, 'galeriIndex'])->name('public.galeri.index');
