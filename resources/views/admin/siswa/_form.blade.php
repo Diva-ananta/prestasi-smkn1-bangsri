@@ -175,26 +175,46 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+(() => {
     const input = document.getElementById('foto'), modal = document.getElementById('cropModal'), image = document.getElementById('cropImage');
     const preview = document.getElementById('fotoPreview'), previewIcon = document.getElementById('fotoPreviewIcon'), zoom = document.getElementById('cropZoom');
     const recropExistingFoto = document.getElementById('recropExistingFoto');
-    let cropper, objectUrl;
+    let cropper, objectUrl, cropRequest = 0, cropperLoader;
+    const ensureCropper = () => {
+        if (window.Cropper) return Promise.resolve();
+        if (cropperLoader) return cropperLoader;
+        cropperLoader = new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js';
+            script.onload = resolve;
+            script.onerror = () => reject(new Error('CropperJS gagal dimuat.'));
+            document.head.appendChild(script);
+        });
+        return cropperLoader;
+    };
     const close = () => {
+        cropRequest++;
         cropper?.destroy(); cropper = null;
         modal.classList.add('hidden'); modal.classList.remove('flex');
         if (objectUrl) URL.revokeObjectURL(objectUrl);
         objectUrl = null; image.src = '';
     };
-    const openCrop = (source, isObjectUrl = false) => {
+    const openCrop = async (source, isObjectUrl = false) => {
+        const requestId = ++cropRequest;
         if (objectUrl) URL.revokeObjectURL(objectUrl);
         objectUrl = isObjectUrl ? source : null;
         modal.classList.remove('hidden'); modal.classList.add('flex');
-        image.onload = () => {
+        image.src = source;
+        try {
+            await Promise.all([ensureCropper(), image.decode()]);
+            if (requestId !== cropRequest) return;
             cropper?.destroy();
             cropper = new Cropper(image, { aspectRatio: 4 / 5, viewMode: 1, dragMode: 'move', autoCropArea: .9, responsive: true, restore: false, background: false, movable: true, zoomable: true, rotatable: false, scalable: false, cropBoxMovable: true, cropBoxResizable: true, toggleDragModeOnDblclick: false, ready: () => zoom.value = 1 });
-        };
-        image.src = source;
+        } catch (error) {
+            if (requestId !== cropRequest) return;
+            close();
+            alert('Crop foto tidak dapat dibuka. Periksa koneksi internet lalu coba lagi.');
+        }
     };
     input?.addEventListener('change', () => {
         const file = input.files?.[0];
@@ -222,5 +242,5 @@ document.addEventListener('DOMContentLoaded', () => {
             preview.src = URL.createObjectURL(file); preview.classList.remove('hidden'); previewIcon.classList.add('hidden'); close();
         }, 'image/jpeg', .92);
     });
-});
+})();
 </script>

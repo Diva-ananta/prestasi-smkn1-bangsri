@@ -145,12 +145,22 @@
                 current.innerHTML = incoming.innerHTML;
                 document.title = parsed.title;
                 window.history.pushState({}, '', link.href);
-                current.querySelectorAll('script').forEach((script) => {
+                for (const script of current.querySelectorAll('script')) {
                     const replacement = document.createElement('script');
+                    if (script.src) {
+                        replacement.src = script.src;
+                        await new Promise((resolve) => {
+                            replacement.addEventListener('load', resolve, { once: true });
+                            replacement.addEventListener('error', resolve, { once: true });
+                            document.body.appendChild(replacement);
+                        });
+                        replacement.remove();
+                        continue;
+                    }
                     replacement.textContent = script.textContent;
                     document.body.appendChild(replacement);
                     replacement.remove();
-                });
+                }
                 if (window.Alpine) window.Alpine.initTree(current);
             }
 

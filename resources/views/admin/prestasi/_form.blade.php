@@ -379,7 +379,7 @@
 <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    (() => {
         const jenisPeserta = document.getElementById('jenis_peserta');
         const namaTimWrapper = document.getElementById('namaTimWrapper');
         const namaTim = document.getElementById('nama_tim');
@@ -805,5 +805,5 @@
         function updateCount() { keteranganCount.textContent = `${keterangan.value.length}/500`; }
         keterangan?.addEventListener('input', updateCount);
         updateCount();
-    });
+    })();
 </script>
