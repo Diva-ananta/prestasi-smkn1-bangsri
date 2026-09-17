@@ -1,5 +1,6 @@
 @php
     $isEdit = isset($siswa);
+    $currentFoto = $isEdit && $siswa->foto ? asset('storage/' . $siswa->foto) : null;
 
     $jenisKelamin = $jenisKelamin ?? ['L' => 'Laki-laki', 'P' => 'Perempuan'];
     $kelasOptions = $kelasOptions ?? ['10' => 'X', '11' => 'XI', '12' => 'XII'];
@@ -59,8 +60,17 @@
 
             <div class="md:col-span-2">
                 <label for="foto" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Foto Siswa</label>
-                <input id="foto" type="file" name="foto" accept="image/jpeg,image/png,image/webp" class="admin-form-input">
-                @if (!empty($siswa?->foto)) <img src="{{ asset('storage/'.$siswa->foto) }}" alt="Foto {{ $siswa->nama }}" class="mt-3 h-20 w-20 rounded-xl object-cover"> @endif
+                <div class="mt-2 flex flex-col gap-4 sm:flex-row sm:items-start">
+                    <div class="flex aspect-[4/4] w-32 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-600 dark:bg-slate-800">
+                        <img id="fotoPreview" src="{{ $currentFoto }}" alt="Preview foto siswa" class="h-full w-full object-cover {{ $currentFoto ? '' : 'hidden' }}">
+                        <i id="fotoPreviewIcon" class="fas fa-user text-2xl text-slate-300 dark:text-slate-600 {{ $currentFoto ? 'hidden' : '' }}"></i>
+                    </div>
+                    <div class="flex-1">
+                        <input id="foto" type="file" name="foto" accept=".jpg,.jpeg,.png" class="admin-form-input">
+                        <p class="mt-2 text-xs leading-5 text-slate-400">JPG/PNG, maksimal 2MB. Foto dapat dipotong dan diatur dengan rasio <strong>4:5</strong> sebelum disimpan.</p>
+                        <p class="mt-3 flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400"><i class="fas fa-crop-alt"></i>Atur posisi foto pada area crop agar tampilannya konsisten.</p>
+                    </div>
+                </div>
                 @error('foto') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
 
@@ -136,3 +146,72 @@
         </button>
     </div>
 </div>
+
+<div id="cropModal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm">
+    <div class="flex max-h-[95vh] w-full max-w-3xl flex-col overflow-hidden rounded-[24px] bg-white shadow-2xl dark:bg-slate-900">
+        <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4 dark:border-slate-700">
+            <div><h3 class="text-sm font-bold text-slate-900 dark:text-white">Potong Foto Siswa</h3><p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Atur posisi foto. Rasio dikunci 4:5.</p></div>
+            <button type="button" id="cropCancelTop" class="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="min-h-0 flex-1 overflow-auto bg-slate-950 p-4"><div class="mx-auto max-h-[65vh] max-w-2xl"><img id="cropImage" src="" alt="Foto yang akan dipotong" class="block max-h-[65vh] max-w-full"></div></div>
+        <div class="border-t border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+            <div class="mb-4 flex items-center gap-3">
+                <button type="button" id="cropZoomOut" class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300"><i class="fas fa-minus"></i></button>
+                <input id="cropZoom" type="range" min="0.1" max="3" step="0.05" value="1" class="h-2 flex-1 cursor-pointer appearance-none rounded-lg bg-slate-200 accent-emerald-600 dark:bg-slate-700">
+                <button type="button" id="cropZoomIn" class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300"><i class="fas fa-plus"></i></button>
+            </div>
+            <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                <button type="button" id="cropCancel" class="admin-btn-secondary">Batal</button>
+                <button type="button" id="cropReset" class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 dark:border-slate-700 dark:text-slate-300"><i class="fas fa-undo"></i> Reset</button>
+                <button type="button" id="cropApply" class="admin-btn-primary"><i class="fas fa-check mr-2"></i>Gunakan Foto</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('foto'), modal = document.getElementById('cropModal'), image = document.getElementById('cropImage');
+    const preview = document.getElementById('fotoPreview'), previewIcon = document.getElementById('fotoPreviewIcon'), zoom = document.getElementById('cropZoom');
+    let cropper, objectUrl;
+    const close = () => {
+        cropper?.destroy(); cropper = null;
+        modal.classList.add('hidden'); modal.classList.remove('flex');
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
+        objectUrl = null; image.src = '';
+    };
+    input?.addEventListener('change', () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        if (!['image/jpeg', 'image/png'].includes(file.type) || file.size > 2 * 1024 * 1024) {
+            alert(!['image/jpeg', 'image/png'].includes(file.type) ? 'Foto harus berformat JPG atau PNG.' : 'Ukuran foto maksimal 2MB.');
+            input.value = ''; return;
+        }
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
+        objectUrl = URL.createObjectURL(file); image.src = objectUrl;
+        modal.classList.remove('hidden'); modal.classList.add('flex');
+        image.onload = () => {
+            cropper?.destroy();
+            cropper = new Cropper(image, { aspectRatio: 4 / 5, viewMode: 1, dragMode: 'move', autoCropArea: .9, responsive: true, restore: false, background: false, movable: true, zoomable: true, rotatable: false, scalable: false, cropBoxMovable: true, cropBoxResizable: true, toggleDragModeOnDblclick: false, ready: () => zoom.value = 1 });
+        };
+    });
+    zoom?.addEventListener('input', () => cropper?.zoomTo(parseFloat(zoom.value)));
+    document.getElementById('cropZoomIn')?.addEventListener('click', () => { zoom.value = Math.min(3, parseFloat(zoom.value) + .1); cropper?.zoomTo(parseFloat(zoom.value)); });
+    document.getElementById('cropZoomOut')?.addEventListener('click', () => { zoom.value = Math.max(.1, parseFloat(zoom.value) - .1); cropper?.zoomTo(parseFloat(zoom.value)); });
+    document.getElementById('cropReset')?.addEventListener('click', () => { cropper?.reset(); zoom.value = 1; });
+    document.getElementById('cropCancel')?.addEventListener('click', close);
+    document.getElementById('cropCancelTop')?.addEventListener('click', close);
+    document.getElementById('cropApply')?.addEventListener('click', () => {
+        const canvas = cropper?.getCroppedCanvas({ width: 600, height: 750, imageSmoothingEnabled: true, imageSmoothingQuality: 'high' });
+        if (!canvas) return;
+        canvas.toBlob(blob => {
+            if (!blob) return;
+            const file = new File([blob], 'foto-siswa-4x5.jpg', { type: 'image/jpeg', lastModified: Date.now() });
+            const transfer = new DataTransfer(); transfer.items.add(file); input.files = transfer.files;
+            preview.src = URL.createObjectURL(file); preview.classList.remove('hidden'); previewIcon.classList.add('hidden'); close();
+        }, 'image/jpeg', .92);
+    });
+});
+</script>
