@@ -178,7 +178,7 @@
 
                     {{-- Preview foto hasil crop --}}
                     <div id="fotoPreviewWrap"
-                        class="flex aspect-[4/5] w-36 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-600 dark:bg-slate-800">
+                        class="flex aspect-[4/4] w-36 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-600 dark:bg-slate-800">
 
                         <img id="fotoPreview"
                             src="{{ $currentFoto }}"
@@ -210,6 +210,12 @@
                             <i class="fas fa-crop-alt"></i>
                             <span>Gunakan crop 4:5 agar tampilan foto konsisten.</span>
                         </div>
+
+                        @if ($currentFoto)
+                            <button type="button" id="recropExistingFoto" class="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-emerald-700 transition hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300">
+                                <i class="fas fa-crop-alt"></i> Atur ulang foto yang sudah ada
+                            </button>
+                        @endif
                     </div>
                 </div>
 
@@ -533,9 +539,9 @@
         const cropZoom = document.getElementById('cropZoom');
         const cropZoomIn = document.getElementById('cropZoomIn');
         const cropZoomOut = document.getElementById('cropZoomOut');
+        const recropExistingFoto = document.getElementById('recropExistingFoto');
 
         let cropper = null;
-        let originalFotoFile = null;
         let cropObjectUrl = null;
 
 
@@ -543,48 +549,16 @@
         // Buka cropper ketika memilih foto
         // ------------------------------------------------------------
 
-        fotoInput?.addEventListener('change', function () {
-
-            const file = this.files?.[0];
-
-            if (!file) {
-                return;
-            }
-
-            // Validasi tipe file
-            if (!['image/jpeg', 'image/png'].includes(file.type)) {
-                alert('Foto harus berformat JPG atau PNG.');
-
-                this.value = '';
-                return;
-            }
-
-            // Validasi ukuran file
-            if (file.size > 2 * 1024 * 1024) {
-                alert('Ukuran foto maksimal 2MB.');
-
-                this.value = '';
-                return;
-            }
-
-            originalFotoFile = file;
-
-            // Hapus object URL sebelumnya
+        function openCropModal(source, isObjectUrl = false) {
             if (cropObjectUrl) {
                 URL.revokeObjectURL(cropObjectUrl);
             }
+            cropObjectUrl = isObjectUrl ? source : null;
 
-            cropObjectUrl = URL.createObjectURL(file);
-
-            cropImage.src = cropObjectUrl;
-
-            // Tampilkan modal
             cropModal.classList.remove('hidden');
             cropModal.classList.add('flex');
 
-            // Tunggu gambar selesai dimuat
             cropImage.onload = function () {
-
                 if (cropper) {
                     cropper.destroy();
                 }
@@ -629,7 +603,29 @@
                     }
                 });
             };
+            cropImage.src = source;
+        }
+
+        fotoInput?.addEventListener('change', function () {
+            const file = this.files?.[0];
+            if (!file) return;
+
+            if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                alert('Foto harus berformat JPG atau PNG.');
+                this.value = '';
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Ukuran foto maksimal 2MB.');
+                this.value = '';
+                return;
+            }
+
+            openCropModal(URL.createObjectURL(file), true);
         });
+
+        recropExistingFoto?.addEventListener('click', () => openCropModal(fotoPreview.src));
 
 
         // ------------------------------------------------------------

@@ -69,6 +69,9 @@
                         <input id="foto" type="file" name="foto" accept=".jpg,.jpeg,.png" class="admin-form-input">
                         <p class="mt-2 text-xs leading-5 text-slate-400">JPG/PNG, maksimal 2MB. Foto dapat dipotong dan diatur dengan rasio <strong>4:5</strong> sebelum disimpan.</p>
                         <p class="mt-3 flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400"><i class="fas fa-crop-alt"></i>Atur posisi foto pada area crop agar tampilannya konsisten.</p>
+                        @if ($currentFoto)
+                            <button type="button" id="recropExistingFoto" class="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-emerald-700 transition hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"><i class="fas fa-crop-alt"></i> Atur ulang foto yang sudah ada</button>
+                        @endif
                     </div>
                 </div>
                 @error('foto') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
@@ -175,12 +178,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('foto'), modal = document.getElementById('cropModal'), image = document.getElementById('cropImage');
     const preview = document.getElementById('fotoPreview'), previewIcon = document.getElementById('fotoPreviewIcon'), zoom = document.getElementById('cropZoom');
+    const recropExistingFoto = document.getElementById('recropExistingFoto');
     let cropper, objectUrl;
     const close = () => {
         cropper?.destroy(); cropper = null;
         modal.classList.add('hidden'); modal.classList.remove('flex');
         if (objectUrl) URL.revokeObjectURL(objectUrl);
         objectUrl = null; image.src = '';
+    };
+    const openCrop = (source, isObjectUrl = false) => {
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
+        objectUrl = isObjectUrl ? source : null;
+        modal.classList.remove('hidden'); modal.classList.add('flex');
+        image.onload = () => {
+            cropper?.destroy();
+            cropper = new Cropper(image, { aspectRatio: 4 / 5, viewMode: 1, dragMode: 'move', autoCropArea: .9, responsive: true, restore: false, background: false, movable: true, zoomable: true, rotatable: false, scalable: false, cropBoxMovable: true, cropBoxResizable: true, toggleDragModeOnDblclick: false, ready: () => zoom.value = 1 });
+        };
+        image.src = source;
     };
     input?.addEventListener('change', () => {
         const file = input.files?.[0];
@@ -189,14 +203,9 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(!['image/jpeg', 'image/png'].includes(file.type) ? 'Foto harus berformat JPG atau PNG.' : 'Ukuran foto maksimal 2MB.');
             input.value = ''; return;
         }
-        if (objectUrl) URL.revokeObjectURL(objectUrl);
-        objectUrl = URL.createObjectURL(file); image.src = objectUrl;
-        modal.classList.remove('hidden'); modal.classList.add('flex');
-        image.onload = () => {
-            cropper?.destroy();
-            cropper = new Cropper(image, { aspectRatio: 4 / 5, viewMode: 1, dragMode: 'move', autoCropArea: .9, responsive: true, restore: false, background: false, movable: true, zoomable: true, rotatable: false, scalable: false, cropBoxMovable: true, cropBoxResizable: true, toggleDragModeOnDblclick: false, ready: () => zoom.value = 1 });
-        };
+        openCrop(URL.createObjectURL(file), true);
     });
+    recropExistingFoto?.addEventListener('click', () => openCrop(preview.src));
     zoom?.addEventListener('input', () => cropper?.zoomTo(parseFloat(zoom.value)));
     document.getElementById('cropZoomIn')?.addEventListener('click', () => { zoom.value = Math.min(3, parseFloat(zoom.value) + .1); cropper?.zoomTo(parseFloat(zoom.value)); });
     document.getElementById('cropZoomOut')?.addEventListener('click', () => { zoom.value = Math.max(.1, parseFloat(zoom.value) - .1); cropper?.zoomTo(parseFloat(zoom.value)); });
