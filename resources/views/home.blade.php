@@ -379,7 +379,7 @@
                             </dl>
                             <div class="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-3 dark:border-slate-800">
                                 <span class="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400"><i class="fas fa-trophy mr-1"></i>Aktif</span>
-                                <a href="{{ route('public.siswa.profile', ['nama' => \Illuminate\Support\Str::slug($siswa->nama)]) }}" class="text-xs font-bold text-emerald-700 hover:underline dark:text-emerald-400">Profil <i class="fas fa-arrow-right ml-1 text-[10px]"></i></a>
+                                <a href="{{ route('public.siswa.show', ['token' => $siswa->public_token]) }}" class="text-xs font-bold text-emerald-700 hover:underline dark:text-emerald-400">Profil <i class="fas fa-arrow-right ml-1 text-[10px]"></i></a>
                             </div>
                         </div>
                     </article>

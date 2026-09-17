@@ -124,7 +124,9 @@
                                         Nama Peraih
                                     </p>
                                     <p class="mt-0.5 truncate text-xs font-bold text-slate-800 dark:text-slate-100">
-                                        @if($ketuaTim)
+                                        @if($prestasi->jenis_peserta === 'Tim')
+                                            {{ $prestasi->nama_tim ?: '-' }}
+                                        @elseif($ketuaTim)
                                             <a href="{{ route('public.siswa.show', ['token' => $ketuaTim->public_token]) }}" class="text-emerald-700 hover:underline dark:text-emerald-400">{{ $ketuaTim->nama }}</a>
                                         @else
                                             -
