@@ -16,7 +16,7 @@ class StoreSiswaRequest extends FormRequest
     {
         return [
             'nis' => 'required|string|max:20|unique:siswa,nis',
-            'nisn' => 'required|string|max:20|unique:siswa,nisn',
+            'nisn' => 'nullable|string|max:20|unique:siswa,nisn',
             'nama' => 'required|string|max:100',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'jenis_kelamin' => 'required|in:L,P',
@@ -32,7 +32,6 @@ class StoreSiswaRequest extends FormRequest
         return [
             'nis.required' => 'NIS wajib diisi.',
             'nis.unique' => 'NIS sudah terdaftar.',
-            'nisn.required' => 'NISN wajib diisi.',
             'nisn.unique' => 'NISN sudah terdaftar.',
             'nama.required' => 'Nama wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',

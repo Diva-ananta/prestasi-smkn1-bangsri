@@ -20,7 +20,7 @@ class UpdateSiswaRequest extends FormRequest
 
         return [
             'nis' => ['required', 'string', 'max:20', Rule::unique('siswa', 'nis')->ignore($id)],
-            'nisn' => ['required', 'string', 'max:20', Rule::unique('siswa', 'nisn')->ignore($id)],
+            'nisn' => ['nullable', 'string', 'max:20', Rule::unique('siswa', 'nisn')->ignore($id)],
             'nama' => 'required|string|max:100',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'jenis_kelamin' => 'required|in:L,P',
@@ -36,7 +36,6 @@ class UpdateSiswaRequest extends FormRequest
         return [
             'nis.required' => 'NIS wajib diisi.',
             'nis.unique' => 'NIS sudah terdaftar.',
-            'nisn.required' => 'NISN wajib diisi.',
             'nisn.unique' => 'NISN sudah terdaftar.',
             'nama.required' => 'Nama wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',

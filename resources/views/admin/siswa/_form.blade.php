@@ -46,8 +46,8 @@
             </div>
 
             <div>
-                <label for="nisn" class="text-sm font-semibold text-slate-700 dark:text-slate-200">NISN <span class="text-red-500">*</span></label>
-                <input id="nisn" type="text" name="nisn" value="{{ old('nisn', $siswa->nisn ?? '') }}" class="admin-form-input" placeholder="Masukkan NISN" required maxlength="20">
+                <label for="nisn" class="text-sm font-semibold text-slate-700 dark:text-slate-200">NISN <span class="text-slate-400 font-normal">(opsional)</span></label>
+                <input id="nisn" type="text" name="nisn" value="{{ old('nisn', $siswa->nisn ?? '') }}" class="admin-form-input" placeholder="Masukkan NISN (opsional)" maxlength="20">
                 @error('nisn') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
 
