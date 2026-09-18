@@ -50,6 +50,7 @@ Route::middleware(['auth', AdminMiddleware::class])
     ->group(function () {
         // Dashboard Admin
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard/chart', [DashboardController::class, 'chart'])->name('dashboard.chart');
 
         Route::get('prestasi/import', [ImportPrestasiController::class, 'index'])->name('prestasi.import');
         Route::post('prestasi/import', [ImportPrestasiController::class, 'store'])->name('prestasi.import.store');

@@ -7,6 +7,7 @@ use App\Models\Siswa;
 use App\Models\Artikel;
 use App\Models\Galeri;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -14,6 +15,9 @@ class PublicController extends Controller
 {
     public function home()
     {
+        Cache::add('public_website_views', 0, 60 * 60 * 24 * 365);
+        Cache::increment('public_website_views');
+
         $totalPrestasi = Prestasi::where('status', 'Publish')->count();
         $totalPrestasiTim = Prestasi::where('status', 'Publish')
             ->where('jenis_peserta', 'Tim')
