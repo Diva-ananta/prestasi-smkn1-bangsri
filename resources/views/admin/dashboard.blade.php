@@ -61,8 +61,8 @@
         @endforeach
     </div>
 
-    <div class="grid gap-6 xl:grid-cols-[1.6fr_0.9fr]">
-        <div class="section-card animate-fade-in">
+    <div class="grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(280px,360px)]">
+        <div class="section-card animate-fade-in min-w-0">
             <div class="mb-5 flex flex-col gap-3">
                 <div class="flex items-center justify-between gap-3">
                     <div>
@@ -117,18 +117,18 @@
             </div>
         </div>
 
-        <div class="section-card animate-fade-in">
+        <div class="section-card animate-fade-in flex min-h-[420px] w-full min-w-0 flex-col xl:justify-self-end">
             <div class="mb-5 flex items-center justify-between">
                 <h2 class="text-lg font-semibold text-slate-800 dark:text-white">Top Siswa</h2>
                 <span class="rounded-full bg-blue-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">Top 10</span>
             </div>
 
             @if($topSiswa->count())
-                <div class="max-h-[420px] space-y-2 overflow-y-auto pr-1">
+                <div class="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     @foreach($topSiswa as $index => $item)
-                        <a href="{{ $item->siswa && $item->siswa->public_token ? route('public.siswa.show', ['token' => $item->siswa->public_token]) : '#' }}" class="block rounded-2xl border border-transparent bg-slate-50 p-3 transition-colors hover:border-slate-200 hover:bg-white dark:bg-slate-800/60 dark:hover:border-slate-700 dark:hover:bg-slate-800">
+                        <a href="{{ $item->siswa && $item->siswa->public_token ? route('public.siswa.show', ['token' => $item->siswa->public_token]) : '#' }}" class="block w-full min-w-0 overflow-hidden rounded-2xl border border-transparent bg-slate-50 p-3 transition-colors hover:border-slate-200 hover:bg-white dark:bg-slate-800/60 dark:hover:border-slate-700 dark:hover:bg-slate-800">
                             <div class="flex items-center justify-between gap-3">
-                                <div class="flex min-w-0 items-center gap-3">
+                                <div class="flex min-w-0 flex-1 items-center gap-3">
                                     <div class="relative flex h-11 w-11 shrink-0 overflow-hidden rounded-full border-2 border-white shadow-sm dark:border-slate-900">
                                         @if($item->siswa && $item->siswa->foto)
                                             <img src="{{ asset('storage/' . $item->siswa->foto) }}" alt="{{ $item->siswa->nama ?? 'Foto siswa' }}" class="h-full w-full object-cover" loading="lazy">
@@ -138,9 +138,9 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="min-w-0">
+                                    <div class="min-w-0 flex-1">
                                         <div class="flex items-center gap-2">
-                                            <span class="flex h-6 w-6 items-center justify-center rounded-full {{ $index === 0 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300' : 'bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-200' }} text-[10px] font-bold">
+                                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full {{ $index === 0 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300' : 'bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-200' }} text-[10px] font-bold">
                                                 {{ $index + 1 }}
                                             </span>
                                             <p class="truncate font-semibold text-slate-800 dark:text-white">{{ $item->siswa->nama ?? '-' }}</p>
@@ -148,7 +148,7 @@
                                         <p class="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">{{ $item->siswa->kelas ?? '-' }} • {{ $item->siswa->jurusan ?? '-' }}</p>
                                     </div>
                                 </div>
-                                <span class="ml-3 shrink-0 rounded-lg bg-blue-50 px-2 py-1 text-xs font-bold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">{{ $item->total }}x</span>
+                                <span class="ml-1 shrink-0 rounded-lg bg-blue-50 px-2 py-1 text-xs font-bold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">{{ $item->total }}x</span>
                             </div>
                         </a>
                     @endforeach
