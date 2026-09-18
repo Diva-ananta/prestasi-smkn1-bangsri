@@ -63,7 +63,7 @@
                             <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Analitik prestasi</p>
                             <h2 class="mt-1 break-words text-base font-bold text-slate-900 dark:text-white sm:text-lg" x-text="{ tahun: 'Prestasi berdasarkan tahun', jurusan: 'Prestasi berdasarkan jurusan', tahunTrend: 'Prestasi berdasarkan tahun', tingkat: 'Prestasi berdasarkan tingkat' }[activeChart]"></h2>
                         </div>
-                        <span class="hidden text-xs text-slate-400 sm:inline">Grafik batang</span>
+                        <span class="hidden text-xs text-slate-400 sm:inline">Grafik Prestasi</span>
                     </div>
                     <div class="mt-4 h-48 sm:h-56"><canvas id="tahunChart" x-show="activeChart === 'tahun'"></canvas><canvas id="jurusanChart" x-show="activeChart === 'jurusan'"></canvas><canvas id="tahunTrendChart" x-show="activeChart === 'tahunTrend'"></canvas><canvas id="tingkatChart" x-show="activeChart === 'tingkat'"></canvas></div>
                     <div class="mt-4 grid grid-cols-2 gap-2 border-t border-slate-100 pt-4 dark:border-slate-800 sm:grid-cols-4">
