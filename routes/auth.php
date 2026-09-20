@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\SiPintuAuthController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OAuthController;
 
 /*
 |--------------------------------------------------------------------------

@@ -25,7 +25,7 @@ return [
         'Pramuka Putri KH. Achmad Fauzan' => 'https://smkn1bangsri.sch.id/extracurriculars/pramuka-putri-kh-achmad-fauzan',
         'PMR Wira Sandya Adhimukti' => 'https://smkn1bangsri.sch.id/extracurriculars/pmr-wira-sandya-adhimukti',
         'Pencak Silat Cempaka Putih' => 'https://smkn1bangsri.sch.id/extracurriculars/pencak-silat-cempaka-putih',
-        'Palawa Futsal Skansaba' => 'https://smkn1bangsri.sch.id/extracurriculars/palawa-futsal-skansaba',
+        'Palawa Futsal Skansaba' => 'https://smkn1bangsri.sch.id/extracurriculars/  ',
         'Voli Eskasaba' => 'https://smkn1bangsri.sch.id/extracurriculars/bola-voli-smk-negeri-1-bangsri',
         'Basket Skansaba' => 'https://smkn1bangsri.sch.id/extracurriculars/basket-skansaba',
         'Handball Skansaba' => 'https://smkn1bangsri.sch.id/extracurriculars/hand-ball',
@@ -33,7 +33,8 @@ return [
         'Anwa Sanskara Jurnalistik' => 'https://smkn1bangsri.sch.id/extracurriculars/anwa-sanskara-jurnalistik',
         'Webdev Taksan Nawasena' => 'https://smkn1bangsri.sch.id/extracurriculars/webdev-taksan-nawasena',
         'Badminton Eskasaba' => 'https://smkn1bangsri.sch.id/extracurriculars/badminton-skansaba',
-        'Tari Arum Sekar Saba'=> 'https://smkn1bangsri.sch.id/extracurriculars/tari-arum-sekarsaba'
+        'Tari Arum Sekar Eskaba'=> 'https://smkn1bangsri.sch.id/extracurriculars/tari-arum-sekarsaba',
+        'Irmas Eskasaba'=>'https://smkn1bangsri.sch.id/extracurriculars/ikatan-remaja-masjid-irmas'
     ],
 
     /*

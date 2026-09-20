@@ -16,9 +16,6 @@ class SiPintuController extends Controller
         protected SiPintuService $sipintu
     ) {}
 
-    /**
-     * Dashboard Manajemen Integrasi SiPintu Gateway
-     */
     public function index(): View
     {
         $pingResult = $this->sipintu->ping();

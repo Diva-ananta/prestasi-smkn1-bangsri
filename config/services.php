@@ -35,6 +35,11 @@ return [
         ],
     ],
 
+    'sipres_api' => [
+    'key' => env('SIPRES_API_KEY'),
+    'public_status' => env('SIPRES_PUBLIC_STATUS', 'published'),
+    ],
+
     'sipintu' => [
         'base_url' => rtrim(env('SIPINTU_BASE_URL', 'https://sipintu.smkn1bangsri.sch.id'), '/'),
         'client_id' => env('SIPINTU_CLIENT_ID', 'app_mecmvhpduc8e'),
