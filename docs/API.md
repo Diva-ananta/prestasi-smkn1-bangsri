@@ -164,5 +164,3 @@ GET /api/v1/artikel/judul-artikel
         "detail_url": "https://sipres.smkn1bangsri.sch.id/artikel/judul-artikel"
     }
 }
-
-#Eror Respose
