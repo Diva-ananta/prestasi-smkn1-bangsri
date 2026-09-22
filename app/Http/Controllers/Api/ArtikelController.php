@@ -10,42 +10,44 @@ class ArtikelController extends Controller
 {
     public function index(Request $request)
     {
-        $request->validate([
-            'search' => 'nullable|string|max:100',
-            'tahun' => 'nullable|integer|min:2000|max:2100',
-            'page' => 'nullable|integer|min:1',
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:100'],
+            'tahun' => ['nullable', 'integer', 'min:2000', 'max:2100'],
+            'page' => ['nullable', 'integer', 'min:1'],
         ]);
 
-        $query = Artikel::with('prestasi')
-            ->publish()
-            ->whereIn('id', Artikel::query()
-                ->selectRaw('MAX(id)')
-                ->groupBy('slug')
-            )
-            ->latest('tanggal_publikasi');
+        $query = Artikel::query()
+            ->where('status', 'Publish')
+            ->where('tanggal_publikasi', '<=', now())
+            ->orderByDesc('tanggal_publikasi')
+            ->orderByDesc('id');
 
         /*
         |--------------------------------------------------------------------------
-        | Pencarian
+        | Search
         |--------------------------------------------------------------------------
         */
-        if ($request->filled('search')) {
-            $search = $request->search;
+
+        if (!empty($validated['search'])) {
+            $search = $validated['search'];
 
             $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                    ->orWhere('isi', 'like', "%{$search}%")
                     ->orWhere('penulis', 'like', "%{$search}%");
             });
         }
 
         /*
         |--------------------------------------------------------------------------
-        | Filter tahun
+        | Filter Tahun
         |--------------------------------------------------------------------------
         */
-        if ($request->filled('tahun')) {
-            $query->whereYear('tanggal_publikasi', $request->tahun);
+
+        if (!empty($validated['tahun'])) {
+            $query->whereYear(
+                'tanggal_publikasi',
+                $validated['tahun']
+            );
         }
 
         /*
@@ -53,59 +55,105 @@ class ArtikelController extends Controller
         | Pagination
         |--------------------------------------------------------------------------
         */
-        $artikels = $query->paginate(12);
+
+        $artikel = $query
+            ->paginate(12)
+            ->withQueryString();
 
         /*
         |--------------------------------------------------------------------------
-        | Format response
+        | Format Response
         |--------------------------------------------------------------------------
         */
-        $data = $artikels->getCollection()->map(function ($artikel) {
+
+        $data = $artikel->getCollection()->map(function ($item) {
+
+            $gambarUrl = $item->gambar
+                ? asset('storage/' . ltrim($item->gambar, '/'))
+                : null;
+
             return [
-                'judul' => $artikel->judul,
-                'slug' => $artikel->slug,
-
-                'isi' => $artikel->isi,
-
-                'gambar_url' => $artikel->gambar
-                    ? asset('storage/' . $artikel->gambar)
+                'judul' => $item->judul,
+                'slug' => $item->slug,
+                'isi' => $item->isi,
+                'gambar_url' => $gambarUrl,
+                'penulis' => $item->penulis,
+                'tanggal_publikasi' => $item->tanggal_publikasi
+                    ? $item->tanggal_publikasi->format('Y-m-d')
                     : null,
 
-                'penulis' => $artikel->penulis,
+                'status' => $item->status,
 
-                'tanggal_publikasi' => $artikel->tanggal_publikasi?->format('Y-m-d'),
+                'prestasi_id' => $item->prestasi_id,
 
-                'status' => $artikel->status,
-
-                'prestasi' => $artikel->prestasi ? [
-                    'public_token' => $artikel->prestasi->public_token,
-                    'nama_lomba' => $artikel->prestasi->nama_lomba,
-                    'hasil' => $artikel->prestasi->hasil,
-                    'detail_url' => route(
-                        'public.prestasi.show',
-                        $artikel->prestasi->public_token
-                    ),
-                ] : null,
-
-                'detail_url' => route(
-                    'public.artikel.show',
-                    $artikel->slug
-                ),
+                'detail_url' => $this->getDetailUrl($item),
             ];
         });
 
         return response()->json([
             'success' => true,
-            'data' => $data->values(),
+
+            'data' => $data,
 
             'pagination' => [
-                'current_page' => $artikels->currentPage(),
-                'per_page' => $artikels->perPage(),
-                'total' => $artikels->total(),
-                'last_page' => $artikels->lastPage(),
-                'from' => $artikels->firstItem(),
-                'to' => $artikels->lastItem(),
+                'current_page' => $artikel->currentPage(),
+                'per_page' => $artikel->perPage(),
+                'total' => $artikel->total(),
+                'last_page' => $artikel->lastPage(),
+                'from' => $artikel->firstItem(),
+                'to' => $artikel->lastItem(),
             ],
         ]);
+    }
+
+    public function show(string $slug)
+    {
+        $artikel = Artikel::query()
+            ->where('slug', $slug)
+            ->where('status', 'Publish')
+            ->where('tanggal_publikasi', '<=', now())
+            ->first();
+
+        if (!$artikel) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Artikel tidak ditemukan.',
+                'error_code' => 'ARTICLE_NOT_FOUND',
+            ], 404);
+        }
+
+        $gambarUrl = $artikel->gambar
+            ? asset('storage/' . ltrim($artikel->gambar, '/'))
+            : null;
+
+        return response()->json([
+            'success' => true,
+
+            'data' => [
+                'judul' => $artikel->judul,
+                'slug' => $artikel->slug,
+                'isi' => $artikel->isi,
+                'gambar_url' => $gambarUrl,
+                'penulis' => $artikel->penulis,
+
+                'tanggal_publikasi' => $artikel->tanggal_publikasi
+                    ? $artikel->tanggal_publikasi->format('Y-m-d')
+                    : null,
+
+                'status' => $artikel->status,
+                'prestasi_id' => $artikel->prestasi_id,
+
+                'detail_url' => $this->getDetailUrl($artikel),
+            ],
+        ]);
+    }
+
+    private function getDetailUrl(Artikel $artikel): ?string
+    {
+        try {
+            return route('public.artikel.show', $artikel->slug);
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 }
