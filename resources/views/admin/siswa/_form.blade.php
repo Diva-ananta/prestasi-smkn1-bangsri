@@ -114,9 +114,9 @@
             </div>
 
             <div>
-                <label for="jurusan" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Jurusan <span class="text-red-500">*</span></label>
+                <label for="jurusan" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Program Keahlian <span class="text-red-500">*</span></label>
                 <select id="jurusan" name="jurusan" class="admin-form-input" required>
-                    <option value="">Pilih jurusan</option>
+                    <option value="">Pilih Program Keahlian</option>
                     @foreach ($jurusanOptions as $value => $label)
                         <option value="{{ $value }}" @selected(old('jurusan', $siswa->jurusan ?? '') === $value)>{{ $label }}</option>
                     @endforeach

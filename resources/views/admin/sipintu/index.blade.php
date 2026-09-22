@@ -425,7 +425,7 @@
                                 <th class="px-4 py-3">NIS / NISN</th>
                                 <th class="px-4 py-3">Nama Siswa</th>
                                 <th class="px-4 py-3">JK</th>
-                                <th class="px-4 py-3">Kelas / Jurusan</th>
+                                <th class="px-4 py-3">Kelas / Program Keahlian</th>
                                 <th class="px-4 py-3">Status</th>
                             </tr>
                         </thead>

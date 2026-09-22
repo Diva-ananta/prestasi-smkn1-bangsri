@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Galeri;
 use App\Models\Prestasi;
+use App\Helpers\SocialMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -37,9 +38,8 @@ class GaleriController extends Controller
             ],
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
             'video_url' => ['nullable', 'url', 'max:2048', function ($attribute, $value, $fail) {
-                $host = preg_replace('/^www\./', '', strtolower((string) parse_url($value, PHP_URL_HOST)));
-                if ($host !== 'youtube.com' && $host !== 'youtu.be' && ! str_ends_with($host, '.youtube.com')) {
-                    $fail('Link video harus berasal dari YouTube.');
+                if (! SocialMedia::embed($value)) {
+                    $fail('Gunakan link video YouTube, TikTok, atau postingan/Reel Instagram yang valid.');
                 }
             }],
         ]);
@@ -54,13 +54,13 @@ class GaleriController extends Controller
             }
 
             if (empty($data['foto']) && empty($data['video_url'])) {
-                return back()->withInput()->withErrors(['media' => 'Tambahkan foto atau link YouTube untuk galeri.']);
+                return back()->withInput()->withErrors(['media' => 'Tambahkan foto atau link YouTube, TikTok, atau Instagram untuk galeri.']);
             }
         }
 
         Galeri::create($data);
 
-        return redirect()->route('admin.galeri.index')->with('success', 'Foto galeri berhasil ditambahkan.');
+        return redirect()->route('admin.galeri.index')->with('success', 'Konten galeri berhasil ditambahkan.');
     }
 
     public function toggleVisibility(Galeri $galeri)

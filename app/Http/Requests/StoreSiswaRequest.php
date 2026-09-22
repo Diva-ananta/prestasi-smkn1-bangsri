@@ -36,7 +36,7 @@ class StoreSiswaRequest extends FormRequest
             'nama.required' => 'Nama wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
             'kelas.required' => 'Kelas wajib diisi.',
-            'jurusan.required' => 'Jurusan wajib diisi.',
+            'jurusan.required' => 'Program Keahlian wajib diisi.',
             'angkatan.required' => 'Angkatan wajib diisi.',
             'angkatan.min' => 'Angkatan minimal tahun 2000.',
             'angkatan.max' => 'Angkatan maksimal tahun ' . (date('Y') + 1) . '.',

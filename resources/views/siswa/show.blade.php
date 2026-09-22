@@ -34,7 +34,7 @@
                     <div class="my-4 border-t border-slate-200 dark:border-slate-700"></div>
                     <dl class="grid grid-cols-2 gap-x-3 gap-y-4 text-left">
                         <div><dt class="text-xs text-slate-400">Kelas</dt><dd class="mt-1 break-words text-xs font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->kelas ?? '-' }}</dd></div>
-                        <div><dt class="text-xs text-slate-400">Jurusan</dt><dd class="mt-1 break-words text-xs font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->jurusan ?? '-' }}</dd></div>
+                        <div><dt class="text-xs text-slate-400">Program Keahlian</dt><dd class="mt-1 break-words text-xs font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->jurusan ?? '-' }}</dd></div>
                         <div><dt class="text-xs text-slate-400">Angkatan</dt><dd class="mt-1 text-xs font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->angkatan ?? '-' }}</dd></div>
                         <div><dt class="text-xs text-slate-400">Status</dt><dd class="mt-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">{{ $siswa->status ?? '-' }}</dd></div>
                     </dl>

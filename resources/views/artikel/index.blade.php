@@ -136,16 +136,16 @@
                     </div>
                 </div>
 
-                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="grid gap-4">
                     @foreach($artikels->skip(1) as $index => $artikel)
                         <article 
-                            class="group animate-fade-in overflow-hidden rounded-2xl border-2 border-slate-100 bg-white shadow-sm transition-smooth hover:-translate-y-2 hover:border-blue-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-600"
+                            class="group animate-fade-in flex overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-smooth hover:-translate-y-1 hover:border-blue-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-600"
                             style="animation-delay: {{ $index * 100 }}ms"
                         >
                             <!-- Image -->
                             <a 
                                 href="{{ route('public.artikel.show', $artikel) }}" 
-                                class="relative block h-56 overflow-hidden bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-950/30 dark:to-blue-950/10"
+                                class="relative block h-36 w-36 shrink-0 overflow-hidden bg-gradient-to-br from-blue-100 to-blue-50 sm:h-auto sm:w-52 dark:from-blue-950/30 dark:to-blue-950/10"
                             >
                                 <img 
                                     src="{{ $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('images/logo-smk.png') }}" 
@@ -156,7 +156,7 @@
                             </a>
 
                             <!-- Content -->
-                            <div class="p-5 lg:p-6">
+                            <div class="flex min-w-0 flex-1 flex-col p-4 sm:p-5">
                                 <div class="inline-flex items-center gap-2">
                                     <i class="fas fa-calendar text-blue-600 dark:text-blue-400 text-xs"></i>
                                     <p class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
@@ -164,19 +164,19 @@
                                     </p>
                                 </div>
 
-                                <h3 class="mt-3 line-clamp-2 min-h-14 text-lg font-bold leading-6 text-slate-900 dark:text-white">
+                                <h3 class="mt-2 line-clamp-2 text-base font-bold leading-6 text-slate-900 dark:text-white sm:text-lg">
                                     <a href="{{ route('public.artikel.show', $artikel) }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">
                                         {{ $artikel->judul }}
                                     </a>
                                 </h3>
 
-                                <p class="mt-3 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
+                                <p class="mt-2 line-clamp-2 text-sm leading-5 text-slate-600 dark:text-slate-400">
                                     {{ Str::limit($artikel->isi, 120) }}
                                 </p>
 
                                 <a 
                                     href="{{ route('public.artikel.show', $artikel) }}" 
-                                    class="mt-4 inline-flex items-center gap-2 rounded-lg bg-blue-50 px-4 py-2 text-xs font-bold text-blue-700 transition hover:bg-blue-100 dark:bg-blue-950/30 dark:text-blue-400 dark:hover:bg-blue-950/60"
+                                    class="mt-3 inline-flex w-fit items-center gap-2 text-xs font-bold text-blue-700 transition hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                                 >
                                     Baca Selengkapnya <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1"></i>
                                 </a>

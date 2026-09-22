@@ -36,22 +36,33 @@
             </h2>
 
             <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                {{ number_format($galeri->total()) }} foto prestasi tersedia.
+                {{ number_format($galeri->total()) }} dokumentasi tersedia dari foto, YouTube, TikTok, dan Instagram.
             </p>
 
         </div>
 
 
-        {{-- GRID FOTO --}}
+        <div x-data="{ activeCatalog: 'all' }">
+            <div class="mb-6 flex flex-wrap gap-2">
+                <button type="button" @click="activeCatalog = 'all'" :class="activeCatalog === 'all' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-600 dark:bg-slate-900 dark:text-slate-300'" class="rounded-full border border-emerald-200 px-4 py-2 text-sm font-bold transition dark:border-slate-700">Semua</button>
+                <button type="button" @click="activeCatalog = 'youtube'" :class="activeCatalog === 'youtube' ? 'bg-red-600 text-white' : 'bg-white text-slate-600 dark:bg-slate-900 dark:text-slate-300'" class="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold transition dark:border-slate-700"><i class="fab fa-youtube mr-1.5"></i>YouTube</button>
+                <button type="button" @click="activeCatalog = 'tiktok'" :class="activeCatalog === 'tiktok' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'bg-white text-slate-600 dark:bg-slate-900 dark:text-slate-300'" class="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold transition dark:border-slate-700"><i class="fab fa-tiktok mr-1.5"></i>TikTok</button>
+                <button type="button" @click="activeCatalog = 'instagram'" :class="activeCatalog === 'instagram' ? 'bg-pink-600 text-white' : 'bg-white text-slate-600 dark:bg-slate-900 dark:text-slate-300'" class="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold transition dark:border-slate-700"><i class="fab fa-instagram mr-1.5"></i>Instagram</button>
+                <button type="button" @click="activeCatalog = 'foto'" :class="activeCatalog === 'foto' ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 dark:bg-slate-900 dark:text-slate-300'" class="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold transition dark:border-slate-700"><i class="fas fa-image mr-1.5"></i>Foto</button>
+            </div>
+
+        {{-- GRID KATALOG --}}
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
             @forelse($galeri as $item)
 
-                <div class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
+                @php($videoUrl = $item->video_url ?: $item->prestasi?->video_url)
+                @php($platform = \App\Helpers\SocialMedia::platform($videoUrl))
+                @php($embedUrl = \App\Helpers\SocialMedia::embed($videoUrl))
+                <div x-show="activeCatalog === 'all' || activeCatalog === '{{ $platform ?: 'foto' }}'" class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
 
-                    <div class="relative aspect-[4/3] overflow-hidden bg-emerald-50 dark:bg-emerald-950">
-                        @php($videoUrl = $item->video_url ?: $item->prestasi?->video_url)
-                        @if($videoUrl && \App\Helpers\YouTube::embed($videoUrl))
+                    <div class="relative {{ in_array($platform, ['tiktok', 'instagram']) ? 'aspect-[9/16]' : 'aspect-[4/3]' }} overflow-hidden bg-emerald-50 dark:bg-emerald-950">
+                        @if($embedUrl && $platform === 'youtube')
                             <details class="group/video h-full">
                                 <summary class="relative h-full cursor-pointer list-none">
                                     <img src="{{ \App\Helpers\YouTube::thumbnail($videoUrl) }}" alt="Thumbnail video {{ $item->judul ?: 'galeri' }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
@@ -59,10 +70,17 @@
                                 </summary>
                                 <iframe src="{{ \App\Helpers\YouTube::embed($videoUrl) }}" title="{{ $item->judul ?: 'Video galeri' }}" class="absolute inset-0 h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                             </details>
+                        @elseif($embedUrl)
+                            <iframe src="{{ $embedUrl }}" title="{{ $item->judul ?: 'Konten ' . ucfirst($platform) }}" class="absolute inset-0 h-full w-full border-0" loading="lazy" allow="encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
                         @elseif($item->prestasi?->foto || $item->foto)
                             <img src="{{ asset('storage/' . ($item->prestasi?->foto ?: $item->foto)) }}" alt="{{ $item->judul ?: $item->prestasi?->nama_lomba ?: 'Foto galeri' }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
                         @endif
 
+                    </div>
+
+                    <div class="flex items-center gap-2 p-3">
+                        @if($platform)<i class="fab fa-{{ $platform === 'youtube' ? 'youtube text-red-600' : ($platform === 'instagram' ? 'instagram text-pink-600' : 'tiktok') }}"></i>@endif
+                        <p class="truncate text-sm font-semibold text-slate-700 dark:text-slate-200">{{ $item->judul ?: $item->prestasi?->nama_lomba ?: ucfirst($platform ?: 'Foto galeri') }}</p>
                     </div>
 
                 </div>
@@ -73,14 +91,15 @@
 
                     <i class="fas fa-images text-4xl text-slate-400 dark:text-slate-600"></i>
 
-                    <p class="mt-4 font-semibold text-slate-600 dark:text-slate-400">
-                        Belum ada foto prestasi yang dipublikasikan.
+                <p class="mt-4 font-semibold text-slate-600 dark:text-slate-400">
+                        Belum ada dokumentasi yang dipublikasikan.
                     </p>
 
                 </div>
 
             @endforelse
 
+        </div>
         </div>
 
 

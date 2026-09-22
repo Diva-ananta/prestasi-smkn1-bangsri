@@ -30,7 +30,7 @@
                     <div class="my-5 border-t border-slate-200 dark:border-slate-700"></div>
                     <div class="grid grid-cols-2 gap-4 text-left text-xs">
                         <div><p class="text-slate-400">Kelas</p><p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->kelas }}</p></div>
-                        <div><p class="text-slate-400">Jurusan</p><p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->jurusan }}</p></div>
+                        <div><p class="text-slate-400">Program Keahlian</p><p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->jurusan }}</p></div>
                         <div><p class="text-slate-400">Angkatan</p><p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->angkatan }}</p></div>
                         <div><p class="text-slate-400">Status</p><p class="mt-1 font-semibold text-emerald-700 dark:text-emerald-400">{{ $siswa->status }}</p></div>
                     </div>

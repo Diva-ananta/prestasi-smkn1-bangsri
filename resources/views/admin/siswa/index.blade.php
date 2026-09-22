@@ -58,7 +58,7 @@
             @if($status)
                 <input type="hidden" name="status" value="{{ $status }}">
             @endif
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIS, kelas, atau jurusan..." class="admin-form-input md:flex-1">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIS, kelas, atau Program Keahlian..." class="admin-form-input md:flex-1">
             <button type="submit" class="admin-btn-primary">Cari</button>
             @if(request('search') || request('status'))
                 <a href="{{ route('admin.siswa.index') }}" class="admin-btn-secondary">Reset Filter</a>
@@ -77,7 +77,7 @@
                     <th>Nama</th>
                     <th>Status</th>
                     <th>Kelas / Tingkat</th>
-                    <th>Jurusan</th>
+                    <th>Program Keahlian</th>
                     <th>Angkatan</th>
                     <th class="text-center">Aksi</th>
                 </tr>

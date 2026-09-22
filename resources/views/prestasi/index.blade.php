@@ -46,7 +46,7 @@
                         Prestasi siswa <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">SMK N 1 Bangsri</span>
                     </h1>
                     <p class="mt-5 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">
-                        Jelajahi pencapaian siswa, lihat distribusi prestasi per jurusan, dan temukan data terbaik dari sekolah dalam satu tampilan yang profesional dan mudah dibaca.
+                        Jelajahi pencapaian siswa, lihat distribusi prestasi per program keahlian, dan temukan data terbaik dari sekolah dalam satu tampilan yang profesional dan mudah dibaca.
                     </p>
                     <form id="prestasi-search" action="{{ route('public.prestasi.index') }}" method="GET" class="mt-5 flex flex-col gap-2 sm:flex-row">
                         <label for="hero-achievement-search" class="sr-only">Cari prestasi</label>
@@ -61,14 +61,14 @@
                     <div class="flex min-h-10 items-center justify-between gap-3">
                         <div class="min-w-0">
                             <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Analitik prestasi</p>
-                            <h2 class="mt-1 break-words text-base font-bold text-slate-900 dark:text-white sm:text-lg" x-text="{ tahun: 'Prestasi berdasarkan tahun', jurusan: 'Prestasi berdasarkan jurusan', tahunTrend: 'Prestasi berdasarkan tahun', tingkat: 'Prestasi berdasarkan tingkat' }[activeChart]"></h2>
+                            <h2 class="mt-1 break-words text-base font-bold text-slate-900 dark:text-white sm:text-lg" x-text="{ tahun: 'Prestasi berdasarkan tahun', jurusan: 'Prestasi berdasarkan program keahlian', tahunTrend: 'Prestasi berdasarkan tahun', tingkat: 'Prestasi berdasarkan tingkat' }[activeChart]"></h2>
                         </div>
                         <span class="hidden text-xs text-slate-400 sm:inline">Grafik Prestasi</span>
                     </div>
                     <div class="mt-4 h-48 sm:h-56"><canvas id="tahunChart" x-show="activeChart === 'tahun'"></canvas><canvas id="jurusanChart" x-show="activeChart === 'jurusan'"></canvas><canvas id="tahunTrendChart" x-show="activeChart === 'tahunTrend'"></canvas><canvas id="tingkatChart" x-show="activeChart === 'tingkat'"></canvas></div>
                     <div class="mt-4 grid grid-cols-2 gap-2 border-t border-slate-100 pt-4 dark:border-slate-800 sm:grid-cols-4">
                         <button type="button" @click="selectChart('tahun')" :class="activeChart === 'tahun' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Tahun</button>
-                        <button type="button" @click="selectChart('jurusan')" :class="activeChart === 'jurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Jurusan</button>
+                        <button type="button" @click="selectChart('jurusan')" :class="activeChart === 'jurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Program Keahlian</button>
                         <button type="button" @click="selectChart('tahunTrend')" :class="activeChart === 'tahunTrend' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Tren Tahun</button>
                         <button type="button" @click="selectChart('tingkat')" :class="activeChart === 'tingkat' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Tingkat</button>
                     </div>
@@ -161,9 +161,9 @@
                         </div>
 
                         <div class="border-t border-slate-200 pt-3 dark:border-slate-700">
-                            <label class="text-xs font-bold text-slate-900 dark:text-white">Jurusan</label>
+                            <label class="text-xs font-bold text-slate-900 dark:text-white">Program Keahlian</label>
                             <select name="jurusan" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white">
-                                <option value="">Semua jurusan</option>
+                                <option value="">Semua Program Keahlian</option>
                                 @foreach($jurusanOptions as $option)
                                     <option value="{{ $option }}" @selected(request('jurusan') === $option)>{{ $option }}</option>
                                 @endforeach

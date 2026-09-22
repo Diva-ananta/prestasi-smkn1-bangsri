@@ -91,7 +91,7 @@
                             <span class="font-bold text-emerald-700 dark:text-emerald-400">-</span>
                         @endif
                         @if($prestasi->jenis_peserta !== 'Tim' && $ketuaTim?->jurusan)
-                            dari jurusan {{ $ketuaTim->jurusan }}.
+                            dari Program Keahlian {{ $ketuaTim->jurusan }}.
                         @endif
                     </p>
 

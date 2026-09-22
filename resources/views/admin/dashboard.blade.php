@@ -75,10 +75,13 @@
                             @endif
                         </p>
                     </div>
-                    <button type="button" id="toggleChartFilter" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
-                        <i class="fas fa-filter text-[10px]"></i>
-                        Filter
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <span class="hidden rounded-lg bg-emerald-50 px-2.5 py-1.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 sm:inline"><span id="chartTotal">{{ number_format(array_sum($chartData ?? [])) }}</span> prestasi</span>
+                        <button type="button" id="toggleChartFilter" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                            <i class="fas fa-filter text-[10px]"></i>
+                            Filter
+                        </button>
+                    </div>
                 </div>
 
                 <div id="chartFilterPanel" class="hidden rounded-2xl border border-slate-200 bg-slate-50/80 p-2.5 dark:border-slate-700 dark:bg-slate-900/60">
@@ -110,17 +113,17 @@
                     </form>
                 </div>
             </div>
-            <div class="overflow-x-auto pb-2">
-                <div class="h-[330px] min-w-[760px] rounded-2xl border border-slate-100 bg-slate-50/30 p-2 dark:border-slate-800 dark:bg-slate-900/30">
+            <div class="pb-1">
+                <div class="h-[300px] rounded-2xl border border-slate-100 bg-gradient-to-b from-emerald-50/50 to-transparent p-3 sm:h-[330px] dark:border-slate-800 dark:from-emerald-950/10">
                     <canvas id="chartPrestasi"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="section-card animate-fade-in flex min-h-[420px] w-full min-w-0 flex-col xl:justify-self-end">
+        <div class="section-card animate-fade-in flex min-h-[400px] w-full min-w-0 flex-col xl:justify-self-end">
             <div class="mb-5 flex items-center justify-between">
                 <h2 class="text-lg font-semibold text-slate-800 dark:text-white">Top Siswa</h2>
-                <span class="rounded-full bg-blue-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">Top 10</span>
+                <span class="rounded-full bg-blue-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">Top 5</span>
             </div>
 
             @if($topSiswa->count())
@@ -219,6 +222,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const chartCanvas = document.getElementById('chartPrestasi');
         const chartLabel = document.getElementById('chartPrestasiLabel');
+        const chartTotal = document.getElementById('chartTotal');
         const chartLabels = @json($chartLabels ?? []);
         const chartData = @json($chartData ?? []);
 
@@ -227,6 +231,9 @@
             const rangeType = @json($rangeType ?? 'year');
             const filterToggle = document.getElementById('toggleChartFilter');
             const filterPanel = document.getElementById('chartFilterPanel');
+            const barGradient = ctx.createLinearGradient(0, 0, 0, chartCanvas.clientHeight || 330);
+            barGradient.addColorStop(0, '#14b8a6');
+            barGradient.addColorStop(1, '#059669');
 
             if (filterToggle && filterPanel) {
                 filterToggle.addEventListener('click', function () {
@@ -241,31 +248,41 @@
                     datasets: [{
                         label: rangeType === 'all' ? 'Prestasi semua tahun' : 'Prestasi dalam periode',
                         data: chartData,
-                        backgroundColor: '#10b981',
-                        borderColor: '#10b981',
-                        borderRadius: 8,
+                        backgroundColor: barGradient,
+                        borderColor: '#047857',
+                        borderWidth: 1,
+                        borderRadius: 10,
                         borderSkipped: false,
-                        maxBarThickness: 36,
+                        maxBarThickness: 42,
+                        hoverBackgroundColor: '#0f766e',
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: false,
+                    animation: {
+                        duration: 500,
+                        easing: 'easeOutQuart'
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
                             callbacks: {
-                                label: (context) => `${context.parsed.y ?? context.parsed} prestasi`
+                                title: (items) => items[0]?.label ?? '',
+                                label: (context) => `${context.parsed.y ?? context.parsed} prestasi tercatat`
                             },
-                            backgroundColor: 'rgba(15,23,42,0.92)',
+                            backgroundColor: 'rgba(15,23,42,0.96)',
                             titleColor: '#fff',
                             bodyColor: '#cbd5e1',
                             borderColor: 'rgba(148,163,184,0.3)',
                             borderWidth: 1,
-                            cornerRadius: 10,
+                            cornerRadius: 12,
                             displayColors: false,
-                            padding: 10
+                            padding: 12
                         }
                     },
                     scales: {
@@ -274,7 +291,8 @@
                             ticks: {
                                 color: '#64748b',
                                 font: { weight: '600', size: 10 },
-                                autoSkip: false,
+                                autoSkip: true,
+                                maxTicksLimit: 8,
                                 maxRotation: 0,
                                 minRotation: 0
                             },
@@ -289,7 +307,11 @@
                                 color: '#64748b',
                                 font: { size: 10 }
                             },
-                            grid: { color: 'rgba(148,163,184,0.15)' }
+                            grid: {
+                                color: 'rgba(148,163,184,0.14)',
+                                borderDash: [4, 4],
+                                drawBorder: false
+                            }
                         }
                     }
                 }
@@ -298,6 +320,9 @@
             const chartText = rangeType === 'all' ? 'Semua tahun' : 'Periode 1 tahun';
             if (chartLabel) {
                 chartLabel.textContent = chartText;
+            }
+            if (chartTotal) {
+                chartTotal.textContent = chartData.reduce((total, value) => total + Number(value || 0), 0).toLocaleString('id-ID');
             }
 
             const filterForm = document.getElementById('chartFilterForm');
@@ -333,6 +358,9 @@
 
                         if (chartLabel) {
                             chartLabel.textContent = payload.labelText ?? 'Periode 1 tahun';
+                        }
+                        if (chartTotal) {
+                            chartTotal.textContent = (payload.chartData ?? []).reduce((total, value) => total + Number(value || 0), 0).toLocaleString('id-ID');
                         }
 
                         const queryString = params.toString();

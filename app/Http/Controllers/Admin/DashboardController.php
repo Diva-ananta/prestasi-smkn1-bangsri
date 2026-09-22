@@ -36,7 +36,7 @@ class DashboardController extends Controller
             ->select('siswa_id', DB::raw('count(*) as total'))
             ->groupBy('siswa_id')
             ->orderByDesc('total')
-            ->limit(10)
+            ->limit(5)
             ->get();
 
         $websiteViews = (int) Cache::get('public_website_views', 0);
