@@ -66,10 +66,10 @@
                         <span class="hidden text-xs text-slate-400 sm:inline">Grafik Prestasi</span>
                     </div>
                     <div class="mt-4 h-48 sm:h-56"><canvas id="tahunChart" x-show="activeChart === 'tahun'"></canvas><canvas id="jurusanChart" x-show="activeChart === 'jurusan'"></canvas><canvas id="tingkatChart" x-show="activeChart === 'tingkat'"></canvas></div>
-                    <div class="mt-4 grid grid-cols-2 gap-2 border-t border-slate-100 pt-4 dark:border-slate-800 sm:grid-cols-4">
-                        <button type="button" @click="selectChart('tahun')" :class="activeChart === 'tahun' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Tahun</button>
-                        <button type="button" @click="selectChart('jurusan')" :class="activeChart === 'jurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Program Keahlian</button>
-                        <button type="button" @click="selectChart('tingkat')" :class="activeChart === 'tingkat' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Tingkat</button>
+                    <div class="mt-4 grid grid-cols-3 gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
+                        <button type="button" @click="selectChart('tahun')" :class="activeChart === 'tahun' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="w-full rounded-lg px-2 py-2 text-xs font-bold transition">Tahun</button>
+                        <button type="button" @click="selectChart('jurusan')" :class="activeChart === 'jurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="w-full rounded-lg px-2 py-2 text-xs font-bold transition">Program Keahlian</button>
+                        <button type="button" @click="selectChart('tingkat')" :class="activeChart === 'tingkat' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="w-full rounded-lg px-2 py-2 text-xs font-bold transition">Tingkat</button>
                     </div>
                 </div>
             </div>
