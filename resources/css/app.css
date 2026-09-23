@@ -192,7 +192,47 @@ body {
 }
 
 .page-header {
-    @apply glass-panel rounded-2xl p-4 md:p-5;
+    @apply relative overflow-hidden rounded-3xl p-6 text-white shadow-xl md:p-8;
+    background: linear-gradient(115deg, #065f46 0%, #047857 48%, #115e59 100%);
+}
+
+.page-header::after {
+    content: '';
+    position: absolute;
+    right: -5rem;
+    top: -7rem;
+    width: 18rem;
+    height: 18rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 9999px;
+    box-shadow: 0 0 0 2rem rgba(255, 255, 255, 0.04), 0 0 0 4rem rgba(255, 255, 255, 0.025);
+    pointer-events: none;
+}
+
+.page-header > * {
+    position: relative;
+    z-index: 1;
+}
+
+.page-header h1,
+.page-header h2 {
+    color: white !important;
+}
+
+.page-header p,
+.page-header .text-slate-500,
+.page-header .text-slate-400,
+.page-header .text-blue-500,
+.page-header .text-emerald-500,
+.page-header .text-emerald-600,
+.page-header .text-emerald-700 {
+    color: rgba(236, 253, 245, 0.82) !important;
+}
+
+.page-header .bg-emerald-50,
+.page-header .bg-blue-50 {
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    color: #d1fae5 !important;
 }
 
 .section-card {

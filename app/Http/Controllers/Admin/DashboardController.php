@@ -41,6 +41,23 @@ class DashboardController extends Controller
 
         $websiteViews = (int) Cache::get('public_website_views', 0);
 
+        // === Data tambahan untuk insight ===
+        $siswaAktif = Siswa::where('status', 'Aktif')->count();
+        $siswaAlumni = max($totalSiswa - $siswaAktif, 0);
+
+        $prestasiPublish = Prestasi::where('status', 'Publish')->count();
+        $prestasiDraft = max($totalPrestasi - $prestasiPublish, 0);
+
+        $prestasiByTingkat = Prestasi::query()
+            ->whereNotNull('tingkat')
+            ->where('tingkat', '!=', '')
+            ->select('tingkat', DB::raw('count(*) as total'))
+            ->groupBy('tingkat')
+            ->orderByDesc('total')
+            ->limit(5)
+            ->get();
+        $maxTingkat = $prestasiByTingkat->max('total') ?: 1;
+
         return view('admin.dashboard', compact(
             'totalSiswa',
             'totalPrestasi',
@@ -52,7 +69,13 @@ class DashboardController extends Controller
             'endDate',
             'prestasiTerbaru',
             'topSiswa',
-            'websiteViews'
+            'websiteViews',
+            'siswaAktif',
+            'siswaAlumni',
+            'prestasiPublish',
+            'prestasiDraft',
+            'prestasiByTingkat',
+            'maxTingkat'
         ));
     }
 

@@ -17,4 +17,9 @@ class ApiClient extends Model
         'is_active' => 'boolean',
         'last_used_at' => 'datetime',
     ];
+
+    public function usageLogs()
+    {
+        return $this->hasMany(ApiUsageLog::class);
+    }
 }

@@ -6,11 +6,14 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\PrestasiController;
 use App\Http\Controllers\Admin\ArtikelController;
+use App\Http\Controllers\Admin\ApiClientController;
 use App\Http\Controllers\Admin\ImportPrestasiController;
 use App\Http\Controllers\Admin\GaleriController;
+use App\Http\Controllers\Admin\ApiDocumentationController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\OAuthController;
 use App\Http\Middleware\AdminMiddleware;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +54,13 @@ Route::middleware(['auth', AdminMiddleware::class])
         // Dashboard Admin
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard/chart', [DashboardController::class, 'chart'])->name('dashboard.chart');
+
+        Route::get('/api-client', [ApiClientController::class, 'index'])->name('api-client.index');
+        Route::get('/api-client/create', [ApiClientController::class, 'create'])->name('api-client.create');
+        Route::post('/api-client', [ApiClientController::class, 'store'])->name('api-client.store');
+        Route::get('/api-client/{apiClient}', [ApiClientController::class, 'show'])->name('api-client.show');
+        Route::patch('/api-client/{apiClient}/toggle-status', [ApiClientController::class, 'toggleStatus'])->name('api-client.toggle-status');
+        Route::get('/api-documentation', [ApiDocumentationController::class, 'index'])->name('api-documentation.index');
 
         Route::get('prestasi/import', [ImportPrestasiController::class, 'index'])->name('prestasi.import');
         Route::post('prestasi/import', [ImportPrestasiController::class, 'store'])->name('prestasi.import.store');

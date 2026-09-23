@@ -3,14 +3,16 @@
 @section('title', 'Data Artikel')
 
 @section('content')
-<div>
-    <div class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+<div class="page-shell">
+    <div class="page-header animate-fade-in">
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-            <p class="text-sm font-semibold text-emerald-700">Manajemen Konten</p>
-            <h1 class="text-2xl font-bold text-slate-800">{{ isset($artikel) ? 'Edit Artikel' : 'Data Artikel' }}</h1>
-            <p class="text-sm text-slate-500">Kelola artikel manual atau mulai dari prestasi yang sudah tercatat.</p>
+            <p class="mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200">Manajemen Konten</p>
+            <h1 class="text-2xl font-bold md:text-3xl">{{ isset($artikel) ? 'Edit Artikel' : 'Data Artikel' }}</h1>
+            <p class="mt-2 text-sm">Kelola artikel manual atau mulai dari prestasi yang sudah tercatat.</p>
         </div>
         <button type="button" onclick="openArticleModal()" class="admin-btn-primary"><i class="fas fa-plus mr-2"></i>Buat Artikel</button>
+        </div>
     </div>
 
     @if($errors->any())

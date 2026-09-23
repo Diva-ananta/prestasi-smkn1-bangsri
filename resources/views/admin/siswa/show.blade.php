@@ -1,15 +1,22 @@
-<x-app-layout>
-    <div class="mx-auto max-w-6xl space-y-6">
+@extends('layouts.admin')
+
+@section('title', 'Detail Siswa')
+
+@section('content')
+    <div class="page-shell mx-auto max-w-6xl">
         <x-admin.breadcrumb :items="['Siswa' => route('admin.siswa.index'), 'Detail' => '#']" />
 
-        <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">Data Siswa</p>
-                <h1 class="mt-1 text-2xl font-bold text-slate-800 dark:text-white">Profil dan Riwayat Prestasi</h1>
-            </div>
-            <div class="flex flex-wrap gap-2">
-                <a data-ajax-page href="{{ route('admin.siswa.edit', $siswa) }}" title="Edit siswa" aria-label="Edit siswa" class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 transition hover:bg-amber-200"><i class="fas fa-pen"></i></a>
-                <a href="{{ route('admin.siswa.index') }}" title="Kembali ke daftar siswa" aria-label="Kembali ke daftar siswa" class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-300 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"><i class="fas fa-arrow-left"></i></a>
+        <div class="page-header animate-fade-in">
+            <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                <div>
+                    <p class="mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200">Data Siswa</p>
+                    <h1 class="text-2xl font-bold md:text-3xl">Profil dan Riwayat Prestasi</h1>
+                    <p class="mt-2 text-sm">Informasi siswa dan rekam prestasi yang telah dicatat.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <a data-ajax-page href="{{ route('admin.siswa.edit', $siswa) }}" title="Edit siswa" aria-label="Edit siswa" class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 text-white transition hover:bg-white/25"><i class="fas fa-pen"></i></a>
+                    <a href="{{ route('admin.siswa.index') }}" title="Kembali ke daftar siswa" aria-label="Kembali ke daftar siswa" class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 text-white transition hover:bg-white/25"><i class="fas fa-arrow-left"></i></a>
+                </div>
             </div>
         </div>
 
@@ -67,4 +74,4 @@
             </section>
         </div>
     </div>
-</x-app-layout>
+@endsection

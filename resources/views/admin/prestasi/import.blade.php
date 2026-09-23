@@ -3,12 +3,16 @@
 @section('title', 'Import Excel')
 
 @section('content')
-<div class="max-w-2xl mx-auto">
-    <div class="flex items-center gap-3 mb-6">
-        <a href="{{ route('admin.prestasi.index') }}" class="text-gray-500 hover:text-gray-700">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-        <h1 class="text-2xl font-bold text-gray-800">Import Data Prestasi</h1>
+<div class="page-shell mx-auto max-w-2xl">
+    <div class="page-header animate-fade-in">
+        <div class="flex items-center gap-4">
+            <a href="{{ route('admin.prestasi.index') }}" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15 text-white transition hover:bg-white/25" aria-label="Kembali ke daftar prestasi"><i class="fas fa-arrow-left"></i></a>
+            <div>
+                <p class="mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200">Master Data · Prestasi</p>
+                <h1 class="text-2xl font-bold md:text-3xl">Import Data Prestasi</h1>
+                <p class="mt-2 text-sm">Masukkan data prestasi secara massal melalui file Excel.</p>
+            </div>
+        </div>
     </div>
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">

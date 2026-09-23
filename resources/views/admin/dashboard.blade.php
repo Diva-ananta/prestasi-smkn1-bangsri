@@ -8,11 +8,12 @@
 
 @section('content')
 <div class="page-shell">
+    {{-- ===== HEADER ===== --}}
     <div class="page-header animate-fade-in overflow-hidden">
         <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div class="max-w-2xl">
                 <div class="mb-3 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
-                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     Dashboard administrasi
                 </div>
                 <h1 class="text-2xl font-bold tracking-tight text-slate-800 dark:text-white md:text-3xl">Selamat datang, {{ Auth::user()->name }}</h1>
@@ -31,13 +32,34 @@
         </div>
     </div>
 
+    {{-- ===== QUICK ACTIONS ===== --}}
+    <div class="grid grid-cols-2 gap-3 animate-fade-in sm:grid-cols-4">
+        @php
+            $quickActions = [
+                ['label' => 'Tambah Siswa', 'icon' => 'fas fa-user-plus', 'route' => 'admin.siswa.create', 'color' => 'text-blue-600 bg-blue-50 dark:bg-blue-900/30 dark:text-blue-300'],
+                ['label' => 'Tambah Prestasi', 'icon' => 'fas fa-award', 'route' => 'admin.prestasi.create', 'color' => 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 dark:text-emerald-300'],
+                ['label' => 'Kelola Artikel', 'icon' => 'fas fa-newspaper', 'route' => 'admin.artikel.index', 'color' => 'text-violet-600 bg-violet-50 dark:bg-violet-900/30 dark:text-violet-300'],
+                ['label' => 'Kelola Galeri', 'icon' => 'fas fa-images', 'route' => 'admin.galeri.index', 'color' => 'text-amber-600 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-300'],
+            ];
+        @endphp
+        @foreach($quickActions as $action)
+            <a href="{{ route($action['route']) }}" class="section-card flex items-center gap-3 !p-3.5 transition hover:-translate-y-0.5 hover:shadow-md">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl {{ $action['color'] }}">
+                    <i class="{{ $action['icon'] }}"></i>
+                </span>
+                <span class="min-w-0 truncate text-sm font-semibold text-slate-700 dark:text-slate-200">{{ $action['label'] }}</span>
+            </a>
+        @endforeach
+    </div>
+
+    {{-- ===== METRIC CARDS ===== --}}
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 animate-fade-in">
         @php
             $metrics = [
-                ['label' => 'Total Siswa', 'value' => number_format($totalSiswa), 'icon' => 'fas fa-users', 'color' => 'from-blue-500 to-blue-600', 'accent' => 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300'],
-                ['label' => 'Total Prestasi', 'value' => number_format($totalPrestasi), 'icon' => 'fas fa-trophy', 'color' => 'from-emerald-500 to-green-600', 'accent' => 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-300'],
-                ['label' => 'Siswa Berprestasi', 'value' => number_format($totalSiswaBerprestasi), 'icon' => 'fas fa-star', 'color' => 'from-violet-500 to-purple-600', 'accent' => 'bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300'],
-                ['label' => 'Kunjungan Website', 'value' => number_format($websiteViews ?? 0), 'icon' => 'fas fa-eye', 'color' => 'from-amber-500 to-orange-500', 'accent' => 'bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-300'],
+                ['label' => 'Total Siswa', 'value' => number_format($totalSiswa), 'icon' => 'fas fa-users', 'color' => 'from-blue-500 to-blue-600', 'accent' => 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300', 'note' => number_format($siswaAktif ?? 0) . ' siswa aktif'],
+                ['label' => 'Total Prestasi', 'value' => number_format($totalPrestasi), 'icon' => 'fas fa-trophy', 'color' => 'from-emerald-500 to-green-600', 'accent' => 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-300', 'note' => number_format($prestasiPublish ?? 0) . ' sudah dipublish'],
+                ['label' => 'Siswa Berprestasi', 'value' => number_format($totalSiswaBerprestasi), 'icon' => 'fas fa-star', 'color' => 'from-violet-500 to-purple-600', 'accent' => 'bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300', 'note' => $totalSiswa > 0 ? round(($totalSiswaBerprestasi / max($totalSiswa, 1)) * 100) . '% dari total siswa' : 'Belum ada data'],
+                ['label' => 'Kunjungan Website', 'value' => number_format($websiteViews ?? 0), 'icon' => 'fas fa-eye', 'color' => 'from-amber-500 to-orange-500', 'accent' => 'bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-300', 'note' => 'Halaman publik sekolah'],
             ];
         @endphp
 
@@ -55,12 +77,13 @@
                 </div>
                 <div class="mt-5 flex items-center gap-2 border-t border-slate-100 pt-3 text-[11px] font-medium text-slate-400 dark:border-slate-800 dark:text-slate-500">
                     <i class="fas fa-circle-check text-emerald-500"></i>
-                    <span>Data sistem terkini</span>
+                    <span class="truncate">{{ $metric['note'] }}</span>
                 </div>
             </div>
         @endforeach
     </div>
 
+    {{-- ===== CHART + TOP SISWA ===== --}}
     <div class="grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(280px,360px)]">
         <div class="section-card animate-fade-in min-w-0">
             <div class="mb-5 flex flex-col gap-3">
@@ -157,11 +180,84 @@
                     @endforeach
                 </div>
             @else
-                <p class="text-sm text-slate-400">Belum ada data siswa berprestasi.</p>
+                <div class="flex flex-1 flex-col items-center justify-center gap-2 text-center">
+                    <i class="fas fa-star text-3xl text-slate-300 dark:text-slate-600"></i>
+                    <p class="text-sm text-slate-400">Belum ada data siswa berprestasi.</p>
+                </div>
             @endif
         </div>
     </div>
 
+    {{-- ===== INSIGHT: DISTRIBUSI TINGKAT & STATUS SISWA ===== --}}
+    <div class="grid gap-6 lg:grid-cols-2 animate-fade-in">
+        <div class="section-card">
+            <div class="section-card">
+            <div class="mb-5 flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-slate-800 dark:text-white">Distribusi Tingkat Kompetisi</h2>
+                <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300">Top 5</span>
+            </div>
+
+            @if(($prestasiByTingkat ?? collect())->count())
+                <div class="flex flex-col items-center gap-5 sm:flex-row sm:items-center">
+                    <div class="relative h-[200px] w-[200px] shrink-0">
+                        <canvas id="chartTingkat"></canvas>
+                        <div class="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="text-2xl font-bold text-slate-800 dark:text-white">{{ number_format($prestasiByTingkat->sum('total')) }}</span>
+                            <span class="text-[10px] font-medium uppercase tracking-wide text-slate-400">Prestasi</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full min-w-0 flex-1 space-y-2.5">
+                        @php
+                            $tingkatColors = ['#059669', '#0ea5e9', '#8b5cf6', '#f59e0b', '#f43f5e'];
+                        @endphp
+                        @foreach($prestasiByTingkat as $i => $item)
+                            <div class="flex items-center justify-between gap-3 rounded-xl bg-slate-50 px-3 py-2 dark:bg-slate-800/60">
+                                <div class="flex min-w-0 items-center gap-2">
+                                    <span class="h-2.5 w-2.5 shrink-0 rounded-full" style="background-color: {{ $tingkatColors[$i % count($tingkatColors)] }}"></span>
+                                    <span class="truncate text-sm font-medium text-slate-700 dark:text-slate-200">{{ $item->tingkat }}</span>
+                                </div>
+                                <span class="shrink-0 text-sm font-bold text-slate-800 dark:text-white">{{ $item->total }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @else
+                <div class="flex flex-col items-center justify-center gap-2 py-8 text-center">
+                    <i class="fas fa-layer-group text-3xl text-slate-300 dark:text-slate-600"></i>
+                    <p class="text-sm text-slate-400">Belum ada data tingkat kompetisi.</p>
+                </div>
+            @endif
+        </div>
+
+        <div class="section-card">
+            <div class="mb-5 flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-slate-800 dark:text-white">Status Data</h2>
+                <span class="rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">Ringkasan</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="rounded-2xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/60">
+                    <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Siswa Aktif</p>
+                    <p class="mt-1 text-xl font-bold text-slate-800 dark:text-white">{{ number_format($siswaAktif ?? 0) }}</p>
+                </div>
+                <div class="rounded-2xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/60">
+                    <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Alumni</p>
+                    <p class="mt-1 text-xl font-bold text-slate-800 dark:text-white">{{ number_format($siswaAlumni ?? 0) }}</p>
+                </div>
+                <div class="rounded-2xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/60">
+                    <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Prestasi Publish</p>
+                    <p class="mt-1 text-xl font-bold text-emerald-600 dark:text-emerald-400">{{ number_format($prestasiPublish ?? 0) }}</p>
+                </div>
+                <div class="rounded-2xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/60">
+                    <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Prestasi Draft</p>
+                    <p class="mt-1 text-xl font-bold text-amber-600 dark:text-amber-400">{{ number_format($prestasiDraft ?? 0) }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ===== PRESTASI TERBARU ===== --}}
     <div class="section-card animate-fade-in">
         <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -174,11 +270,12 @@
         </div>
 
         <div class="admin-table-wrap overflow-x-auto">
-            <table class="admin-table min-w-[720px] min-w-full text-left text-sm">
+            <table class="admin-table min-w-[760px] min-w-full text-left text-sm">
                 <thead>
                     <tr>
                         <th>Nama Lomba</th>
                         <th>Siswa</th>
+                        <th>Tingkat</th>
                         <th>Hasil</th>
                         <th>Status</th>
                         <th>Tanggal</th>
@@ -191,10 +288,14 @@
                             <td class="text-slate-600 dark:text-slate-300">
                                 @if($prestasi->detailPrestasi->count())
                                     {{ $prestasi->detailPrestasi->first()->siswa->nama ?? '-' }}
+                                    @if($prestasi->detailPrestasi->count() > 1)
+                                        <span class="ml-1 text-xs text-slate-400">+{{ $prestasi->detailPrestasi->count() - 1 }}</span>
+                                    @endif
                                 @else
                                     -
                                 @endif
                             </td>
+                            <td class="text-slate-600 dark:text-slate-300">{{ $prestasi->tingkat ?? '-' }}</td>
                             <td class="text-slate-600 dark:text-slate-300">{{ $prestasi->hasil }}</td>
                             <td>
                                 <span class="inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold {{ $prestasi->status == 'Publish' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' }}">
@@ -205,7 +306,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="py-10 text-center text-sm text-slate-400">
+                            <td colspan="6" class="py-10 text-center text-sm text-slate-400">
                                 <i class="fas fa-trophy mb-3 block text-2xl text-slate-300 dark:text-slate-600"></i>
                                 Belum ada prestasi yang tercatat.
                             </td>
@@ -226,48 +327,50 @@
         const chartLabels = @json($chartLabels ?? []);
         const chartData = @json($chartData ?? []);
 
+        // ===== 1. TREN PRESTASI: Area / line chart dengan gradient =====
+        let chartPrestasi = null;
+
         if (chartCanvas && typeof Chart !== 'undefined') {
             const ctx = chartCanvas.getContext('2d');
             const rangeType = @json($rangeType ?? 'year');
             const filterToggle = document.getElementById('toggleChartFilter');
             const filterPanel = document.getElementById('chartFilterPanel');
-            const barGradient = ctx.createLinearGradient(0, 0, 0, chartCanvas.clientHeight || 330);
-            barGradient.addColorStop(0, '#14b8a6');
-            barGradient.addColorStop(1, '#059669');
 
-            if (filterToggle && filterPanel) {
-                filterToggle.addEventListener('click', function () {
-                    filterPanel.classList.toggle('hidden');
-                });
-            }
+            const buildGradient = (context) => {
+                const chartArea = context.chart.chartArea;
+                if (!chartArea) return 'rgba(16,185,129,0.25)';
+                const gradient = context.chart.ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                gradient.addColorStop(0, 'rgba(16,185,129,0.35)');
+                gradient.addColorStop(1, 'rgba(16,185,129,0.02)');
+                return gradient;
+            };
 
-            const chartPrestasi = new Chart(ctx, {
-                type: 'bar',
+            chartPrestasi = new Chart(ctx, {
+                type: 'line',
                 data: {
                     labels: chartLabels,
                     datasets: [{
                         label: rangeType === 'all' ? 'Prestasi semua tahun' : 'Prestasi dalam periode',
                         data: chartData,
-                        backgroundColor: barGradient,
-                        borderColor: '#047857',
-                        borderWidth: 1,
-                        borderRadius: 10,
-                        borderSkipped: false,
-                        maxBarThickness: 42,
-                        hoverBackgroundColor: '#0f766e',
+                        fill: true,
+                        backgroundColor: buildGradient,
+                        borderColor: '#059669',
+                        borderWidth: 2.5,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#059669',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointHoverBackgroundColor: '#047857',
+                        pointHoverBorderWidth: 2,
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: {
-                        duration: 500,
-                        easing: 'easeOutQuart'
-                    },
-                    interaction: {
-                        mode: 'index',
-                        intersect: false
-                    },
+                    animation: { duration: 600, easing: 'easeOutQuart' },
+                    interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
@@ -295,34 +398,24 @@
                                 maxTicksLimit: 8,
                                 maxRotation: 0,
                                 minRotation: 0
-                            },
-                            categoryPercentage: 0.8,
-                            barPercentage: 0.7
+                            }
                         },
                         y: {
                             beginAtZero: true,
                             suggestedMax: Math.max(...chartData, 1) + 1,
-                            ticks: {
-                                precision: 0,
-                                color: '#64748b',
-                                font: { size: 10 }
-                            },
-                            grid: {
-                                color: 'rgba(148,163,184,0.14)',
-                                borderDash: [4, 4],
-                                drawBorder: false
-                            }
+                            ticks: { precision: 0, color: '#64748b', font: { size: 10 } },
+                            grid: { color: 'rgba(148,163,184,0.14)', borderDash: [4, 4], drawBorder: false }
                         }
                     }
                 }
             });
 
             const chartText = rangeType === 'all' ? 'Semua tahun' : 'Periode 1 tahun';
-            if (chartLabel) {
-                chartLabel.textContent = chartText;
-            }
-            if (chartTotal) {
-                chartTotal.textContent = chartData.reduce((total, value) => total + Number(value || 0), 0).toLocaleString('id-ID');
+            if (chartLabel) chartLabel.textContent = chartText;
+            if (chartTotal) chartTotal.textContent = chartData.reduce((t, v) => t + Number(v || 0), 0).toLocaleString('id-ID');
+
+            if (filterToggle && filterPanel) {
+                filterToggle.addEventListener('click', () => filterPanel.classList.toggle('hidden'));
             }
 
             const filterForm = document.getElementById('chartFilterForm');
@@ -331,23 +424,15 @@
             if (filterForm) {
                 filterForm.addEventListener('submit', async function (event) {
                     event.preventDefault();
-
                     const formData = new FormData(filterForm);
                     const params = new URLSearchParams(formData);
                     const chartUrl = `${filterForm.dataset.chartUrl}?${params.toString()}`;
 
                     try {
                         const response = await fetch(chartUrl, {
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'Accept': 'application/json'
-                            }
+                            headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
                         });
-
-                        if (!response.ok) {
-                            throw new Error('Gagal memuat data grafik');
-                        }
-
+                        if (!response.ok) throw new Error('Gagal memuat data grafik');
                         const payload = await response.json();
 
                         chartPrestasi.data.labels = payload.chartLabels ?? [];
@@ -356,12 +441,8 @@
                         chartPrestasi.options.scales.y.suggestedMax = Math.max(...(payload.chartData ?? [0]), 1) + 1;
                         chartPrestasi.update();
 
-                        if (chartLabel) {
-                            chartLabel.textContent = payload.labelText ?? 'Periode 1 tahun';
-                        }
-                        if (chartTotal) {
-                            chartTotal.textContent = (payload.chartData ?? []).reduce((total, value) => total + Number(value || 0), 0).toLocaleString('id-ID');
-                        }
+                        if (chartLabel) chartLabel.textContent = payload.labelText ?? 'Periode 1 tahun';
+                        if (chartTotal) chartTotal.textContent = (payload.chartData ?? []).reduce((t, v) => t + Number(v || 0), 0).toLocaleString('id-ID');
 
                         const queryString = params.toString();
                         const url = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
@@ -378,6 +459,50 @@
                     window.location.href = '{{ route('admin.dashboard') }}';
                 });
             }
+        }
+
+        // ===== 2. DOUGHNUT CHART: Distribusi Tingkat Kompetisi =====
+        const tingkatCanvas = document.getElementById('chartTingkat');
+        if (tingkatCanvas && typeof Chart !== 'undefined') {
+            const tingkatLabels = @json(($prestasiByTingkat ?? collect())->pluck('tingkat'));
+            const tingkatData = @json(($prestasiByTingkat ?? collect())->pluck('total'));
+            const tingkatColors = ['#059669', '#0ea5e9', '#8b5cf6', '#f59e0b', '#f43f5e'];
+
+            new Chart(tingkatCanvas.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: tingkatLabels,
+                    datasets: [{
+                        data: tingkatData,
+                        backgroundColor: tingkatColors,
+                        borderColor: '#ffffff',
+                        borderWidth: 3,
+                        hoverOffset: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '72%',
+                    animation: { duration: 600, easing: 'easeOutQuart' },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.label}: ${context.parsed} prestasi`
+                            },
+                            backgroundColor: 'rgba(15,23,42,0.96)',
+                            titleColor: '#fff',
+                            bodyColor: '#cbd5e1',
+                            borderColor: 'rgba(148,163,184,0.3)',
+                            borderWidth: 1,
+                            cornerRadius: 12,
+                            displayColors: true,
+                            padding: 10
+                        }
+                    }
+                }
+            });
         }
     });
 </script>

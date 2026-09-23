@@ -4,14 +4,17 @@
 
 @section('content')
 <div class="page-shell">
-    <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div class="page-header animate-fade-in mb-6">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <p class="text-xs font-bold uppercase tracking-[0.22em] text-emerald-700 dark:text-emerald-400">Manajemen konten</p>
-            <h1 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Detail Artikel</h1>
+            <p class="mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200">Manajemen Konten</p>
+            <h1 class="text-2xl font-bold md:text-3xl">Detail Artikel</h1>
+            <p class="mt-2 text-sm">Tinjau isi, status, dan informasi publikasi artikel.</p>
         </div>
         <div class="flex gap-2">
-            <a data-ajax-page href="{{ route('admin.artikel.edit', $artikel) }}" title="Edit artikel" aria-label="Edit artikel" class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 transition hover:bg-amber-200 dark:bg-amber-900/40 dark:text-amber-300"><i class="fas fa-pen"></i></a>
-            <a href="{{ route('admin.artikel.index') }}" title="Kembali ke daftar artikel" aria-label="Kembali ke daftar artikel" class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-300 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"><i class="fas fa-arrow-left"></i></a>
+            <a data-ajax-page href="{{ route('admin.artikel.edit', $artikel) }}" title="Edit artikel" aria-label="Edit artikel" class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 text-white transition hover:bg-white/25"><i class="fas fa-pen"></i></a>
+            <a href="{{ route('admin.artikel.index') }}" title="Kembali ke daftar artikel" aria-label="Kembali ke daftar artikel" class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 text-white transition hover:bg-white/25"><i class="fas fa-arrow-left"></i></a>
+        </div>
         </div>
     </div>
 

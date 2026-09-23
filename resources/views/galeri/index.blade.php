@@ -61,7 +61,7 @@
                 @php($embedUrl = \App\Helpers\SocialMedia::embed($videoUrl))
                 <div x-show="activeCatalog === 'all' || activeCatalog === '{{ $platform ?: 'foto' }}'" class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
 
-                    <div class="relative {{ in_array($platform, ['tiktok', 'instagram']) ? 'aspect-[9/16]' : 'aspect-[4/3]' }} overflow-hidden bg-emerald-50 dark:bg-emerald-950">
+                    <div class="relative aspect-[4/5] overflow-hidden bg-emerald-50 dark:bg-emerald-950">
                         @if($embedUrl && $platform === 'youtube')
                             <details class="group/video h-full">
                                 <summary class="relative h-full cursor-pointer list-none">

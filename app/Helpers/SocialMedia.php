@@ -37,7 +37,7 @@ class SocialMedia
 
     private static function instagramEmbed(string $url): ?string
     {
-        if (! preg_match('#/(?:p|reel|tv)/([^/?#]+)#', (string) parse_url($url, PHP_URL_PATH), $matches)) {
+        if (! preg_match('~/(?:p|reel|tv)/([^/?#]+)~', (string) parse_url($url, PHP_URL_PATH), $matches)) {
             return null;
         }
 
