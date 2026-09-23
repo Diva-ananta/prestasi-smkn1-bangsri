@@ -21,12 +21,12 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-3">
-                <div class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                <div class="admin-btn-secondary inline-flex items-center gap-2 px-3 py-2 text-xs">
                     <i class="far fa-calendar-alt text-emerald-600 dark:text-emerald-400"></i>
                     {{ now()->translatedFormat('d M Y') }}
                 </div>
                 <a href="{{ route('admin.prestasi.create') }}" class="admin-btn-primary rounded-xl px-3.5 py-2" aria-label="Tambah prestasi baru">
-                    <i class="fas fa-plus mr-2 text-xs"></i>Tambah Prestasi
+                    <i class="fas fa-plus mr-2 text-xs "></i>Tambah Prestasi
                 </a>
             </div>
         </div>
@@ -152,7 +152,7 @@
             @if($topSiswa->count())
                 <div class="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     @foreach($topSiswa as $index => $item)
-                        <a href="{{ $item->siswa && $item->siswa->public_token ? route('public.siswa.show', ['token' => $item->siswa->public_token]) : '#' }}" class="block w-full min-w-0 overflow-hidden rounded-2xl border border-transparent bg-slate-50 p-3 transition-colors hover:border-slate-200 hover:bg-white dark:bg-slate-800/60 dark:hover:border-slate-700 dark:hover:bg-slate-800">
+                        <a href="{{ $item->siswa ? route('admin.siswa.show', $item->siswa->id) : '#' }}" class="block w-full min-w-0 overflow-hidden rounded-2xl border border-transparent bg-slate-50 p-3 transition-colors hover:border-slate-200 hover:bg-white dark:bg-slate-800/60 dark:hover:border-slate-700 dark:hover:bg-slate-800">
                             <div class="flex items-center justify-between gap-3">
                                 <div class="flex min-w-0 flex-1 items-center gap-3">
                                     <div class="relative flex h-11 w-11 shrink-0 overflow-hidden rounded-full border-2 border-white shadow-sm dark:border-slate-900">
@@ -273,21 +273,21 @@
             <table class="admin-table min-w-[760px] min-w-full text-left text-sm">
                 <thead>
                     <tr>
-                        <th>Nama Lomba</th>
-                        <th>Siswa</th>
-                        <th>Tingkat</th>
-                        <th>Hasil</th>
-                        <th>Status</th>
-                        <th>Tanggal</th>
+                        <th class="px-4 py-3 text-sm font-semibold text-slate-600">Nama Lomba</th>
+                        <th class="px-4 py-3 text-sm font-semibold text-slate-600">Siswa</th>
+                        <th class="px-4 py-3 text-sm font-semibold text-slate-600">Tingkat</th>
+                        <th class="px-4 py-3 text-sm font-semibold text-slate-600">Hasil</th>
+                        <th class="px-4 py-3 text-sm font-semibold text-slate-600">Status</th>
+                        <th class="px-4 py-3 text-sm font-semibold text-slate-600">Tanggal</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($prestasiTerbaru as $prestasi)
                         <tr>
-                            <td class="max-w-xs font-semibold text-slate-700 dark:text-slate-200"><span class="line-clamp-2">{{ $prestasi->nama_lomba ?? '-' }}</span></td>
-                            <td class="text-slate-600 dark:text-slate-300">
+                            <td class="px-4 py-3 max-w-xs font-semibold text-slate-700 dark:text-slate-200"><span class="line-clamp-2 block">{{ $prestasi->nama_lomba ?? '-' }}</span></td>
+                            <td class="px-4 py-3 text-slate-600 dark:text-slate-300 max-w-[220px] truncate">
                                 @if($prestasi->detailPrestasi->count())
-                                    {{ $prestasi->detailPrestasi->first()->siswa->nama ?? '-' }}
+                                    <span class="truncate">{{ $prestasi->detailPrestasi->first()->siswa->nama ?? '-' }}</span>
                                     @if($prestasi->detailPrestasi->count() > 1)
                                         <span class="ml-1 text-xs text-slate-400">+{{ $prestasi->detailPrestasi->count() - 1 }}</span>
                                     @endif
@@ -295,18 +295,18 @@
                                     -
                                 @endif
                             </td>
-                            <td class="text-slate-600 dark:text-slate-300">{{ $prestasi->tingkat ?? '-' }}</td>
-                            <td class="text-slate-600 dark:text-slate-300">{{ $prestasi->hasil }}</td>
-                            <td>
-                                <span class="inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold {{ $prestasi->status == 'Publish' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' }}">
+                            <td class="px-4 py-3 text-slate-600 dark:text-slate-300 w-[120px]">{{ $prestasi->tingkat ?? '-' }}</td>
+                            <td class="px-4 py-3 text-slate-600 dark:text-slate-300 max-w-[140px] truncate">{{ $prestasi->hasil }}</td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold {{ $prestasi->status == 'Publish' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' }}">
                                     {{ $prestasi->status }}
                                 </span>
                             </td>
-                            <td class="whitespace-nowrap text-slate-500 dark:text-slate-400">{{ $prestasi->created_at->diffForHumans() }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-slate-500 dark:text-slate-400">{{ $prestasi->created_at->diffForHumans() }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="py-10 text-center text-sm text-slate-400">
+                            <td colspan="6" class="px-4 py-10 text-center text-sm text-slate-400">
                                 <i class="fas fa-trophy mb-3 block text-2xl text-slate-300 dark:text-slate-600"></i>
                                 Belum ada prestasi yang tercatat.
                             </td>

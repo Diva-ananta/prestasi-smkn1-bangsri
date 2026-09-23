@@ -11,6 +11,9 @@
         'angkatanData' => $analitikSiswaAngkatan->pluck('total')->all(),
         'statusLabels' => $analitikSiswaStatus->pluck('status')->all(),
         'statusData' => $analitikSiswaStatus->pluck('total')->all(),
+        // Tahun chart: use angkatan aggregation as year grouping
+        'tahunLabels' => $analitikSiswaAngkatan->pluck('angkatan')->all(),
+        'tahunData' => $analitikSiswaAngkatan->pluck('total')->all(),
     ];
 @endphp
 <div class="min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -42,9 +45,9 @@
 
                 <div id="siswa-analytics" x-data="{ activeChart: 'jurusan', selectChart(name) { this.activeChart = name; requestAnimationFrame(() => window.dispatchEvent(new Event('resize'))); } }" class="min-w-0 rounded-[20px] border border-slate-200 bg-white p-4 shadow-lg dark:border-slate-800 dark:bg-slate-900 sm:rounded-[24px] sm:p-5">
                     <script id="siswa-chart-data" type="application/json">{!! json_encode($siswaChartData, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}</script>
-                    <div class="flex min-h-10 min-w-0 items-center justify-between gap-3"><div class="min-w-0"><p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Analitik siswa</p><h2 class="mt-1 break-words text-base font-bold text-slate-900 dark:text-white sm:text-lg" x-text="{ jurusan: 'Siswa berdasarkan program keahlian', angkatan: 'Siswa berdasarkan angkatan', status: 'Siswa berdasarkan status' }[activeChart]"></h2></div><span class="hidden shrink-0 text-xs text-slate-400 sm:inline">Grafik batang</span></div>
-                    <div class="mt-4 h-48 sm:h-56"><canvas id="siswaJurusanChart" x-show="activeChart === 'jurusan'"></canvas><canvas id="siswaAngkatanChart" x-show="activeChart === 'angkatan'"></canvas><canvas id="siswaStatusChart" x-show="activeChart === 'status'"></canvas></div>
-                    <div class="mt-4 grid grid-cols-3 gap-1.5 border-t border-slate-100 pt-4 dark:border-slate-800 sm:gap-2"><button type="button" @click="selectChart('jurusan')" :class="activeChart === 'jurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Program Keahlian</button><button type="button" @click="selectChart('angkatan')" :class="activeChart === 'angkatan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Angkatan</button><button type="button" @click="selectChart('status')" :class="activeChart === 'status' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Status</button></div>
+                    <div class="flex min-h-10 min-w-0 items-center justify-between gap-3"><div class="min-w-0"><p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Analitik siswa</p><h2 class="mt-1 break-words text-base font-bold text-slate-900 dark:text-white sm:text-lg" x-text="{ jurusan: 'Siswa berdasarkan program keahlian', angkatan: 'Siswa berdasarkan angkatan', tahun: 'Siswa berdasarkan tahun' }[activeChart]"></h2></div><span class="hidden shrink-0 text-xs text-slate-400 sm:inline">Grafik batang</span></div>
+                    <div class="mt-4 h-48 sm:h-56"><canvas id="siswaJurusanChart" x-show="activeChart === 'jurusan'"></canvas><canvas id="siswaAngkatanChart" x-show="activeChart === 'angkatan'"></canvas><canvas id="siswaTahunChart" x-show="activeChart === 'tahun'"></canvas></div>
+                    <div class="mt-4 grid grid-cols-3 gap-1.5 border-t border-slate-100 pt-4 dark:border-slate-800 sm:gap-2"><button type="button" @click="selectChart('jurusan')" :class="activeChart === 'jurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Program Keahlian</button><button type="button" @click="selectChart('angkatan')" :class="activeChart === 'angkatan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Angkatan</button><button type="button" @click="selectChart('tahun')" :class="activeChart === 'tahun' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Tahun</button></div>
             </div>
         </div>
     </section>
@@ -189,7 +192,8 @@
         }
         createSiswaChart('siswaJurusanChart', chartData.jurusanLabels, chartData.jurusanData, ['#10b981', '#14b8a6', '#0ea5e9', '#f59e0b', '#f97316', '#64748b']);
         createSiswaChart('siswaAngkatanChart', chartData.angkatanLabels, chartData.angkatanData, '#14b8a6');
-        createSiswaChart('siswaStatusChart', chartData.statusLabels, chartData.statusData, ['#10b981', '#f59e0b']);
+        // Replace status chart with tahun (year) chart
+        createSiswaChart('siswaTahunChart', chartData.tahunLabels, chartData.tahunData, '#f59e0b');
     });
 </script>
 @endpush

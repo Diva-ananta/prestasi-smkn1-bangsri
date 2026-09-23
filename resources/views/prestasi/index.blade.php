@@ -61,15 +61,14 @@
                     <div class="flex min-h-10 items-center justify-between gap-3">
                         <div class="min-w-0">
                             <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Analitik prestasi</p>
-                            <h2 class="mt-1 break-words text-base font-bold text-slate-900 dark:text-white sm:text-lg" x-text="{ tahun: 'Prestasi berdasarkan tahun', jurusan: 'Prestasi berdasarkan program keahlian', tahunTrend: 'Prestasi berdasarkan tahun', tingkat: 'Prestasi berdasarkan tingkat' }[activeChart]"></h2>
+                            <h2 class="mt-1 break-words text-base font-bold text-slate-900 dark:text-white sm:text-lg" x-text="{ tahun: 'Prestasi berdasarkan tahun', jurusan: 'Prestasi berdasarkan program keahlian', tingkat: 'Prestasi berdasarkan tingkat' }[activeChart]"></h2>
                         </div>
                         <span class="hidden text-xs text-slate-400 sm:inline">Grafik Prestasi</span>
                     </div>
-                    <div class="mt-4 h-48 sm:h-56"><canvas id="tahunChart" x-show="activeChart === 'tahun'"></canvas><canvas id="jurusanChart" x-show="activeChart === 'jurusan'"></canvas><canvas id="tahunTrendChart" x-show="activeChart === 'tahunTrend'"></canvas><canvas id="tingkatChart" x-show="activeChart === 'tingkat'"></canvas></div>
+                    <div class="mt-4 h-48 sm:h-56"><canvas id="tahunChart" x-show="activeChart === 'tahun'"></canvas><canvas id="jurusanChart" x-show="activeChart === 'jurusan'"></canvas><canvas id="tingkatChart" x-show="activeChart === 'tingkat'"></canvas></div>
                     <div class="mt-4 grid grid-cols-2 gap-2 border-t border-slate-100 pt-4 dark:border-slate-800 sm:grid-cols-4">
                         <button type="button" @click="selectChart('tahun')" :class="activeChart === 'tahun' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Tahun</button>
                         <button type="button" @click="selectChart('jurusan')" :class="activeChart === 'jurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Program Keahlian</button>
-                        <button type="button" @click="selectChart('tahunTrend')" :class="activeChart === 'tahunTrend' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Tren Tahun</button>
                         <button type="button" @click="selectChart('tingkat')" :class="activeChart === 'tingkat' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-2 py-2 text-xs font-bold transition">Tingkat</button>
                     </div>
                 </div>
@@ -396,20 +395,7 @@
                     options: chartOptions()
                 });
 
-            createChart('tahunTrendChart', {
-                    type: 'bar',
-                    data: {
-                        labels: chartData.tahunLabels || [],
-                        datasets: [{
-                            label: 'Prestasi',
-                            data: chartData.tahunData || [],
-                            backgroundColor: '#14b8a6',
-                            borderRadius: 8,
-                            borderSkipped: false,
-                        }]
-                    },
-                    options: chartOptions()
-                });
+            // 'Tren Tahun' chart removed per UI request
 
             createChart('tingkatChart', {
                     type: 'bar',
