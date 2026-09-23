@@ -25,7 +25,7 @@
                 <div class="profile-card-header h-28">
                     <div class="absolute -bottom-10 left-1/2 flex h-20 w-20 -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-emerald-50 text-2xl font-bold text-emerald-700 shadow-md dark:border-slate-900 dark:bg-emerald-950 dark:text-emerald-300">
                         @if($siswa->foto)
-                            <img src="{{ asset('storage/' . $siswa->foto) }}" alt="Foto {{ $siswa->nama }}" class="h-full w-full object-contain">
+                            <img src="{{ asset('storage/' . $siswa->foto) }}" alt="Foto {{ $siswa->nama }}" class="h-full w-full object-cover rounded-full">
                         @else
                             {{ collect(explode(' ', $siswa->nama))->map(fn($word) => strtoupper(substr($word, 0, 1)))->take(2)->join('') }}
                         @endif
