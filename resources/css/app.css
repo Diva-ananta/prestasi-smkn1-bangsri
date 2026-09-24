@@ -235,6 +235,84 @@ body {
     color: #d1fae5 !important;
 }
 
+/* Make action buttons inside page headers more vivid (SiPintu-like) */
+.page-header .admin-btn-primary {
+    @apply bg-lime-400 text-slate-900 border-transparent hover:bg-lime-300;
+    color: #0f172a !important;
+}
+
+.page-header .admin-btn-secondary {
+    @apply bg-white/10 text-white border-transparent hover:bg-white/20;
+}
+
+.page-header .inline-flex.items-center,
+.page-header button.inline-flex,
+.page-header a.inline-flex {
+    color: rgba(255,255,255,0.95) !important;
+}
+
+.page-header .admin-btn-primary i {
+    @apply text-xs;
+    color: #0f172a !important;
+}
+.page-header .admin-btn-secondary i {
+    @apply text-xs text-white/90;
+}
+
+/* Small gradient header for profile / card components */
+.profile-card-header {
+    @apply relative overflow-hidden rounded-t-2xl;
+    background: linear-gradient(115deg, #065f46 0%, #047857 48%, #115e59 100%);
+}
+
+.profile-card-header::after {
+    content: '';
+    position: absolute;
+    right: -3rem;
+    top: -4rem;
+    width: 10rem;
+    height: 10rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 9999px;
+    box-shadow: 0 0 0 1.2rem rgba(255,255,255,0.03);
+    pointer-events: none;
+}
+
+.profile-card-header .h-20,
+.profile-card-header .h-24 {
+    @apply bg-transparent;
+}
+
+/* Public-facing page header (hero/title background similar to admin) */
+.public-page-header {
+    @apply relative overflow-hidden p-10 rounded-2xl text-white;
+    background: linear-gradient(115deg, #065f46 0%, #047857 48%, #115e59 100%);
+}
+
+.public-page-header::after {
+    content: '';
+    position: absolute;
+    right: -4rem;
+    top: -5rem;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 0 0 1.5rem rgba(255,255,255,0.03);
+    pointer-events: none;
+}
+
+.public-page-header h1,
+.public-page-header h2,
+.public-page-header p {
+    color: rgba(255,255,255,0.95) !important;
+}
+
+.public-page-header .inline-flex[role],
+.public-page-header .inline-flex.items-center {
+    color: rgba(255,255,255,0.95) !important;
+}
+
 .section-card {
     @apply glass-panel rounded-2xl p-4 md:p-5;
 }
@@ -416,11 +494,11 @@ select.admin-form-input option {
 }
 
 .admin-btn-primary {
-    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-3.5 py-2 text-sm font-semibold leading-5 text-white transition-colors duration-200 hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-100 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-emerald-900/40;
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-lime-400 px-3.5 py-2 text-sm font-bold leading-5 text-slate-900 shadow-lg transition-all duration-200 hover:bg-lime-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
 .admin-btn-secondary {
-    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2 text-sm font-semibold leading-5 text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 dark:focus:ring-slate-800;
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-white/15 px-3.5 py-2 text-sm font-bold leading-5 text-white backdrop-blur transition hover:bg-white/25 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
 .admin-btn-danger {

@@ -20,12 +20,13 @@
             </div>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-[280px_1fr]">
+        <div class="grid gap-6 lg:grid-cols-[320px_1fr]">
             <aside class="h-fit overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <div class="relative h-20 bg-emerald-700">
+                <div class="profile-card-header h-28">
                     <div class="absolute -bottom-10 left-1/2 flex h-20 w-20 -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-emerald-50 text-2xl font-bold text-emerald-700 shadow-md dark:border-slate-900 dark:bg-emerald-950 dark:text-emerald-300">
                         @if($siswa->foto)
                             <img src="{{ asset('storage/' . $siswa->foto) }}" alt="Foto {{ $siswa->nama }}" class="h-full w-full object-cover object-top">
+                            <img src="{{ asset('storage/' . $siswa->foto) }}" alt="Foto {{ $siswa->nama }}" class="h-full w-full object-cover rounded-full">
                         @else
                             {{ collect(explode(' ', $siswa->nama))->map(fn($word) => strtoupper(substr($word, 0, 1)))->take(2)->join('') }}
                         @endif

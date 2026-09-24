@@ -8,16 +8,16 @@
 @endphp
 
 <div class="min-h-screen bg-slate-50 dark:bg-slate-950">
-    <section class="relative overflow-hidden border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-        <div class="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-slate-100 dark:bg-slate-800/60"></div>
-        <div class="relative mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 lg:px-8 lg:py-14">
-            <h1 class="text-3xl font-black tracking-tight sm:text-4xl"><span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">Profil Siswa</span></h1>
-            <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-500 dark:text-slate-400">{{ $siswa->nama }}</p>
+    <section class="public-page-header">
+        <div class="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-white/8"></div>
+        <div class="relative mx-auto max-w-4xl px-4 py-12 text-center sm:px-6 lg:px-8 lg:py-14">
+            <h1 class="text-4xl font-black tracking-tight sm:text-5xl">Profil Siswa</h1>
+            <p class="mx-auto mt-3 max-w-xl text-sm leading-6">{{ $siswa->nama }}</p>
         </div>
     </section>
 
     <main class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
-        <div class="grid items-stretch gap-5 md:grid-cols-[250px_minmax(0,1fr)]">
+        <div class="grid items-stretch gap-5 md:grid-cols-[300px_minmax(0,1fr)]">
             <aside class="h-fit overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 md:sticky md:top-24 md:self-start">
                 <div class="relative h-24 bg-emerald-700">
                     <div class="absolute -bottom-12 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-slate-100 text-2xl font-bold text-emerald-700 shadow-md dark:border-slate-900 dark:bg-slate-800 dark:text-emerald-300">
