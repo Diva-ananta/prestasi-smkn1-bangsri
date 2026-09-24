@@ -9,7 +9,6 @@ use App\Models\Galeri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class PublicController extends Controller
 {
@@ -219,18 +218,6 @@ class PublicController extends Controller
     {
         $token ??= request()->query('token');
         $siswa = Siswa::where('public_token', $token)->firstOrFail();
-        return $this->renderSiswaShow($siswa);
-    }
-
-    public function siswaShowByName(string $nama)
-    {
-        $slug = Str::slug($nama);
-        $siswa = Siswa::where('is_published', true)
-            ->get()
-            ->first(fn (Siswa $candidate) => Str::slug($candidate->nama) === $slug);
-
-        abort_unless($siswa, 404);
-
         return $this->renderSiswaShow($siswa);
     }
 

@@ -32,18 +32,6 @@ Route::get('/tentang', [PublicController::class, 'tentang'])->name('public.tenta
 
 /*
 |--------------------------------------------------------------------------
-| Dashboard & Profile (hanya untuk user yang login)
-|--------------------------------------------------------------------------
-*/
-Route::middleware('auth')->group(function () {
-    
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-/*
-|--------------------------------------------------------------------------
 | ADMIN - Hanya untuk user dengan is_admin = 1
 |--------------------------------------------------------------------------
 */

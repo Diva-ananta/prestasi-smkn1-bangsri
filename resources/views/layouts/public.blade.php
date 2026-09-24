@@ -43,9 +43,19 @@
         .dark .page-subtitle {
             color: #94a3b8;
         }
+
+        .public-site .bg-clip-text {
+            background-image: none !important;
+            color: #047857 !important;
+            -webkit-text-fill-color: currentColor;
+        }
+
+        .dark .public-site .bg-clip-text {
+            color: #34d399 !important;
+        }
     </style>
     </head>
-    <body class="bg-slate-100 text-slate-800 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
+    <body class="public-site bg-slate-100 text-slate-800 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
         <nav x-data="{ open: false }" class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl transition-colors duration-300 dark:border-slate-800 dark:bg-slate-900/90">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex min-h-16 items-center justify-between gap-2 py-2 sm:py-2.5">

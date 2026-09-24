@@ -307,7 +307,7 @@
                 document.getElementById('prestasi-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } catch (error) {
                 if (error.name !== 'AbortError') {
-                    window.location.assign(url);
+                    window.adminNotify?.('Filter gagal dimuat. Silakan coba lagi.', 'error');
                 }
             } finally {
                 const refreshedResults = document.getElementById('prestasi-results');
@@ -338,6 +338,9 @@
 
         document.querySelector('[data-ajax-filter-reset]')?.addEventListener('click', function (event) {
             event.preventDefault();
+            filterForm?.querySelectorAll('select').forEach(function (select) {
+                select.value = '';
+            });
             applyFilter(new URL(this.href, window.location.origin));
         });
 

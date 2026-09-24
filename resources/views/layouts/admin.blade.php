@@ -32,6 +32,11 @@
 
         .dark ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.7); }
         .dark ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.7); }
+
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation-duration: 120ms;
+        }
     </style>
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
@@ -141,8 +146,13 @@
                 const parsed = new DOMParser().parseFromString(html, 'text/html');
                 const incoming = parsed.querySelector('main');
                 const current = document.querySelector('main');
-                if (!incoming || !current) return window.location.assign(link.href);
-                current.innerHTML = incoming.innerHTML;
+                if (!incoming || !current) throw new Error('Halaman AJAX tidak memiliki konten utama.');
+                const updateContent = () => { current.innerHTML = incoming.innerHTML; };
+                if (document.startViewTransition) {
+                    await document.startViewTransition(updateContent).finished;
+                } else {
+                    updateContent();
+                }
                 document.title = parsed.title;
                 if (replaceHistory) {
                     window.history.replaceState({}, '', link.href);
@@ -194,7 +204,9 @@
                             newInput.focus();
                             newInput.setSelectionRange(cursorPos, cursorPos);
                         }
-                    } catch (error) { /* biarkan, tombol "Cari" tetap jadi fallback */ }
+                    } catch (error) {
+                        window.adminNotify?.('Pencarian gagal dimuat. Silakan coba lagi.', 'error');
+                    }
                 }, 400);
             });
 
@@ -204,10 +216,20 @@
                 event.preventDefault();
                 clearTimeout(liveSearchTimer);
                 const url = `${form.getAttribute('action')}?${new URLSearchParams(new FormData(form)).toString()}`;
-                try { await loadPage({ href: url }); } catch (error) { window.location.assign(url); }
+                try {
+                    await loadPage({ href: url });
+                } catch (error) {
+                    window.adminNotify?.('Pencarian gagal dimuat. Silakan coba lagi.', 'error');
+                }
             });
 
-            window.addEventListener('popstate', () => window.location.reload());
+            window.addEventListener('popstate', async () => {
+                try {
+                    await loadPage({ href: window.location.href }, { replaceHistory: true });
+                } catch (error) {
+                    window.adminNotify?.('Halaman gagal dimuat. Silakan coba lagi.', 'error');
+                }
+            });
         })();
     </script>
 

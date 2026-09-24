@@ -8,7 +8,7 @@
 
     {{-- HEADER --}}
     <section class="border-b border-emerald-100 bg-white dark:border-slate-800 dark:bg-slate-900">
-        <div class="mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 lg:px-8 lg:pb-14 lg:pt-16">
+        <div class="mx-auto max-w-7xl px-4 pb-10 pt-12 text-center sm:px-6 lg:px-8 lg:pb-14 lg:pt-16">
 
             <p class="text-xs font-bold uppercase tracking-[0.24em] text-emerald-700 dark:text-emerald-400">
                 Dokumentasi sekolah
@@ -18,38 +18,24 @@
                 <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">Galeri Prestasi</span>
             </h1>
 
-            <p class="page-subtitle mt-4 max-w-xl text-sm leading-7 sm:text-base">
+            <p class="page-subtitle mx-auto mt-4 max-w-xl text-sm leading-7 sm:text-base">
                 Kumpulan dokumentasi pencapaian siswa SMK Negeri 1 Bangsri.
             </p>
 
-        </div>
-    </section>
-
-
-    {{-- GALERI --}}
-    <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-
-        <div class="mb-7">
-
-            <h2 class="page-title text-xl font-bold">
-                Koleksi dokumentasi
-            </h2>
-
-            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                {{ number_format($galeri->total()) }} dokumentasi tersedia dari foto, YouTube, TikTok, dan Instagram.
-            </p>
-
-        </div>
-
-
-        <div x-data="{ activeCatalog: 'all' }">
-            <div class="mb-6 flex flex-wrap gap-2">
+            <div class="mt-6 flex flex-wrap justify-center gap-2">
                 <button type="button" @click="activeCatalog = 'all'" :class="activeCatalog === 'all' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-600 dark:bg-slate-900 dark:text-slate-300'" class="rounded-full border border-emerald-200 px-4 py-2 text-sm font-bold transition dark:border-slate-700">Semua</button>
                 <button type="button" @click="activeCatalog = 'youtube'" :class="activeCatalog === 'youtube' ? 'bg-red-600 text-white' : 'bg-white text-slate-600 dark:bg-slate-900 dark:text-slate-300'" class="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold transition dark:border-slate-700"><i class="fab fa-youtube mr-1.5"></i>YouTube</button>
                 <button type="button" @click="activeCatalog = 'tiktok'" :class="activeCatalog === 'tiktok' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'bg-white text-slate-600 dark:bg-slate-900 dark:text-slate-300'" class="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold transition dark:border-slate-700"><i class="fab fa-tiktok mr-1.5"></i>TikTok</button>
                 <button type="button" @click="activeCatalog = 'instagram'" :class="activeCatalog === 'instagram' ? 'bg-pink-600 text-white' : 'bg-white text-slate-600 dark:bg-slate-900 dark:text-slate-300'" class="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold transition dark:border-slate-700"><i class="fab fa-instagram mr-1.5"></i>Instagram</button>
                 <button type="button" @click="activeCatalog = 'foto'" :class="activeCatalog === 'foto' ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 dark:bg-slate-900 dark:text-slate-300'" class="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold transition dark:border-slate-700"><i class="fas fa-image mr-1.5"></i>Foto</button>
             </div>
+
+        </div>
+    </section>
+
+
+    {{-- GALERI --}}
+    <section x-data="{ activeCatalog: 'all' }" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
 
         {{-- GRID KATALOG --}}
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -99,7 +85,6 @@
 
             @endforelse
 
-        </div>
         </div>
 
 

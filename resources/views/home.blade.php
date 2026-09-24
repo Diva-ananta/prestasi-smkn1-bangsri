@@ -73,12 +73,12 @@
                     <span class="h-0.5 w-10 bg-amber-300"></span>
                 </p>
                 <h1 class="text-5xl font-extrabold leading-tight sm:text-6xl lg:text-7xl">
-                    Prestasi <span class="bg-gradient-to-r from-amber-300 to-lime-300 bg-clip-text text-transparent">Siswa Terbaik</span> Kami
+                    Prestasi <span class="text-amber-300">Siswa Terbaik</span> Kami
                 </h1>
                 <p class="mt-8 mx-auto max-w-2xl text-lg leading-8 text-slate-200 sm:text-xl">Sistem informasi terpusat untuk menampilkan, menganalisis, dan merayakan pencapaian siswa SMK N 1 Bangsri di berbagai bidang kompetisi.</p>
 
                 <div class="mt-10 flex flex-wrap justify-center gap-4">
-                    <a href="{{ route('public.prestasi.index') }}" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 px-5 py-3 text-sm font-bold leading-5 text-slate-950 shadow-2xl shadow-amber-500/30 transition-smooth hover:from-amber-300 hover:to-amber-400 hover:shadow-amber-500/50 active:scale-95 sm:px-6">
+                    <a href="{{ route('public.prestasi.index') }}" class="inline-flex items-center gap-2 rounded-xl bg-amber-400 px-5 py-3 text-sm font-bold leading-5 text-slate-950 shadow-2xl shadow-amber-500/30 transition-smooth hover:bg-amber-300 hover:shadow-amber-500/50 active:scale-95 sm:px-6">
                         <i class="fas fa-trophy"></i> Portal Prestasi
                     </a>
                     <a href="{{ route('public.tentang') }}" class="inline-flex items-center gap-2 rounded-xl border-2 border-white/30 bg-white/10 px-5 py-3 text-sm font-bold leading-5 text-white backdrop-blur-sm transition-smooth hover:bg-white/20 hover:border-white/50 sm:px-6">
@@ -183,7 +183,7 @@
                 </div>
 
                 <!-- Floating Badge -->
-                <div class="absolute -bottom-6 -left-4 z-10 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 px-5 py-4 shadow-2xl shadow-amber-500/30 animate-fade-in animate-delay-200">
+                <div class="absolute -bottom-6 -left-4 z-10 flex items-center gap-3 rounded-2xl bg-amber-400 px-5 py-4 shadow-2xl shadow-amber-500/30 animate-fade-in animate-delay-200">
                     <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/30">
                         <i class="fas fa-trophy text-lg text-slate-950"></i>
                     </span>
@@ -228,7 +228,7 @@
                 </div>
 
                 <div class="reveal reveal-right mt-10 flex flex-wrap items-center gap-6" style="--reveal-delay: 180ms">
-                    <a href="{{ route('public.tentang') }}" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-3 text-sm font-bold leading-5 text-white shadow-lg shadow-blue-600/30 transition-smooth hover:from-blue-700 hover:to-blue-800 hover:shadow-blue-600/50">
+                    <a href="{{ route('public.tentang') }}" class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold leading-5 text-white shadow-lg shadow-emerald-600/30 transition-smooth hover:bg-emerald-700 hover:shadow-emerald-600/50">
                         Pelajari lebih lanjut <i class="fas fa-arrow-right"></i>
                     </a>
                     <div class="flex items-center gap-3">
@@ -246,7 +246,7 @@
     </section>
 
     <!-- Stats Section -->
-    <section class="reveal reveal-left relative overflow-hidden bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 py-16 text-white">
+    <section class="reveal reveal-left relative overflow-hidden bg-emerald-900 py-16 text-white">
         <div class="absolute inset-0 opacity-10">
             <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.06)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
         </div>
@@ -450,7 +450,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="reveal reveal-left relative overflow-hidden bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 py-20 text-white">
+    <section class="reveal reveal-left relative overflow-hidden bg-emerald-900 py-20 text-white">
         <div class="absolute inset-0 opacity-10">
             <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.06)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
         </div>

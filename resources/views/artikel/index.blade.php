@@ -98,9 +98,9 @@
                             class="group animate-fade-in overflow-hidden rounded-2xl border-2 border-slate-100 bg-white shadow-md transition-smooth hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-600"
                             style="animation-delay: {{ $index * 100 }}ms"
                         >
-                            <div class="grid grid-cols-[1fr_1.2fr] overflow-hidden">
+                                <div class="overflow-hidden">
                                 <!-- Image -->
-                                <div class="relative min-h-56 overflow-hidden bg-blue-100 dark:bg-blue-950/30">
+                                <div class="relative aspect-[16/9] overflow-hidden bg-blue-100 dark:bg-blue-950/30">
                                     <img 
                                         src="{{ $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('images/logo-smk.png') }}" 
                                         alt="{{ $artikel->judul }}" 
@@ -108,7 +108,7 @@
                                     >
                                 </div>
                                 <!-- Content -->
-                                <div class="flex flex-col justify-center p-5 lg:p-6">
+                                <div class="flex min-h-[170px] flex-col p-5 lg:p-6">
                                     <p class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
                                         {{ $artikel->tanggal_publikasi?->translatedFormat('d M Y') ?? 'Berita' }}
                                     </p>
@@ -137,15 +137,15 @@
                 </div>
 
                 <div class="grid gap-4">
-                    @foreach($artikels->skip(1) as $index => $artikel)
+                    @foreach($articles as $index => $artikel)
                         <article 
-                            class="group animate-fade-in flex overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-smooth hover:-translate-y-1 hover:border-blue-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-600"
+                            class="group animate-fade-in flex min-h-[176px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-smooth hover:-translate-y-1 hover:border-blue-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-600"
                             style="animation-delay: {{ $index * 100 }}ms"
                         >
                             <!-- Image -->
                             <a 
                                 href="{{ route('public.artikel.show', $artikel) }}" 
-                                class="relative block h-36 w-36 shrink-0 overflow-hidden bg-gradient-to-br from-blue-100 to-blue-50 sm:h-auto sm:w-52 dark:from-blue-950/30 dark:to-blue-950/10"
+                                class="relative block h-36 w-36 shrink-0 overflow-hidden bg-gradient-to-br from-blue-100 to-blue-50 sm:h-44 sm:w-56 dark:from-blue-950/30 dark:to-blue-950/10"
                             >
                                 <img 
                                     src="{{ $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('images/logo-smk.png') }}" 

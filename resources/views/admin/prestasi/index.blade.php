@@ -11,13 +11,11 @@
                 <h1 class="text-2xl font-bold text-slate-800 dark:text-white md:text-3xl">Data Prestasi</h1>
                 <p class="mt-2 text-sm text-slate-500 dark:text-slate-300">Kelola semua prestasi dan penempatan anggota dengan mudah.</p>
             </div>
-            <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-3">
-                <div class="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto" data-export-controls="prestasi">
-                    <button type="button" onclick="togglePrestasiExportMode()" class="admin-btn-secondary min-w-0 w-full sm:w-auto" data-export-start><i class="fas fa-file-export mr-2"></i>Export</button>
-                    <button type="button" onclick="exportSelectedPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-primary col-span-2 hidden min-w-0 w-full sm:w-auto" data-export-download><i class="fas fa-download mr-2"></i>Download</button>
-                </div>
-                <a href="{{ route('admin.prestasi.import') }}" class="admin-btn-secondary w-full sm:w-auto"><i class="fas fa-file-import mr-2"></i>Import Excel</a>
-                <button type="button" onclick="openPrestasiModal()" class="admin-btn-primary w-full sm:w-auto"><i class="fas fa-plus mr-2"></i>Tambah Prestasi</button>
+            <div class="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-nowrap sm:gap-3" data-export-controls="prestasi">
+                <button type="button" onclick="togglePrestasiExportMode()" class="admin-btn-secondary w-full whitespace-nowrap sm:w-auto" data-export-start><i class="fas fa-file-export mr-2"></i><span data-export-start-label>Export Excel</span></button>
+                <button type="button" onclick="exportSelectedPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-primary w-full whitespace-nowrap sm:w-auto" data-export-download hidden style="display: none;"><i class="fas fa-download mr-2"></i>Download pilihan</button>
+                <a href="{{ route('admin.prestasi.import') }}" class="admin-btn-secondary w-full whitespace-nowrap sm:w-auto"><i class="fas fa-file-import mr-2"></i>Import Excel</a>
+                <button type="button" onclick="openPrestasiModal()" class="admin-btn-primary col-span-2 w-full whitespace-nowrap sm:col-span-1 sm:w-auto"><i class="fas fa-plus mr-2"></i>Tambah Prestasi</button>
             </div>
         </div>
     </div>
@@ -134,10 +132,20 @@
 
     function togglePrestasiExportMode() {
         const active = !document.querySelector('.admin-table-mobile-cards')?.classList.contains('export-mode');
+        const startButton = document.querySelector('[data-export-controls="prestasi"] [data-export-start]');
+        const startLabel = document.querySelector('[data-export-controls="prestasi"] [data-export-start-label]');
+        const downloadButton = document.querySelector('[data-export-controls="prestasi"] [data-export-download]');
         document.querySelector('.admin-table-mobile-cards')?.classList.toggle('export-mode', active);
-        document.querySelector('[data-export-controls="prestasi"] [data-export-start]')?.classList.toggle('bg-amber-100', active);
-        document.querySelector('[data-export-controls="prestasi"] [data-export-start]')?.classList.toggle('text-amber-800', active);
-        document.querySelector('[data-export-controls="prestasi"] [data-export-download]')?.classList.toggle('hidden', !active);
+        startButton?.classList.toggle('bg-amber-100', active);
+        startButton?.classList.toggle('text-amber-800', active);
+        startLabel.textContent = active ? 'Batal pilih' : 'Export Excel';
+        startButton?.querySelector('i')?.classList.toggle('fa-list-check', !active);
+        startButton?.querySelector('i')?.classList.toggle('fa-xmark', active);
+        downloadButton.disabled = !active;
+        downloadButton.hidden = !active;
+        downloadButton.style.display = active ? 'inline-flex' : 'none';
+        downloadButton?.classList.toggle('opacity-50', !active);
+        downloadButton?.classList.toggle('cursor-not-allowed', !active);
         document.querySelectorAll('[data-export-column]').forEach((element) => element.classList.toggle('hidden', !active));
         if (!active) document.querySelectorAll('.prestasi-select, #select-all-prestasi').forEach((item) => item.checked = false);
     }
