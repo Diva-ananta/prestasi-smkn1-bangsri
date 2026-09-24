@@ -44,7 +44,7 @@
         <aside
             :class="sidebarOpen ? 'translate-x-0 md:w-72' : '-translate-x-full md:translate-x-0 md:w-16'"
             class="fixed inset-y-0 left-0 z-50 h-screen w-72 border-r border-slate-200 bg-white transition-all duration-200 dark:border-slate-800 dark:bg-slate-900"
-        >
+        >   
             <x-admin.sidebar />
         </aside>
 
@@ -134,7 +134,7 @@
                 }
             });
 
-            async function loadPage(link) {
+               async function loadPage(link, { replaceHistory = false } = {}) {
                 const response = await fetch(link.href, { headers: { 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' });
                 if (!response.ok) throw new Error('Page request failed');
                 const html = await response.text();
@@ -144,7 +144,11 @@
                 if (!incoming || !current) return window.location.assign(link.href);
                 current.innerHTML = incoming.innerHTML;
                 document.title = parsed.title;
-                window.history.pushState({}, '', link.href);
+                if (replaceHistory) {
+                    window.history.replaceState({}, '', link.href);
+                } else {
+                    window.history.pushState({}, '', link.href);
+                }
                 for (const script of current.querySelectorAll('script')) {
                     const replacement = document.createElement('script');
                     if (script.src) {
@@ -164,11 +168,43 @@
                 if (window.Alpine) window.Alpine.initTree(current);
             }
 
-            document.addEventListener('click', async (event) => {
+                        document.addEventListener('click', async (event) => {
                 const link = event.target.closest('a[data-ajax-page]');
                 if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
                 event.preventDefault();
                 try { await loadPage(link); } catch (error) { window.location.assign(link.href); }
+            });
+
+            window.ajaxLoadPage = loadPage;
+
+            // Live search: filter halaman admin saat mengetik, tanpa klik tombol.
+            let liveSearchTimer;
+            document.addEventListener('input', (event) => {
+                const input = event.target.closest('form[data-live-search] [name="search"]');
+                if (!input) return;
+                const form = input.closest('form');
+                clearTimeout(liveSearchTimer);
+                liveSearchTimer = setTimeout(async () => {
+                    const url = `${form.getAttribute('action')}?${new URLSearchParams(new FormData(form)).toString()}`;
+                    const cursorPos = input.selectionStart;
+                    try {
+                        await loadPage({ href: url }, { replaceHistory: true });
+                        const newInput = document.querySelector('form[data-live-search] [name="search"]');
+                        if (newInput) {
+                            newInput.focus();
+                            newInput.setSelectionRange(cursorPos, cursorPos);
+                        }
+                    } catch (error) { /* biarkan, tombol "Cari" tetap jadi fallback */ }
+                }, 400);
+            });
+
+            document.addEventListener('submit', async (event) => {
+                const form = event.target.closest('form[data-live-search]');
+                if (!form) return;
+                event.preventDefault();
+                clearTimeout(liveSearchTimer);
+                const url = `${form.getAttribute('action')}?${new URLSearchParams(new FormData(form)).toString()}`;
+                try { await loadPage({ href: url }); } catch (error) { window.location.assign(url); }
             });
 
             window.addEventListener('popstate', () => window.location.reload());

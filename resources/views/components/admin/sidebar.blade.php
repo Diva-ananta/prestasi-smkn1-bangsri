@@ -62,9 +62,9 @@
             <i class="fas fa-book w-5 text-center text-emerald-600 dark:text-emerald-400"></i>
             <span x-show="sidebarOpen" x-transition.opacity>Dokumentasi API</span>
         </a>
-        <a href="{{ route('admin.deleted-records.index') }}" class="sidebar-link text-slate-700 dark:text-slate-300" :class="sidebarOpen ? '' : 'md:justify-center md:px-0'" title="Riwayat data"><i class="fas fa-trash-restore w-5 text-center"></i><span x-show="sidebarOpen" x-transition.opacity>Riwayat Data</span></a>
+       <a href="{{ route('admin.deleted-records.index') }}" class="sidebar-link {{ request()->routeIs('admin.deleted-records.*') ? 'active' : 'text-slate-700 dark:text-slate-300' }}" :class="sidebarOpen ? '' : 'md:justify-center md:px-0'" title="Riwayat data"><i class="fas fa-trash-restore w-5 text-center"></i><span x-show="sidebarOpen" x-transition.opacity>Riwayat Data</span></a>
 
-        <a href="{{ route('profile.edit') }}" class="sidebar-link text-slate-700 dark:text-slate-300" :class="sidebarOpen ? '' : 'md:justify-center md:px-0'" title="Profil">
+        <a href="{{ route('profile.edit') }}" class="sidebar-link {{ request()->routeIs('profile.*') ? 'active' : 'text-slate-700 dark:text-slate-300' }}" :class="sidebarOpen ? '' : 'md:justify-center md:px-0'" title="Profil">
             <i class="fas fa-user-cog w-5"></i>
             <span x-show="sidebarOpen" x-transition.opacity>Profil</span>
         </a>

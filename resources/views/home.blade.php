@@ -406,19 +406,40 @@
                 </a>
             </div>
             <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                @forelse($galeriPrestasi ?? [] as $index => $item)
-                    <a href="{{$item->prestasi ? route('public.prestasi.show', $item->prestasi->public_token):'#'}}" class="group relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-200 shadow-sm transition-smooth hover:-translate-y-1 hover:shadow-lg dark:from-emerald-950/50 dark:to-emerald-950/30 animate-fade-in" style="animation-delay: {{ $index * 50 }}ms">
-                        <img
-                            src="{{ asset('storage/' . $item->foto) }}"
-                            alt="{{ $item->judul ?: 'Foto galeri' }}"
-                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            loading="lazy"
-                        >
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end">
-                            <p class="px-4 pb-3 pt-8 text-xs font-bold text-white line-clamp-2">{{ $item->judul ?: 'Dokumentasi galeri' }}</p>
-                        </div>
-                    </a>
+                 @forelse($galeriPrestasi ?? [] as $index => $item)
+                    @php($videoUrl = $item->video_url ?: $item->prestasi?->video_url)
+                    @php($platform = \App\Helpers\SocialMedia::platform($videoUrl))
+                    @php($embedUrl = \App\Helpers\SocialMedia::embed($videoUrl))
+                    <div class="group relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-200 shadow-sm transition-smooth hover:-translate-y-1 hover:shadow-lg dark:from-emerald-950/50 dark:to-emerald-950/30 animate-fade-in" style="animation-delay: {{ $index * 50 }}ms">
+                        @if($embedUrl && $platform === 'youtube')
+                            <details class="group/video h-full">
+                                <summary class="relative h-full cursor-pointer list-none">
+                                    <img src="{{ \App\Helpers\YouTube::thumbnail($videoUrl) }}" alt="{{ $item->judul ?: 'Thumbnail video' }}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                                    <span class="absolute inset-0 flex items-center justify-center bg-slate-950/20"><span class="flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg"><i class="fas fa-play"></i></span></span>
+                                </summary>
+                                <iframe src="{{ \App\Helpers\YouTube::embed($videoUrl) }}" title="{{ $item->judul ?: 'Video galeri' }}" class="absolute inset-0 h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                            </details>
+                        @elseif($embedUrl)
+                            <iframe src="{{ $embedUrl }}" title="{{ $item->judul ?: 'Konten ' . ucfirst($platform) }}" class="absolute inset-0 h-full w-full border-0" loading="lazy" allow="encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+                        @elseif($item->prestasi?->foto || $item->foto)
+                            <a href="{{$item->prestasi ? route('public.prestasi.show', $item->prestasi->public_token):'#'}}" class="absolute inset-0">
+                                <img
+                                    src="{{ asset('storage/' . ($item->prestasi?->foto ?: $item->foto)) }}"
+                                    alt="{{ $item->judul ?: 'Foto galeri' }}"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    loading="lazy"
+                                >
+                            </a>
+                        @endif
+
+                        @if(!$embedUrl)
+                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end">
+                                <p class="px-4 pb-3 pt-8 text-xs font-bold text-white line-clamp-2">{{ $item->judul ?: 'Dokumentasi galeri' }}</p>
+                            </div>
+                        @endif
+                    </div>
                 @empty
+                
                     <div class="col-span-full rounded-2xl bg-white p-12 text-center dark:bg-slate-900">
                         <i class="fas fa-image text-4xl text-slate-400 dark:text-slate-600 mb-4"></i>
                         <p class="font-semibold text-slate-600 dark:text-slate-400">Belum ada dokumentasi foto</p>

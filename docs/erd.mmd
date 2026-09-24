@@ -1,0 +1,107 @@
+erDiagram
+    USERS ||--o{ DELETED_RECORDS : "menghapus data"
+    USERS {
+        bigint id PK
+        string name
+        string email
+        string password
+        string role
+        boolean is_admin
+    }
+
+    SISWA ||--o{ DETAIL_PRESTASI : "mengikuti"
+    PRESTASI ||--o{ DETAIL_PRESTASI : "memiliki"
+    PRESTASI ||--o{ ARTIKEL : "mempunyai artikel"
+    PRESTASI ||--o{ GALERI : "memiliki gallery"
+
+    SISWA {
+        bigint id PK
+        string nis UK
+        string nisn UK
+        string nama
+        string foto
+        enum jenis_kelamin
+        string kelas
+        string jurusan
+        int angkatan
+        enum status
+        year tahun_lulus
+        boolean is_published
+    }
+
+    PRESTASI {
+        bigint id PK
+        string nama_lomba
+        string kategori
+        string tingkat
+        string penyelenggara
+        date tanggal_mulai
+        date tanggal_selesai
+        string lokasi
+        string bidang_lomba
+        enum jenis_peserta
+        string nama_tim
+        string hasil
+        string kategori_juara
+        string sertifikat
+        string foto
+        enum status
+        text keterangan
+    }
+
+    DETAIL_PRESTASI {
+        bigint id PK
+        bigint prestasi_id FK
+        bigint siswa_id FK
+        string peran
+    }
+
+    ARTIKEL {
+        bigint id PK
+        string judul
+        string slug UK
+        text isi
+        string gambar
+        string penulis
+        date tanggal_publikasi
+        enum status
+        bigint prestasi_id FK
+    }
+
+    GALERI {
+        bigint id PK
+        string judul
+        bigint prestasi_id FK
+        string foto
+        boolean is_published
+    }
+
+    DELETED_RECORDS {
+        bigint id PK
+        string model_type
+        bigint model_id
+        json snapshot
+        bigint deleted_by FK
+        timestamp deleted_at
+    }
+
+    API_CLIENT ||--o{ API_USAGE_LOG : "melacak penggunaan"
+
+    API_CLIENT {
+        bigint id PK
+        string name
+        string key UK
+        boolean is_active
+        timestamp last_used_at
+    }
+
+    API_USAGE_LOG {
+        bigint id PK
+        bigint api_client_id FK
+        string method
+        string endpoint
+        smallint status_code
+        string ip_address
+        text user_agent
+        int response_time_ms
+    }

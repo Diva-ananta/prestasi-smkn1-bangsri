@@ -28,7 +28,7 @@
                 <h3 id="prestasi-form-title" class="text-lg font-bold">Tambah Prestasi</h3>
                 <button type="button" onclick="closePrestasiModal()" class="flex h-9 w-9 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-700" aria-label="Tutup form"><i class="fas fa-times"></i></button>
             </div>
-            <form action="{{ route('admin.prestasi.store') }}" method="POST" enctype="multipart/form-data" class="mt-4" data-ajax-form>
+            <form form action="{{ route('admin.prestasi.store') }}" method="POST" enctype="multipart/form-data" class="mt-4" data-ajax-form>
                 @csrf
                 @php $selectedSiswa = old('siswa_id', []); @endphp
                 @include('admin.prestasi._form')
@@ -37,7 +37,7 @@
     </div>
 
     <div class="section-card animate-fade-in">
-        <form action="{{ route('admin.prestasi.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <form action="{{ route('admin.prestasi.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row sm:items-center" data-live-search>
             <input id="search" name="search" type="search" value="{{ request('search') }}" placeholder="Cari nama lomba, jenis peserta, hasil, atau kategori" class="admin-form-input md:flex-1">
             <button type="submit" class="admin-btn-primary w-full sm:w-auto">Cari</button>
             @if(request()->filled('search'))
