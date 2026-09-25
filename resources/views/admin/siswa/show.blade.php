@@ -20,26 +20,26 @@
             </div>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-[320px_1fr]">
+        <div class="grid items-stretch gap-5 md:grid-cols-[300px_minmax(0,1fr)]">
             <aside class="h-fit overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <div class="profile-card-header h-28">
-                    <div class="absolute -bottom-10 left-1/2 flex h-20 w-20 -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-emerald-50 text-2xl font-bold text-emerald-700 shadow-md dark:border-slate-900 dark:bg-emerald-950 dark:text-emerald-300">
+                <div class="relative h-24 bg-emerald-700">
+                    <div class="absolute -bottom-12 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-slate-100 text-2xl font-bold text-emerald-700 shadow-md dark:border-slate-900 dark:bg-slate-800 dark:text-emerald-300">
                         @if($siswa->foto)
-                            <img src="{{ asset('storage/' . $siswa->foto) }}" alt="Foto {{ $siswa->nama }}" class="h-full w-full rounded-full object-contain p-1">
+                            <img src="{{ asset('storage/' . $siswa->foto) }}" alt="Foto {{ $siswa->nama }}" class="h-full w-full object-cover">
                         @else
                             {{ collect(explode(' ', $siswa->nama))->map(fn($word) => strtoupper(substr($word, 0, 1)))->take(2)->join('') }}
                         @endif
                     </div>
                 </div>
-                <div class="px-5 pb-5 pt-14 text-center">
-                    <h2 class="text-lg font-bold text-slate-800 dark:text-white">{{ $siswa->nama }}</h2>
-                    <p class="mt-1 text-sm text-emerald-700 dark:text-emerald-400">NIS: {{ $siswa->nis }}</p>
-                    <div class="my-5 border-t border-slate-200 dark:border-slate-700"></div>
-                    <div class="grid grid-cols-2 gap-4 text-left text-xs">
-                        <div><p class="text-slate-400">Kelas</p><p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->kelas }}</p></div>
-                        <div><p class="text-slate-400">Program Keahlian</p><p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->jurusan }}</p></div>
-                        <div><p class="text-slate-400">Angkatan</p><p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->angkatan }}</p></div>
-                        <div><p class="text-slate-400">Status</p><p class="mt-1 font-semibold text-emerald-700 dark:text-emerald-400">{{ $siswa->status }}</p></div>
+                <div class="px-5 pb-5 pt-16 text-center">
+                    <h2 class="break-words text-base font-bold text-slate-900 dark:text-white">{{ $siswa->nama }}</h2>
+                    <p class="mt-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">NIS: {{ $siswa->nis }}</p>
+                    <div class="my-4 border-t border-slate-200 dark:border-slate-700"></div>
+                    <div class="grid grid-cols-2 gap-x-3 gap-y-4 text-left">
+                        <div><p class="text-xs text-slate-400">Kelas</p><p class="mt-1 break-words text-xs font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->kelas ?: '-' }}</p></div>
+                        <div><p class="text-xs text-slate-400">Program Keahlian</p><p class="mt-1 break-words text-xs font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->jurusan ?: '-' }}</p></div>
+                        <div><p class="text-xs text-slate-400">Angkatan</p><p class="mt-1 text-xs font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->angkatan ?: '-' }}</p></div>
+                        <div><p class="text-xs text-slate-400">Status</p><p class="mt-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">{{ $siswa->status ?: '-' }}</p></div>
                     </div>
                 </div>
             </aside>

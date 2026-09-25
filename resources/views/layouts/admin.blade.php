@@ -179,7 +179,7 @@
             }
 
                         document.addEventListener('click', async (event) => {
-                const link = event.target.closest('a[data-ajax-page]');
+                            const link = event.target.closest('a[data-ajax-page], main nav[role="navigation"] a[href], main nav[aria-label*="Pagination"] a[href]');
                 if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
                 event.preventDefault();
                 try { await loadPage(link); } catch (error) { window.location.assign(link.href); }

@@ -35,6 +35,7 @@ class PrestasiController extends Controller
         $prestasis = $query->select([
             'id',
             'nama_lomba',
+            'foto',
             'jenis_peserta',
             'hasil',
             'status',

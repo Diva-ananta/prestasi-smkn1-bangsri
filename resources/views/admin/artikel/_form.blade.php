@@ -14,18 +14,18 @@
     @csrf
     @if($isEdit) @method('PUT') @endif
 
-    <div class="space-y-5">
+    <div class="space-y-6">
         <div>
-            <label for="source" class="mb-2 block text-sm font-semibold text-slate-700">Sumber Artikel</label>
+            <label for="source" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Sumber Artikel</label>
             <select id="source" x-model="source" @change="applyPrestasi()" class="admin-form-input">
                 <option value="manual">Tulis manual dari awal</option>
                 <option value="prestasi">Berdasarkan prestasi yang sudah ada</option>
             </select>
-            <p class="mt-1.5 text-xs text-slate-500">Pilih prestasi untuk mengisi draf awal yang masih dapat diubah.</p>
+            <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">Pilih prestasi untuk mengisi draf awal yang masih dapat diubah.</p>
         </div>
 
         <div x-show="source === 'prestasi'" x-cloak>
-            <label for="prestasi_id" class="mb-2 block text-sm font-semibold text-slate-700">Prestasi Terkait</label>
+            <label for="prestasi_id" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Prestasi Terkait</label>
             <select id="prestasi_id" name="prestasi_id" x-model="prestasiId" x-bind:disabled="source !== 'prestasi'" @change="applyPrestasi()" class="admin-form-input">
                 <option value="">Pilih prestasi</option>
                 @foreach($prestasis as $prestasi)
@@ -37,39 +37,39 @@
         <input type="hidden" name="prestasi_id" x-bind:disabled="source !== 'manual'" value="">
 
         <div>
-            <label for="judul" class="mb-2 block text-sm font-semibold text-slate-700">Judul</label>
+            <label for="judul" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Judul</label>
             <input id="judul" type="text" name="judul" x-model="judul" value="{{ old('judul', $artikel->judul ?? '') }}" class="admin-form-input" required>
             @error('judul') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
         </div>
 
         <div>
-            <label for="isi" class="mb-2 block text-sm font-semibold text-slate-700">Isi Artikel</label>
+            <label for="isi" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Isi Artikel</label>
             <textarea id="isi" name="isi" rows="10" x-model="isi" class="admin-form-input" required>{{ old('isi', $artikel->isi ?? '') }}</textarea>
             @error('isi') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
         </div>
 
         <div>
-            <label for="gambar" class="mb-2 block text-sm font-semibold text-slate-700">Gambar Artikel</label>
+            <label for="gambar" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Gambar Artikel</label>
             <input id="gambar" type="file" name="gambar" accept=".jpg,.jpeg,.png" class="admin-form-input file:mr-3 file:rounded-lg file:border-0 file:bg-emerald-100 file:px-3 file:py-2 file:font-semibold file:text-emerald-800">
-            @if($isEdit && $artikel->gambar)<p class="mt-1.5 text-xs text-slate-500">Gambar saat ini akan dipertahankan jika tidak memilih gambar baru.</p>@else<p class="mt-1.5 text-xs text-slate-500">Jika memakai sumber prestasi dan tidak memilih file, foto prestasi akan dipakai.</p>@endif
+            @if($isEdit && $artikel->gambar)<p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">Gambar saat ini akan dipertahankan jika tidak memilih gambar baru.</p>@else<p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">Jika memakai sumber prestasi dan tidak memilih file, foto prestasi akan dipakai.</p>@endif
             @error('gambar') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
         </div>
 
         <div class="grid gap-5 md:grid-cols-2">
             <div>
-                <label for="penulis" class="mb-2 block text-sm font-semibold text-slate-700">Penulis</label>
+                <label for="penulis" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Penulis</label>
                 <input id="penulis" type="text" name="penulis" value="{{ old('penulis', $artikel->penulis ?? Auth::user()->name) }}" class="admin-form-input">
                 @error('penulis') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
             <div>
-                <label for="tanggal_publikasi" class="mb-2 block text-sm font-semibold text-slate-700">Tanggal Publikasi</label>
+                <label for="tanggal_publikasi" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Tanggal Publikasi</label>
                 <input id="tanggal_publikasi" type="date" name="tanggal_publikasi" value="{{ old('tanggal_publikasi', isset($artikel) && $artikel->tanggal_publikasi ? $artikel->tanggal_publikasi->format('Y-m-d') : date('Y-m-d')) }}" class="admin-form-input">
                 @error('tanggal_publikasi') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
         </div>
 
         <div>
-            <label for="status" class="mb-2 block text-sm font-semibold text-slate-700">Status</label>
+            <label for="status" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Status</label>
             <select id="status" name="status" class="admin-form-input">
                 <option value="Draft" {{ old('status', $artikel->status ?? 'Draft') === 'Draft' ? 'selected' : '' }}>Draft</option>
                 <option value="Publish" {{ old('status', $artikel->status ?? 'Draft') === 'Publish' ? 'selected' : '' }}>Publish</option>
@@ -79,7 +79,7 @@
     </div>
 
     <div class="mt-8 flex items-center justify-end gap-3 border-t border-slate-200 pt-6">
-        <a href="{{ route('admin.artikel.index') }}" class="admin-btn-secondary">Batal</a>
+        <a href="{{ route('admin.artikel.index') }}" class="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">Batal</a>
         <button type="submit" class="admin-btn-primary"><i class="fas fa-save mr-2"></i>{{ $isEdit ? 'Simpan Perubahan' : 'Simpan Artikel' }}</button>
     </div>
 </form>

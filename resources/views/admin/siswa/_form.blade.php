@@ -28,7 +28,7 @@
 @endif
 
 <div class="space-y-6">
-    <section class="rounded-[24px] border border-slate-200 bg-white/60 p-5 dark:border-slate-700 dark:bg-slate-900/40 md:p-6">
+    <section class="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900 md:p-6">
         <div class="mb-5 flex items-center gap-3">
             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
                 <i class="fas fa-user-graduate text-sm"></i>
@@ -90,7 +90,7 @@
         </div>
     </section>
 
-    <section class="rounded-[24px] border border-slate-200 bg-white/60 p-5 dark:border-slate-700 dark:bg-slate-900/40 md:p-6">
+    <section class="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900 md:p-6">
         <div class="mb-5 flex items-center gap-3">
             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
                 <i class="fas fa-school text-sm"></i>
@@ -142,7 +142,7 @@
     </section>
 
     <div class="flex flex-col-reverse justify-end gap-3 sm:flex-row">
-        <a href="{{ route('admin.siswa.index') }}" class="admin-btn-secondary">Batal</a>
+        <a href="{{ route('admin.siswa.index') }}" class="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">Batal</a>
 
         <button type="submit" class="admin-btn-primary shadow-lg shadow-emerald-700/20">
             <i class="fas fa-save mr-2"></i>{{ $isEdit ? 'Simpan Perubahan' : 'Simpan Siswa' }}
@@ -164,7 +164,7 @@
                 <button type="button" id="cropZoomIn" class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300"><i class="fas fa-plus"></i></button>
             </div>
             <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-                <button type="button" id="cropCancel" class="admin-btn-secondary">Batal</button>
+                <button type="button" id="cropCancel" class="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">Batal</button>
                 <button type="button" id="cropReset" class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 dark:border-slate-700 dark:text-slate-300"><i class="fas fa-undo"></i> Reset</button>
                 <button type="button" id="cropApply" class="admin-btn-primary"><i class="fas fa-check mr-2"></i>Gunakan Foto</button>
             </div>
