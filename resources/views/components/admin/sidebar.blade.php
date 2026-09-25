@@ -1,7 +1,7 @@
 <aside class="flex h-full flex-col overflow-y-auto">
     <div class="border-b border-slate-200 px-3 py-5 transition-all dark:border-slate-700" :class="sidebarOpen ? 'md:px-5' : 'md:px-2'">
         <div class="flex items-center gap-3" :class="sidebarOpen ? '' : 'md:justify-center'">
-            <button type="button" @click="sidebarOpen = !sidebarOpen" class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-800 text-xl text-white shadow-lg shadow-emerald-700/20 transition hover:bg-emerald-900" title="Buka atau sembunyikan sidebar" aria-label="Buka atau sembunyikan sidebar">
+            <button type="button" @click="sidebarOpen = !sidebarOpen" class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-transparent text-xl transition hover:bg-slate-100 dark:hover:bg-slate-800" title="Buka atau sembunyikan sidebar" aria-label="Buka atau sembunyikan sidebar">
                 <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK" class="h-9 w-9 object-contain">
             </button>
             <div x-show="sidebarOpen" x-transition.opacity>

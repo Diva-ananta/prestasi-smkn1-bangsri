@@ -381,19 +381,19 @@
         function initPrestasiCharts() {
             const chartData = JSON.parse(document.getElementById('prestasi-chart-data')?.textContent || '{}');
             createChart('tahunChart', {
-                    type: 'bar',
+                    type: 'line',
                     data: {
                         labels: chartData.tahunLabels || [],
-                        datasets: [{ label: 'Prestasi', data: chartData.tahunData || [], backgroundColor: '#10b981', borderRadius: 8, borderSkipped: false }]
+                        datasets: [{ label: 'Prestasi', data: chartData.tahunData || [], borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.14)', fill: true, tension: 0.35, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#10b981', pointBorderColor: '#ffffff', pointBorderWidth: 2, borderWidth: 3 }]
                     },
                     options: chartOptions()
                 });
 
             createChart('jurusanChart', {
-                    type: 'bar',
+                    type: 'line',
                     data: {
                         labels: chartData.jurusanLabels || [],
-                        datasets: [{ label: 'Prestasi', data: chartData.jurusanData || [], backgroundColor: ['#10b981', '#14b8a6', '#0ea5e9', '#f59e0b', '#f97316', '#64748b'], borderRadius: 8, borderSkipped: false }]
+                        datasets: [{ label: 'Prestasi', data: chartData.jurusanData || [], borderColor: '#0ea5e9', backgroundColor: 'rgba(14, 165, 233, 0.14)', fill: true, tension: 0.35, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#0ea5e9', pointBorderColor: '#ffffff', pointBorderWidth: 2, borderWidth: 3 }]
                     },
                     options: chartOptions()
                 });
@@ -401,10 +401,10 @@
             // 'Tren Tahun' chart removed per UI request
 
             createChart('tingkatChart', {
-                    type: 'bar',
+                    type: 'line',
                     data: {
                         labels: chartData.tingkatLabels || [],
-                        datasets: [{ label: 'Prestasi', data: chartData.tingkatData || [], backgroundColor: '#0ea5e9', borderRadius: 8, borderSkipped: false }]
+                        datasets: [{ label: 'Prestasi', data: chartData.tingkatData || [], borderColor: '#f59e0b', backgroundColor: 'rgba(245, 158, 11, 0.14)', fill: true, tension: 0.35, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#f59e0b', pointBorderColor: '#ffffff', pointBorderWidth: 2, borderWidth: 3 }]
                     },
                     options: chartOptions()
                 });

@@ -81,24 +81,34 @@ class PublicController extends Controller
         $kelasOptions = (clone $publishedSiswaQuery)->whereNotNull('kelas')->distinct()->orderBy('kelas')->pluck('kelas');
         $angkatanOptions = (clone $publishedSiswaQuery)->whereNotNull('angkatan')->distinct()->orderByDesc('angkatan')->pluck('angkatan');
 
-        $analitikSiswaJurusan = (clone $publishedSiswaQuery)
-            ->select('jurusan', DB::raw('COUNT(*) as total'))
-            ->whereNotNull('jurusan')
-            ->groupBy('jurusan')
+        $analitikPrestasiTahun = Prestasi::publish()
+            ->selectRaw('YEAR(tanggal_mulai) as tahun, COUNT(*) as total')
+            ->whereNotNull('tanggal_mulai')
+            ->groupByRaw('YEAR(tanggal_mulai)')
+            ->orderBy('tahun')
+            ->get();
+        $analitikSiswaPrestasiJurusan = DB::table('detail_prestasi')
+            ->join('prestasi', 'prestasi.id', '=', 'detail_prestasi.prestasi_id')
+            ->join('siswa', 'siswa.id', '=', 'detail_prestasi.siswa_id')
+            ->where('prestasi.status', 'Publish')
+            ->where('siswa.is_published', true)
+            ->whereNotNull('siswa.jurusan')
+            ->select('siswa.jurusan', DB::raw('COUNT(DISTINCT prestasi.id) as total'))
+            ->groupBy('siswa.jurusan')
             ->orderByDesc('total')
             ->get();
-        $analitikSiswaAngkatan = (clone $publishedSiswaQuery)
-            ->select('angkatan', DB::raw('COUNT(*) as total'))
-            ->whereNotNull('angkatan')
-            ->groupBy('angkatan')
-            ->orderBy('angkatan')
+        $analitikSiswaBerprestasiJurusan = DB::table('detail_prestasi')
+            ->join('prestasi', 'prestasi.id', '=', 'detail_prestasi.prestasi_id')
+            ->join('siswa', 'siswa.id', '=', 'detail_prestasi.siswa_id')
+            ->where('prestasi.status', 'Publish')
+            ->where('siswa.is_published', true)
+            ->whereNotNull('siswa.jurusan')
+            ->select('siswa.jurusan', DB::raw('COUNT(DISTINCT siswa.id) as total'))
+            ->groupBy('siswa.jurusan')
+            ->orderByDesc('total')
             ->get();
-        $analitikSiswaStatus = collect([
-            ['status' => 'Aktif', 'total' => (clone $publishedSiswaQuery)->where('angkatan', '>', $tahunAktifMulai)->count()],
-            ['status' => 'Alumni', 'total' => (clone $publishedSiswaQuery)->where('angkatan', '<=', $tahunAktifMulai)->count()],
-        ]);
 
-        return view('siswa.search', compact('siswas', 'keyword', 'jurusanOptions', 'kelasOptions', 'angkatanOptions', 'analitikSiswaJurusan', 'analitikSiswaAngkatan', 'analitikSiswaStatus'));
+        return view('siswa.search', compact('siswas', 'keyword', 'jurusanOptions', 'kelasOptions', 'angkatanOptions', 'analitikPrestasiTahun', 'analitikSiswaPrestasiJurusan', 'analitikSiswaBerprestasiJurusan'));
     }
 
     public function prestasiIndex(Request $request)

@@ -45,31 +45,44 @@
     </div>
 
     <div class="section-card animate-fade-in">
-        <x-admin.table class="admin-table admin-table-mobile-cards">
+        <x-admin.table class="admin-table admin-table-mobile-cards min-w-[900px]">
             <thead>
                 <tr>
-                    <th data-export-column class="hidden"><input type="checkbox" id="select-all-prestasi" onclick="document.querySelectorAll('.prestasi-select').forEach((item) => item.checked = this.checked)" aria-label="Pilih semua"></th><th>No</th>
-                    <th>Nama Lomba</th>
-                    <th>Jenis Peserta</th>
-                    <th>Hasil</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
+                    <th data-export-column class="hidden"><input type="checkbox" id="select-all-prestasi" onclick="document.querySelectorAll('.prestasi-select').forEach((item) => item.checked = this.checked)" aria-label="Pilih semua"></th>
+                    <th class="w-14 text-center">No</th>
+                    <th class="w-24">Thumbnail</th>
+                    <th class="min-w-[260px]">Nama Lomba</th>
+                    <th class="w-36">Jenis Peserta</th>
+                    <th class="w-36">Hasil</th>
+                    <th class="w-28">Status</th>
+                    <th class="w-36 text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($prestasis as $prestasi)
                     <tr>
-                        <td data-export-column class="hidden"><input type="checkbox" class="prestasi-select" value="{{ $prestasi->id }}" aria-label="Pilih {{ $prestasi->nama_lomba }}"></td><td>{{ $prestasis->firstItem() + $loop->index }}</td>
-                        <td data-label="Nama lomba" class="font-semibold text-slate-700 dark:text-slate-200">{{ $prestasi->nama_lomba }}</td>
-                        <td data-label="Jenis peserta">{{ $prestasi->jenis_peserta }}</td>
-                        <td data-label="Hasil">{{ $prestasi->hasil }}</td>
-                        <td data-label="Status">
+                        <td data-export-column class="hidden"><input type="checkbox" class="prestasi-select" value="{{ $prestasi->id }}" aria-label="Pilih {{ $prestasi->nama_lomba }}"></td>
+                        <td data-label="No" class="text-center font-semibold text-slate-500 dark:text-slate-400">{{ $prestasis->firstItem() + $loop->index }}</td>
+                        <td data-label="Thumbnail">
+                            <div class="flex h-16 w-12 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
+                                @if($prestasi->foto)
+                                    <img src="{{ asset('storage/' . $prestasi->foto) }}" alt="Thumbnail {{ $prestasi->nama_lomba }}" class="h-full w-full object-cover" loading="lazy">
+                                @else
+                                    <i class="fas fa-image text-slate-400 dark:text-slate-500" aria-hidden="true"></i>
+                                    <span class="sr-only">Belum ada thumbnail</span>
+                                @endif
+                            </div>
+                        </td>
+                        <td data-label="Nama lomba" class="max-w-[320px] font-semibold text-slate-700 dark:text-slate-200"><span class="block truncate" title="{{ $prestasi->nama_lomba }}">{{ $prestasi->nama_lomba }}</span></td>
+                        <td data-label="Jenis peserta" class="whitespace-nowrap">{{ $prestasi->jenis_peserta }}</td>
+                        <td data-label="Hasil" class="max-w-[160px]"><span class="block truncate" title="{{ $prestasi->hasil }}">{{ $prestasi->hasil }}</span></td>
+                        <td data-label="Status" class="whitespace-nowrap">
                             <span class="admin-badge {{ $prestasi->status == 'Publish' ? 'success' : 'warning' }}">
                                 {{ $prestasi->status }}
                             </span>
                         </td>
-                        <td data-label="Aksi">
-                            <div class="flex flex-wrap gap-2">
+                        <td data-label="Aksi" class="whitespace-nowrap">
+                            <div class="flex items-center justify-center gap-2">
                                 <form action="{{ route('admin.prestasi.review', $prestasi) }}" method="POST" class="inline">
                                     @csrf
                                     @method('PATCH')
@@ -87,7 +100,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="py-12 text-center text-slate-400">Belum ada data prestasi.</td>
+                        <td colspan="8" class="py-12 text-center text-slate-400">Belum ada data prestasi.</td>
                     </tr>
                 @endforelse
             </tbody>

@@ -5,15 +5,12 @@
 @section('content')
 @php
     $siswaChartData = [
-        'jurusanLabels' => $analitikSiswaJurusan->pluck('jurusan')->all(),
-        'jurusanData' => $analitikSiswaJurusan->pluck('total')->all(),
-        'angkatanLabels' => $analitikSiswaAngkatan->pluck('angkatan')->all(),
-        'angkatanData' => $analitikSiswaAngkatan->pluck('total')->all(),
-        'statusLabels' => $analitikSiswaStatus->pluck('status')->all(),
-        'statusData' => $analitikSiswaStatus->pluck('total')->all(),
-        // Tahun chart: use angkatan aggregation as year grouping
-        'tahunLabels' => $analitikSiswaAngkatan->pluck('angkatan')->all(),
-        'tahunData' => $analitikSiswaAngkatan->pluck('total')->all(),
+        'tahunLabels' => $analitikPrestasiTahun->pluck('tahun')->all(),
+        'tahunData' => $analitikPrestasiTahun->pluck('total')->all(),
+        'prestasiJurusanLabels' => $analitikSiswaPrestasiJurusan->pluck('jurusan')->map(fn ($jurusan) => $jurusan ?: 'Belum diisi')->all(),
+        'prestasiJurusanData' => $analitikSiswaPrestasiJurusan->pluck('total')->all(),
+        'siswaJurusanLabels' => $analitikSiswaBerprestasiJurusan->pluck('jurusan')->map(fn ($jurusan) => $jurusan ?: 'Belum diisi')->all(),
+        'siswaJurusanData' => $analitikSiswaBerprestasiJurusan->pluck('total')->all(),
     ];
 @endphp
 <div class="min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -43,11 +40,11 @@
                 <a href="{{ route('public.prestasi.index') }}" class="mt-3 inline-flex max-w-full items-center gap-2 self-start rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300 dark:hover:bg-emerald-950/50"><x-icon name="trophy" /><span class="truncate">Lihat semua prestasi</span><x-icon name="arrow-right" class="shrink-0 text-xs" /></a>
                 </div>
 
-                <div id="siswa-analytics" x-data="{ activeChart: 'jurusan', selectChart(name) { this.activeChart = name; requestAnimationFrame(() => window.dispatchEvent(new Event('resize'))); } }" class="min-w-0 rounded-[20px] border border-slate-200 bg-white p-4 shadow-lg dark:border-slate-800 dark:bg-slate-900 sm:rounded-[24px] sm:p-5">
+                <div id="siswa-analytics" x-data="{ activeChart: 'tahun', selectChart(name) { this.activeChart = name; requestAnimationFrame(() => window.dispatchEvent(new Event('resize'))); } }" class="min-w-0 rounded-[20px] border border-slate-200 bg-white p-4 shadow-lg dark:border-slate-800 dark:bg-slate-900 sm:rounded-[24px] sm:p-5">
                     <script id="siswa-chart-data" type="application/json">{!! json_encode($siswaChartData, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}</script>
-                    <div class="flex min-h-10 min-w-0 items-center justify-between gap-3"><div class="min-w-0"><p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Analitik siswa</p><h2 class="mt-1 break-words text-base font-bold text-slate-900 dark:text-white sm:text-lg" x-text="{ jurusan: 'Siswa berdasarkan program keahlian', angkatan: 'Siswa berdasarkan angkatan', tahun: 'Siswa berdasarkan tahun' }[activeChart]"></h2></div><span class="hidden shrink-0 text-xs text-slate-400 sm:inline">Grafik gelombang</span></div>
-                    <div class="mt-4 h-48 sm:h-56"><canvas id="siswaJurusanChart" x-show="activeChart === 'jurusan'"></canvas><canvas id="siswaAngkatanChart" x-show="activeChart === 'angkatan'"></canvas><canvas id="siswaTahunChart" x-show="activeChart === 'tahun'"></canvas></div>
-                    <div class="mt-4 grid grid-cols-3 gap-1.5 border-t border-slate-100 pt-4 dark:border-slate-800 sm:gap-2"><button type="button" @click="selectChart('jurusan')" :class="activeChart === 'jurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Program Keahlian</button><button type="button" @click="selectChart('angkatan')" :class="activeChart === 'angkatan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Angkatan</button><button type="button" @click="selectChart('tahun')" :class="activeChart === 'tahun' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Tahun</button></div>
+                    <div class="flex min-h-10 min-w-0 items-center justify-between gap-3"><div class="min-w-0"><p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Analitik prestasi siswa</p><h2 class="mt-1 break-words text-base font-bold text-slate-900 dark:text-white sm:text-lg" x-text="{ tahun: 'Total prestasi per tahun', prestasiJurusan: 'Jumlah prestasi per program keahlian', siswaJurusan: 'Jumlah siswa berprestasi per program keahlian' }[activeChart]"></h2></div><span class="hidden shrink-0 text-xs text-slate-400 sm:inline">Diagram batang</span></div>
+                    <div class="mt-4 h-48 sm:h-56"><canvas id="siswaTahunChart" x-show="activeChart === 'tahun'"></canvas><canvas id="siswaPrestasiJurusanChart" x-show="activeChart === 'prestasiJurusan'"></canvas><canvas id="siswaJurusanChart" x-show="activeChart === 'siswaJurusan'"></canvas></div>
+                    <div class="mt-4 grid grid-cols-3 gap-1.5 border-t border-slate-100 pt-4 dark:border-slate-800 sm:gap-2"><button type="button" @click="selectChart('tahun')" :class="activeChart === 'tahun' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Tahun</button><button type="button" @click="selectChart('prestasiJurusan')" :class="activeChart === 'prestasiJurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Program Keahlian</button><button type="button" @click="selectChart('siswaJurusan')" :class="activeChart === 'siswaJurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="rounded-lg px-1 py-2 text-xs font-bold transition sm:px-2 sm:text-xs">Siswa</button></div>
             </div>
         </div>
     </section>
@@ -179,14 +176,16 @@
         bindResultLinks();
 
         const chartData = JSON.parse(document.getElementById('siswa-chart-data')?.textContent || '{}');
-        const chartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: false,
-            plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => `${context.parsed.y ?? context.parsed} siswa` } } },
-            scales: { x: { grid: { display: false }, ticks: { color: '#64748b', font: { weight: '600', size: 10 } } }, y: { beginAtZero: true, ticks: { precision: 0, color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(148, 163, 184, 0.15)' } } }
-        };
-        function createSiswaChart(id, labels, data, color) {
+        function chartOptions(unit) {
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => `${context.parsed.y ?? context.parsed} ${unit}` } } },
+                scales: { x: { grid: { display: false }, ticks: { color: '#64748b', font: { weight: '600', size: 10 } } }, y: { beginAtZero: true, ticks: { precision: 0, color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(148, 163, 184, 0.15)' } } }
+            };
+        }
+        function createSiswaChart(id, labels, data, color, unit) {
             const canvas = document.getElementById(id);
             if (!canvas) return;
 
@@ -200,32 +199,25 @@
             }, { labels: [], data: [] });
 
             new Chart(canvas, {
-                type: 'line',
+                type: 'bar',
                 data: {
                     labels: validData.labels,
                     datasets: [{
                         label: 'Siswa',
                         data: validData.data,
                         borderColor: color,
-                        backgroundColor: `${color}26`,
-                        fill: true,
-                        tension: 0.4,
-                        cubicInterpolationMode: 'monotone',
-                        pointRadius: 3,
-                        pointHoverRadius: 5,
-                        pointBackgroundColor: color,
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2,
-                        borderWidth: 3
+                        backgroundColor: `${color}cc`,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                        borderWidth: 1
                     }]
                 },
-                options: chartOptions
+                options: chartOptions(unit)
             });
         }
-        createSiswaChart('siswaJurusanChart', chartData.jurusanLabels, chartData.jurusanData, '#10b981');
-        createSiswaChart('siswaAngkatanChart', chartData.angkatanLabels, chartData.angkatanData, '#14b8a6');
-        // Replace status chart with tahun (year) chart
-        createSiswaChart('siswaTahunChart', chartData.tahunLabels, chartData.tahunData, '#f59e0b');
+        createSiswaChart('siswaTahunChart', chartData.tahunLabels, chartData.tahunData, '#f59e0b', 'prestasi');
+        createSiswaChart('siswaPrestasiJurusanChart', chartData.prestasiJurusanLabels, chartData.prestasiJurusanData, '#10b981', 'prestasi');
+        createSiswaChart('siswaJurusanChart', chartData.siswaJurusanLabels, chartData.siswaJurusanData, '#0ea5e9', 'siswa');
     });
 </script>
 @endpush
