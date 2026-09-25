@@ -3,200 +3,46 @@
 @section('title', 'Artikel & Berita Sekolah')
 
 @section('content')
-@php
-    $featured = $artikels->first();
-    $secondary = $artikels->skip(1)->take(2);
-    $articles = $artikels->skip(3);
-@endphp
-
-<div class="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50/30 dark:from-slate-950 dark:to-slate-900 animate-page-load">
-    <!-- Header Section -->
-    <header class="public-page-header">
-        <div class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-            <div class="animate-fade-in">
-                <p class="text-xs font-bold uppercase tracking-[0.24em] text-emerald-200">📰 Informasi Sekolah</p>
-                <div class="mt-4 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-                    <div>
-                        <h1 class="text-5xl font-extrabold tracking-tight sm:text-6xl">Artikel & Berita</h1>
-                        <p class="mt-3 max-w-2xl text-lg">Cerita, kabar, pencapaian, dan update terbaru dari keluarga besar SMK Negeri 1 Bangsri.</p>
-                    </div>
-                    <div class="inline-flex shrink-0 items-center gap-3 rounded-xl bg-white/10 px-5 py-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-white/20 text-white">
-                            <i class="fas fa-newspaper text-sm"></i>
-                        </div>
-                        <div class="text-left">
-                            <p class="text-xs font-semibold text-white/90">Total Artikel</p>
-                            <p class="text-2xl font-bold text-white">{{ $artikels->total() }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="min-h-screen bg-[#f6faf7] dark:bg-slate-950">
+    <section class="border-b border-emerald-100 bg-white dark:border-slate-800 dark:bg-slate-900">
+        <div class="mx-auto max-w-7xl px-4 pb-10 pt-12 text-center sm:px-6 lg:px-8 lg:pb-14 lg:pt-16">
+            <p class="text-xs font-bold uppercase tracking-[0.24em] text-emerald-700 dark:text-emerald-400">Informasi sekolah</p>
+            <h1 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">
+                <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">Artikel &amp; Berita</span>
+            </h1>
+            <p class="page-subtitle mx-auto mt-4 max-w-xl text-sm leading-7 sm:text-base">Cerita, kabar, dan informasi terbaru dari keluarga besar SMK Negeri 1 Bangsri.</p>
         </div>
-    </header>
+    </section>
 
-    <!-- Main Content -->
-    <main class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        @if($featured)
-            <!-- Featured Article -->
-            <section class="mb-14 animate-fade-in animate-delay-100">
-                <a 
-                    href="{{ route('public.artikel.show', $featured) }}" 
-                    class="group grid overflow-hidden rounded-3xl border-2 border-blue-100 bg-white shadow-lg transition-smooth hover:-translate-y-2 hover:border-blue-300 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-600 sm:grid-cols-[1.3fr_1fr] lg:grid-cols-[1.6fr_1fr]"
-                >
-                    <!-- Image -->
-                    <div class="relative min-h-72 overflow-hidden bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-950/30 dark:to-blue-950/10 sm:min-h-80 lg:min-h-96">
-                        <img 
-                            src="{{ $featured->gambar ? asset('storage/' . $featured->gambar) : asset('images/logo-smk.png') }}" 
-                            alt="{{ $featured->judul }}" 
-                            class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        >
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 transition group-hover:opacity-100"></div>
-                    </div>
-
-                    <!-- Content -->
-                    <div class="flex flex-col justify-center p-7 sm:p-8 lg:p-10">
-                        <div class="inline-flex w-fit items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-xs font-bold text-blue-800 dark:bg-blue-950/50 dark:text-blue-300">
-                            <i class="fas fa-star text-blue-600 dark:text-blue-400"></i> Berita Utama
+    <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        @if($artikels->count())
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach($artikels as $index => $artikel)
+                    <a href="{{ route('public.artikel.show', $artikel) }}" class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900" style="animation-delay: {{ $index * 80 }}ms">
+                        <div class="relative aspect-[4/3] overflow-hidden bg-emerald-50 dark:bg-emerald-950">
+                            <img src="{{ $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('images/logo-smk.png') }}" alt="{{ $artikel->judul }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent opacity-0 transition group-hover:opacity-100"></div>
                         </div>
-                        
-                        <h2 class="mt-5 text-3xl font-extrabold leading-tight text-slate-900 dark:text-white sm:text-4xl">
-                            {{ $featured->judul }}
-                        </h2>
-                        
-                        <p class="mt-4 line-clamp-3 text-base leading-7 text-slate-700 dark:text-slate-300">
-                            {{ Str::limit($featured->isi, 200) }}
-                        </p>
-
-                        <div class="mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
-                            @if($featured->tanggal_publikasi)
-                                <div class="flex items-center gap-2">
-                                    <i class="fas fa-calendar text-blue-600 dark:text-blue-400"></i>
-                                    {{ $featured->tanggal_publikasi->translatedFormat('d F Y') }}
-                                </div>
-                            @endif
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-user-pen text-blue-600 dark:text-blue-400"></i>
-                                Admin Sekolah
-                            </div>
+                        <div class="flex flex-1 flex-col p-5">
+                            <p class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">{{ $artikel->tanggal_publikasi?->translatedFormat('d M Y') ?? 'Berita' }}</p>
+                            <h2 class="mt-2 line-clamp-2 text-lg font-bold leading-snug text-slate-900 dark:text-white">{{ $artikel->judul }}</h2>
+                            <p class="mt-3 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-400">{{ Str::limit($artikel->isi, 120) }}</p>
+                            <span class="mt-5 inline-flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-400">Baca selengkapnya <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1"></i></span>
                         </div>
-
-                        <div class="mt-7">
-                            <span class="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-100 to-blue-50 px-5 py-3 text-sm font-bold text-blue-700 transition group-hover:from-blue-200 group-hover:to-blue-100 dark:from-blue-950/50 dark:to-blue-950/30 dark:text-blue-400">
-                                Baca Selengkapnya <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1"></i>
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </section>
-
-            <!-- Secondary Articles Grid -->
-            @if($secondary->isNotEmpty())
-                <div class="mb-14 grid gap-6 sm:grid-cols-2">
-                    @foreach($secondary as $index => $artikel)
-                        <a 
-                            href="{{ route('public.artikel.show', $artikel) }}" 
-                            class="group animate-fade-in overflow-hidden rounded-2xl border-2 border-slate-100 bg-white shadow-md transition-smooth hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-600"
-                            style="animation-delay: {{ $index * 100 }}ms"
-                        >
-                                <div class="overflow-hidden">
-                                <!-- Image -->
-                                <div class="relative aspect-[16/9] overflow-hidden bg-blue-100 dark:bg-blue-950/30">
-                                    <img 
-                                        src="{{ $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('images/logo-smk.png') }}" 
-                                        alt="{{ $artikel->judul }}" 
-                                        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                    >
-                                </div>
-                                <!-- Content -->
-                                <div class="flex min-h-[170px] flex-col p-5 lg:p-6">
-                                    <p class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                                        {{ $artikel->tanggal_publikasi?->translatedFormat('d M Y') ?? 'Berita' }}
-                                    </p>
-                                    <h3 class="mt-2 line-clamp-3 text-lg font-bold leading-snug text-slate-900 dark:text-white">
-                                        {{ $artikel->judul }}
-                                    </h3>
-                                    <span class="mt-4 inline-flex w-fit items-center gap-2 text-xs font-bold text-blue-700 dark:text-blue-400">
-                                        Baca <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            @endif
-        @endif
-
-        <!-- All Articles Section -->
-        @if($articles->isNotEmpty() || $secondary->isNotEmpty())
-            <section class="animate-fade-in animate-delay-300">
-                <div class="mb-10 flex flex-col justify-between gap-4 border-b-2 border-blue-100 pb-6 dark:border-slate-800 sm:flex-row sm:items-center">
-                    <div>
-                        <p class="text-xs font-bold uppercase tracking-[0.25em] text-blue-700 dark:text-blue-400">📚 Koleksi Berita</p>
-                        <h2 class="mt-2 text-3xl font-extrabold text-slate-900 dark:text-white">Berita Terkini</h2>
-                    </div>
-                </div>
-
-                <div class="grid gap-4">
-                    @foreach($articles as $index => $artikel)
-                        <article 
-                            class="group animate-fade-in flex min-h-[176px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-smooth hover:-translate-y-1 hover:border-blue-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-600"
-                            style="animation-delay: {{ $index * 100 }}ms"
-                        >
-                            <!-- Image -->
-                            <a 
-                                href="{{ route('public.artikel.show', $artikel) }}" 
-                                class="relative block h-36 w-36 shrink-0 overflow-hidden bg-gradient-to-br from-blue-100 to-blue-50 sm:h-44 sm:w-56 dark:from-blue-950/30 dark:to-blue-950/10"
-                            >
-                                <img 
-                                    src="{{ $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('images/logo-smk.png') }}" 
-                                    alt="{{ $artikel->judul }}" 
-                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                >
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 transition group-hover:opacity-100"></div>
-                            </a>
-
-                            <!-- Content -->
-                            <div class="flex min-w-0 flex-1 flex-col p-4 sm:p-5">
-                                <div class="inline-flex items-center gap-2">
-                                    <i class="fas fa-calendar text-blue-600 dark:text-blue-400 text-xs"></i>
-                                    <p class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                                        {{ $artikel->tanggal_publikasi?->translatedFormat('d M Y') ?? 'Berita' }}
-                                    </p>
-                                </div>
-
-                                <h3 class="mt-2 line-clamp-2 text-base font-bold leading-6 text-slate-900 dark:text-white sm:text-lg">
-                                    <a href="{{ route('public.artikel.show', $artikel) }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">
-                                        {{ $artikel->judul }}
-                                    </a>
-                                </h3>
-
-                                <p class="mt-2 line-clamp-2 text-sm leading-5 text-slate-600 dark:text-slate-400">
-                                    {{ Str::limit($artikel->isi, 120) }}
-                                </p>
-
-                                <a 
-                                    href="{{ route('public.artikel.show', $artikel) }}" 
-                                    class="mt-3 inline-flex w-fit items-center gap-2 text-xs font-bold text-blue-700 transition hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                                >
-                                    Baca Selengkapnya <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1"></i>
-                                </a>
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
-            </section>
-        @elseif(!$featured)
-            <div class="animate-fade-in rounded-2xl border-2 border-dashed border-slate-300 bg-white p-16 text-center shadow-sm dark:border-slate-700 dark:bg-slate-900">
-                <i class="fas fa-inbox text-5xl text-slate-400 dark:text-slate-600 mb-4"></i>
-                <p class="text-lg font-semibold text-slate-600 dark:text-slate-400">Belum ada artikel yang dipublikasikan</p>
-                <p class="mt-2 text-slate-500 dark:text-slate-500">Kembali lagi untuk membaca update terbaru dari sekolah kami.</p>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center dark:border-slate-700 dark:bg-slate-900">
+                <i class="fas fa-inbox text-4xl text-slate-400 dark:text-slate-600"></i>
+                <p class="mt-4 font-semibold text-slate-600 dark:text-slate-400">Belum ada artikel yang dipublikasikan.</p>
+                <p class="mt-2 text-sm text-slate-500">Kembali lagi untuk membaca informasi terbaru dari sekolah kami.</p>
             </div>
         @endif
 
-        <!-- Pagination -->
         @if($artikels->hasPages())
-            <div class="mt-12">{{ $artikels->links() }}</div>
+            <div class="mt-10">{{ $artikels->links() }}</div>
         @endif
-    </main>
+    </section>
 </div>
 @endsection
