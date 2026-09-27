@@ -210,6 +210,11 @@
                 }, 400);
             });
 
+            document.addEventListener('change', (event) => {
+                const select = event.target.closest('form[data-live-search] select');
+                if (select) select.form.requestSubmit();
+            });
+
             document.addEventListener('submit', async (event) => {
                 const form = event.target.closest('form[data-live-search]');
                 if (!form) return;

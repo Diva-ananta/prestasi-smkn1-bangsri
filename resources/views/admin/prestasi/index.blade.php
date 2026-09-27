@@ -36,7 +36,7 @@
     </div>
 
     <div class="section-card animate-fade-in">
-        <form action="{{ route('admin.prestasi.index') }}" method="GET" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-7" data-prestasi-filters>
+        <form action="{{ route('admin.prestasi.index') }}" method="GET" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-7" data-prestasi-filters data-live-search>
             <input name="search" type="search" value="{{ request('search') }}" placeholder="Cari nama lomba, hasil, kategori, atau tingkat" aria-label="Cari prestasi" class="admin-form-input sm:col-span-2">
             <select name="tahun" class="admin-form-input" aria-label="Filter tahun">
                 <option value="">Semua tahun</option>
@@ -66,12 +66,6 @@
                 <option value="Publish" @selected(request('status') === 'Publish')>Publish</option>
                 <option value="Draft" @selected(request('status') === 'Draft')>Draft</option>
             </select>
-            <div class="flex gap-2">
-                <button type="submit" class="admin-btn-primary w-full"><i class="fas fa-filter mr-2"></i>Filter</button>
-                @if(collect(['search', 'tahun', 'kategori', 'tingkat', 'jenis_peserta', 'status'])->contains(fn ($key) => request()->filled($key)))
-                    <a href="{{ route('admin.prestasi.index') }}" class="admin-btn-secondary">Reset</a>
-                @endif
-            </div>
         </form>
     </div>
 
