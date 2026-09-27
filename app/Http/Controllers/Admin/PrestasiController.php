@@ -20,6 +20,7 @@ class PrestasiController extends Controller
     public function index(Request $request)
     {
         $filters = $request->validate([
+            'search' => ['nullable', 'string', 'max:150'],
             'tahun' => ['nullable', 'integer', 'min:1900', 'max:2100'],
             'kategori' => ['nullable', 'string', 'max:100'],
             'tingkat' => ['nullable', 'string', 'max:100'],
@@ -164,6 +165,7 @@ class PrestasiController extends Controller
             'ids' => ['sometimes', 'array'],
             'ids.*' => ['integer'],
             'all' => ['sometimes', 'boolean'],
+            'search' => ['nullable', 'string', 'max:150'],
             'tahun' => ['nullable', 'integer', 'min:1900', 'max:2100'],
             'kategori' => ['nullable', 'string', 'max:100'],
             'tingkat' => ['nullable', 'string', 'max:100'],
@@ -180,7 +182,14 @@ class PrestasiController extends Controller
 
     private function applyFilters($query, array $filters): void
     {
-        $query->when($filters['tahun'] ?? null, fn ($query, $tahun) => $query->whereYear('tanggal_mulai', $tahun))
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('nama_lomba', 'like', "%{$search}%")
+                    ->orWhere('hasil', 'like', "%{$search}%")
+                    ->orWhere('kategori', 'like', "%{$search}%")
+                    ->orWhere('tingkat', 'like', "%{$search}%");
+            });
+        })->when($filters['tahun'] ?? null, fn ($query, $tahun) => $query->whereYear('tanggal_mulai', $tahun))
             ->when($filters['kategori'] ?? null, fn ($query, $kategori) => $query->where('kategori', $kategori))
             ->when($filters['tingkat'] ?? null, fn ($query, $tingkat) => $query->where('tingkat', $tingkat))
             ->when($filters['jenis_peserta'] ?? null, fn ($query, $jenis) => $query->where('jenis_peserta', $jenis))

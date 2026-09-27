@@ -21,6 +21,14 @@ class PrestasiExport implements FromQuery, WithHeadings, WithMapping
             ->with('siswa')
             ->when(!$this->all && $this->ids, fn ($query) => $query->whereIn('id', $this->ids))
             ->when($this->all, fn ($query) => $query
+                ->when($this->filters['search'] ?? null, function ($query, $search) {
+                    $query->where(function ($query) use ($search) {
+                        $query->where('nama_lomba', 'like', "%{$search}%")
+                            ->orWhere('hasil', 'like', "%{$search}%")
+                            ->orWhere('kategori', 'like', "%{$search}%")
+                            ->orWhere('tingkat', 'like', "%{$search}%");
+                    });
+                })
                 ->when($this->filters['tahun'] ?? null, fn ($query, $tahun) => $query->whereYear('tanggal_mulai', $tahun))
                 ->when($this->filters['kategori'] ?? null, fn ($query, $kategori) => $query->where('kategori', $kategori))
                 ->when($this->filters['tingkat'] ?? null, fn ($query, $tingkat) => $query->where('tingkat', $tingkat))
