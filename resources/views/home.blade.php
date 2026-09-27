@@ -313,7 +313,7 @@
                         </h3>
 
                         @if($item->jenis_peserta === 'Tim' && $item->nama_tim)
-                            @php $ekstrakurikulerUrl = config('app.ekstrakurikuler.' . $item->nama_tim); @endphp
+                            @php $ekstrakurikulerUrl = \App\Helpers\Ekstrakurikuler::url($item->nama_tim); @endphp
                             <p class="mt-2 truncate text-sm font-semibold text-blue-700 dark:text-blue-400"><i class="fas fa-users mr-1"></i>@if($ekstrakurikulerUrl)<a href="{{ $ekstrakurikulerUrl }}" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ $item->nama_tim }}</a>@else{{ $item->nama_tim }}@endif</p>
                         @endif
 

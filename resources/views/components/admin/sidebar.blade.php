@@ -82,8 +82,12 @@
 
     <div class="border-t border-slate-200 p-3 dark:border-slate-700">
         <div class="mb-2 flex items-center gap-3 rounded-xl bg-slate-50 p-2 dark:bg-slate-800" :class="sidebarOpen ? '' : 'md:justify-center'">
-            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-700 text-sm font-semibold text-white">
-                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-emerald-700 text-sm font-semibold text-white">
+                @if(Auth::user()->profile_photo_path)
+                    <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt="" class="h-full w-full object-cover">
+                @else
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                @endif
             </div>
             <div x-show="sidebarOpen" x-transition.opacity class="min-w-0">
                 <p class="text-[10px] text-slate-400">Logged in</p>

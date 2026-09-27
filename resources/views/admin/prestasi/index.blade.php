@@ -11,12 +11,12 @@
                 <h1 class="text-2xl font-bold text-slate-800 dark:text-white md:text-3xl">Data Prestasi</h1>
                 <p class="mt-2 text-sm text-slate-500 dark:text-slate-300">Kelola semua prestasi dan penempatan anggota dengan mudah.</p>
             </div>
-            <div class="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-nowrap sm:gap-3" data-export-controls="prestasi">
-                <button type="button" onclick="togglePrestasiExportMode()" class="admin-btn-secondary w-full whitespace-nowrap sm:w-auto" data-export-start><i class="fas fa-file-export mr-2"></i><span data-export-start-label>Export Excel</span></button>
-                <button type="button" onclick="exportSelectedPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-primary w-full whitespace-nowrap sm:w-auto" data-export-download hidden style="display: none;"><i class="fas fa-download mr-2"></i>Download pilihan</button>
-                <button type="button" onclick="exportAllPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-secondary w-full whitespace-nowrap sm:w-auto" data-export-all hidden style="display: none;"><i class="fas fa-download mr-2"></i>Download semua hasil</button>
-                <a href="{{ route('admin.prestasi.import') }}" class="admin-btn-secondary w-full whitespace-nowrap sm:w-auto"><i class="fas fa-file-import mr-2"></i>Import Excel</a>
-                <button type="button" onclick="openPrestasiModal()" class="admin-btn-primary col-span-2 w-full whitespace-nowrap sm:col-span-1 sm:w-auto"><i class="fas fa-plus mr-2"></i>Tambah Prestasi</button>
+            <div class="grid w-full min-w-0 grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-nowrap sm:gap-3" data-export-controls="prestasi">
+                <button type="button" onclick="togglePrestasiExportMode()" class="admin-btn-secondary min-w-0 w-full whitespace-normal text-center text-xs leading-tight sm:w-auto sm:whitespace-nowrap sm:text-sm" data-export-start><i class="fas fa-file-export mr-1 shrink-0 sm:mr-2"></i><span data-export-start-label>Export Excel</span></button>
+                <button type="button" onclick="exportSelectedPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-primary min-w-0 w-full whitespace-normal text-center text-xs leading-tight sm:w-auto sm:whitespace-nowrap sm:text-sm" data-export-download hidden style="display: none;"><i class="fas fa-download mr-1 shrink-0 sm:mr-2"></i>Download pilihan</button>
+                <button type="button" onclick="exportAllPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-secondary min-w-0 w-full whitespace-normal text-center text-xs leading-tight sm:w-auto sm:whitespace-nowrap sm:text-sm" data-export-all hidden style="display: none;"><i class="fas fa-download mr-1 shrink-0 sm:mr-2"></i>Download semua hasil</button>
+                <a href="{{ route('admin.prestasi.import') }}" class="admin-btn-secondary min-w-0 w-full whitespace-normal text-center text-xs leading-tight sm:w-auto sm:whitespace-nowrap sm:text-sm"><i class="fas fa-file-import mr-1 shrink-0 sm:mr-2"></i>Import Excel</a>
+                <button type="button" onclick="openPrestasiModal()" class="admin-btn-primary col-span-2 min-w-0 w-full whitespace-normal text-center text-xs leading-tight sm:col-span-1 sm:w-auto sm:whitespace-nowrap sm:text-sm"><i class="fas fa-plus mr-1 shrink-0 sm:mr-2"></i>Tambah Prestasi</button>
             </div>
         </div>
     </div>
@@ -35,40 +35,60 @@
         </div>
     </div>
 
-    <div class="section-card animate-fade-in">
-        <form action="{{ route('admin.prestasi.index') }}" method="GET" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-7" data-prestasi-filters data-live-search>
-            <input name="search" type="search" value="{{ request('search') }}" placeholder="Cari nama lomba, hasil, kategori, atau tingkat" aria-label="Cari prestasi" class="admin-form-input sm:col-span-2">
-            <select name="tahun" class="admin-form-input" aria-label="Filter tahun">
-                <option value="">Semua tahun</option>
-                @foreach($tahunOptions as $tahun)
-                    <option value="{{ $tahun }}" @selected(request('tahun') == $tahun)>{{ $tahun }}</option>
-                @endforeach
-            </select>
-            <select name="kategori" class="admin-form-input" aria-label="Filter kategori">
-                <option value="">Semua kategori</option>
-                @foreach($kategoriOptions as $kategori)
-                    <option value="{{ $kategori }}" @selected(request('kategori') === $kategori)>{{ $kategori }}</option>
-                @endforeach
-            </select>
-            <select name="tingkat" class="admin-form-input" aria-label="Filter tingkat">
-                <option value="">Semua tingkat</option>
-                @foreach($tingkatOptions as $tingkat)
-                    <option value="{{ $tingkat }}" @selected(request('tingkat') === $tingkat)>{{ $tingkat }}</option>
-                @endforeach
-            </select>
-            <select name="jenis_peserta" class="admin-form-input" aria-label="Filter jenis peserta">
-                <option value="">Semua jenis peserta</option>
-                <option value="Individu" @selected(request('jenis_peserta') === 'Individu')>Individu</option>
-                <option value="Tim" @selected(request('jenis_peserta') === 'Tim')>Tim</option>
-            </select>
-            <select name="status" class="admin-form-input" aria-label="Filter status">
-                <option value="">Semua status</option>
-                <option value="Publish" @selected(request('status') === 'Publish')>Publish</option>
-                <option value="Draft" @selected(request('status') === 'Draft')>Draft</option>
-            </select>
+    <div class="section-card animate-fade-in p-3 sm:p-4">
+        <form action="{{ route('admin.prestasi.index') }}" method="GET" class="grid grid-cols-2 gap-x-3 gap-y-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7" data-prestasi-filters data-live-search data-ajax-target="#prestasi-results">
+            <label class="relative col-span-2 block min-w-0 sm:col-span-3 lg:col-span-2 xl:col-span-2">
+                <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Cari prestasi</span>
+                <span class="pointer-events-none absolute bottom-0 left-3 flex h-12 items-center text-slate-400" aria-hidden="true"><i class="fas fa-search"></i></span>
+                <input name="search" type="search" value="{{ request('search') }}" placeholder="Nama lomba, hasil, kategori..." aria-label="Cari prestasi" class="admin-form-input mt-0 min-w-0 pl-10">
+            </label>
+            <label class="block min-w-0">
+                <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Tahun</span>
+                <select name="tahun" class="admin-form-input mt-0 min-w-0 px-3 text-xs sm:text-sm" aria-label="Filter tahun">
+                    <option value="">Semua tahun</option>
+                    @foreach($tahunOptions as $tahun)
+                        <option value="{{ $tahun }}" @selected(request('tahun') == $tahun)>{{ $tahun }}</option>
+                    @endforeach
+                </select>
+            </label>
+            <label class="block min-w-0">
+                <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Kategori</span>
+                <select name="kategori" class="admin-form-input mt-0 min-w-0 px-3 text-xs sm:text-sm" aria-label="Filter kategori">
+                    <option value="">Semua kategori</option>
+                    @foreach($kategoriOptions as $kategori)
+                        <option value="{{ $kategori }}" @selected(request('kategori') === $kategori)>{{ $kategori }}</option>
+                    @endforeach
+                </select>
+            </label>
+            <label class="block min-w-0">
+                <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Tingkat</span>
+                <select name="tingkat" class="admin-form-input mt-0 min-w-0 px-3 text-xs sm:text-sm" aria-label="Filter tingkat">
+                    <option value="">Semua tingkat</option>
+                    @foreach($tingkatOptions as $tingkat)
+                        <option value="{{ $tingkat }}" @selected(request('tingkat') === $tingkat)>{{ $tingkat }}</option>
+                    @endforeach
+                </select>
+            </label>
+            <label class="block min-w-0">
+                <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Peserta</span>
+                <select name="jenis_peserta" class="admin-form-input mt-0 min-w-0 px-3 text-xs sm:text-sm" aria-label="Filter jenis peserta">
+                    <option value="">Semua jenis</option>
+                    <option value="Individu" @selected(request('jenis_peserta') === 'Individu')>Individu</option>
+                    <option value="Tim" @selected(request('jenis_peserta') === 'Tim')>Tim</option>
+                </select>
+            </label>
+            <label class="block min-w-0">
+                <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Status</span>
+                <select name="status" class="admin-form-input mt-0 min-w-0 px-3 text-xs sm:text-sm" aria-label="Filter status">
+                    <option value="">Semua status</option>
+                    <option value="Publish" @selected(request('status') === 'Publish')>Publish</option>
+                    <option value="Draft" @selected(request('status') === 'Draft')>Draft</option>
+                </select>
+            </label>
         </form>
     </div>
 
+    <div id="prestasi-results">
     <div class="section-card animate-fade-in">
         <x-admin.table class="admin-table admin-table-mobile-cards min-w-[900px]">
             <thead>
@@ -134,6 +154,7 @@
 
     <div class="animate-fade-in">
         {{ $prestasis->links() }}
+    </div>
     </div>
 </div>
 <script>

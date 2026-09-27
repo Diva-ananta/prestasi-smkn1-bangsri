@@ -100,7 +100,7 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="hidden rounded-lg bg-emerald-50 px-2.5 py-1.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 sm:inline"><span id="chartTotal">{{ number_format(array_sum($chartData ?? [])) }}</span> prestasi</span>
-                        <button type="button" id="toggleChartFilter" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                        <button type="button" id="toggleChartFilter" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
                             <i class="fas fa-filter text-[10px]"></i>
                             Filter
                         </button>
@@ -112,7 +112,7 @@
                         <div class="flex flex-wrap items-end gap-2">
                             <label class="flex min-w-[150px] flex-col gap-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
                                 <span>Periode</span>
-                                <select name="range_type" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] font-medium text-slate-700 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" aria-label="Pilih periode grafik">
+                                <select name="range_type" class="min-h-11 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-sm font-medium text-slate-700 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" aria-label="Pilih periode grafik">
                                     <option value="year" {{ ($rangeType ?? 'year') === 'year' ? 'selected' : '' }}>1 Tahun</option>
                                     <option value="all" {{ ($rangeType ?? 'year') === 'all' ? 'selected' : '' }}>Semua Tahun</option>
                                 </select>
@@ -120,18 +120,18 @@
 
                             <label class="flex min-w-[130px] flex-col gap-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
                                 <span>Mulai</span>
-                                <input type="date" name="start_date" value="{{ request('start_date') ?: ($startDate ?? now()->subYear())->format('Y-m-d') }}" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] text-slate-700 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" aria-label="Tanggal mulai">
+                                <input type="date" name="start_date" value="{{ request('start_date') ?: ($startDate ?? now()->subYear())->format('Y-m-d') }}" class="min-h-11 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-700 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" aria-label="Tanggal mulai">
                             </label>
 
                             <label class="flex min-w-[130px] flex-col gap-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
                                 <span>Sampai</span>
-                                <input type="date" name="end_date" value="{{ request('end_date') ?: ($endDate ?? now())->format('Y-m-d') }}" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] text-slate-700 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" aria-label="Tanggal akhir">
+                                <input type="date" name="end_date" value="{{ request('end_date') ?: ($endDate ?? now())->format('Y-m-d') }}" class="min-h-11 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-700 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" aria-label="Tanggal akhir">
                             </label>
                         </div>
 
                         <div class="flex justify-end gap-2">
-                            <button type="button" id="resetChartFilter" class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[10px] font-semibold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">Reset</button>
-                            <button type="submit" class="rounded-lg bg-emerald-600 px-2.5 py-1.5 text-[10px] font-semibold text-white transition hover:bg-emerald-500">Terapkan</button>
+                            <button type="button" id="resetChartFilter" class="min-h-11 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">Reset</button>
+                            <button type="submit" class="min-h-11 rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-emerald-500">Terapkan</button>
                         </div>
                     </form>
                 </div>
@@ -263,13 +263,13 @@
                 <h2 class="text-lg font-semibold text-slate-800 dark:text-white">Prestasi Terbaru</h2>
                 <p class="text-xs text-slate-500 dark:text-slate-400">Aktivitas terbaru dari data sekolah</p>
             </div>
-            <a href="{{ route('admin.prestasi.index') }}" class="inline-flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-300 dark:hover:bg-emerald-900/50">
+            <a href="{{ route('admin.prestasi.index') }}" class="inline-flex min-h-11 items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-300 dark:hover:bg-emerald-900/50">
                 Lihat semua <i class="fas fa-arrow-right text-[10px]"></i>
             </a>
         </div>
 
         <div class="admin-table-wrap overflow-x-auto">
-            <table class="admin-table min-w-[760px] text-left text-sm">
+            <table class="admin-table admin-table-stack-mobile min-w-[760px] text-left text-sm">
                 <thead>
                     <tr>
                         <th class="px-4 py-3 text-sm font-semibold text-slate-600">Nama Lomba</th>
@@ -283,8 +283,8 @@
                 <tbody>
                     @forelse($prestasiTerbaru as $prestasi)
                         <tr>
-                            <td class="px-4 py-3 max-w-xs font-semibold text-slate-700 dark:text-slate-200"><span class="line-clamp-2 block">{{ $prestasi->nama_lomba ?? '-' }}</span></td>
-                            <td class="px-4 py-3 text-slate-600 dark:text-slate-300 max-w-[220px] truncate">
+                            <td data-label="Lomba" class="px-4 py-3 max-w-xs font-semibold text-slate-700 dark:text-slate-200"><span class="line-clamp-2 block">{{ $prestasi->nama_lomba ?? '-' }}</span></td>
+                            <td data-label="Siswa" class="px-4 py-3 text-slate-600 dark:text-slate-300 max-w-[220px] truncate">
                                 @if($prestasi->detailPrestasi->count())
                                     <span class="truncate">{{ $prestasi->detailPrestasi->first()->siswa->nama ?? '-' }}</span>
                                     @if($prestasi->detailPrestasi->count() > 1)
@@ -294,14 +294,14 @@
                                     -
                                 @endif
                             </td>
-                            <td class="px-4 py-3 text-slate-600 dark:text-slate-300 w-[120px]">{{ $prestasi->tingkat ?? '-' }}</td>
-                            <td class="px-4 py-3 text-slate-600 dark:text-slate-300 max-w-[140px] truncate">{{ $prestasi->hasil }}</td>
-                            <td class="px-4 py-3">
+                            <td data-label="Tingkat" class="px-4 py-3 text-slate-600 dark:text-slate-300 w-[120px]">{{ $prestasi->tingkat ?? '-' }}</td>
+                            <td data-label="Hasil" class="px-4 py-3 text-slate-600 dark:text-slate-300 max-w-[140px] truncate">{{ $prestasi->hasil }}</td>
+                            <td data-label="Status" class="px-4 py-3">
                                 <span class="inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold {{ $prestasi->status == 'Publish' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' }}">
                                     {{ $prestasi->status }}
                                 </span>
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-slate-500 dark:text-slate-400">{{ $prestasi->created_at->diffForHumans() }}</td>
+                            <td data-label="Tanggal" class="px-4 py-3 whitespace-nowrap text-slate-500 dark:text-slate-400">{{ $prestasi->created_at->diffForHumans() }}</td>
                         </tr>
                     @empty
                         <tr>

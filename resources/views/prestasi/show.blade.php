@@ -7,7 +7,7 @@
 @php
     $ketuaTim = $prestasi->detailPrestasi->first()?->siswa;
     $pesertaIndividu = $prestasi->jenis_peserta === 'Individu' ? $ketuaTim?->nama : null;
-    $ekstrakurikulerUrl = $prestasi->nama_tim ? config('app.ekstrakurikuler.' . $prestasi->nama_tim) : null;
+    $ekstrakurikulerUrl = \App\Helpers\Ekstrakurikuler::url($prestasi->nama_tim);
     $tahun = $prestasi->tanggal_mulai ? \Carbon\Carbon::parse($prestasi->tanggal_mulai)->format('Y') : $prestasi->created_at->format('Y');
     $metaItems = [
         ['icon' => 'building-columns', 'label' => 'Penyelenggara', 'value' => $prestasi->penyelenggara],

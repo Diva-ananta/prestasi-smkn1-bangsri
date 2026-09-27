@@ -62,7 +62,7 @@
                                             </div>
                                             <h3 class="break-words text-sm font-bold text-slate-900 dark:text-white">{{ $item->nama_lomba }}</h3>
                                             @if($item->nama_tim)
-                                                @php $ekstrakurikulerUrl = config('app.ekstrakurikuler.' . $item->nama_tim); @endphp
+                                                @php $ekstrakurikulerUrl = \App\Helpers\Ekstrakurikuler::url($item->nama_tim); @endphp
                                                 <p class="mt-1 text-xs font-semibold text-blue-700 dark:text-blue-400"><x-icon name="users" class="mr-1" />@if($ekstrakurikulerUrl)<a href="{{ $ekstrakurikulerUrl }}" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ $item->nama_tim }}</a>@else{{ $item->nama_tim }}@endif</p>
                                             @endif
                                             <p class="mt-1.5 text-xs leading-5 text-slate-500 dark:text-slate-400">{{ \Illuminate\Support\Str::limit($item->keterangan ?? 'Prestasi siswa pada kompetisi ' . ($item->tingkat ?? 'umum') . '.', 150) }}</p>

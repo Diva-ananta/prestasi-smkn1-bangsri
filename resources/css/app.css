@@ -391,7 +391,8 @@ textarea:focus-visible {
 }
 
 @media (max-width: 640px) {
-    .admin-table-wrap:has(.admin-table-mobile-cards) {
+    .admin-table-wrap:has(.admin-table-mobile-cards),
+    .admin-table-wrap:has(.admin-table-stack-mobile) {
         overflow: visible;
         border: 0;
         background: transparent;
@@ -401,28 +402,37 @@ textarea:focus-visible {
     .admin-table-mobile-cards,
     .admin-table-mobile-cards tbody,
     .admin-table-mobile-cards tr,
-    .admin-table-mobile-cards td {
+    .admin-table-mobile-cards td,
+    .admin-table-stack-mobile,
+    .admin-table-stack-mobile tbody,
+    .admin-table-stack-mobile tr,
+    .admin-table-stack-mobile td {
         display: block;
         width: 100%;
     }
 
-    .admin-table-mobile-cards {
+    .admin-table-mobile-cards,
+    .admin-table-stack-mobile {
         min-width: 0 !important;
     }
 
-    .admin-table-mobile-cards thead {
+    .admin-table-mobile-cards thead,
+    .admin-table-stack-mobile thead {
         display: none;
     }
 
-    .admin-table-mobile-cards tbody tr {
+    .admin-table-mobile-cards tbody tr,
+    .admin-table-stack-mobile tbody tr {
         @apply mb-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900;
     }
 
-    .admin-table-mobile-cards tbody td {
+    .admin-table-mobile-cards tbody td,
+    .admin-table-stack-mobile tbody td {
         @apply flex items-center justify-between gap-3 border-0 px-1 py-1.5 text-right text-xs;
     }
 
-    .admin-table-mobile-cards tbody td::before {
+    .admin-table-mobile-cards tbody td::before,
+    .admin-table-stack-mobile tbody td::before {
         content: attr(data-label);
         @apply text-left font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500;
     }
@@ -436,18 +446,40 @@ textarea:focus-visible {
         display: flex;
     }
 
-    .admin-table-mobile-cards tbody td[colspan] {
+    .admin-table-mobile-cards tbody td[colspan],
+    .admin-table-stack-mobile tbody td[colspan] {
         display: block;
         padding: 3rem 1rem;
         text-align: center;
     }
 
-    .admin-table-mobile-cards tbody td[colspan]::before {
+    .admin-table-mobile-cards tbody td[colspan]::before,
+    .admin-table-stack-mobile tbody td[colspan]::before {
         display: none;
     }
 
-    .admin-table-mobile-cards tbody td:last-child {
+    .admin-table-mobile-cards tbody td:last-child,
+    .admin-table-stack-mobile tbody td:last-child {
         @apply mt-2 border-t border-slate-100 pt-3 dark:border-slate-800;
+    }
+
+    .admin-table-mobile-cards tbody td:last-child a,
+    .admin-table-mobile-cards tbody td:last-child button,
+    .admin-table-stack-mobile tbody td:last-child a,
+    .admin-table-stack-mobile tbody td:last-child button {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .sidebar-link,
+    main button:not([type='checkbox']):not([type='radio']),
+    main a.inline-flex,
+    main a.flex,
+    main a.block,
+    .admin-btn-primary,
+    .admin-btn-secondary,
+    .admin-btn-danger {
+        min-height: 44px;
     }
 
     .sipintu-page .admin-table-wrap {
@@ -534,6 +566,25 @@ select.admin-form-input option {
 
 .admin-badge.warning {
     @apply bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300;
+}
+
+@media (max-width: 640px) {
+    .sidebar-link,
+    main button,
+    main a.inline-flex,
+    main a.flex,
+    main a.block,
+    main .admin-btn-primary,
+    main .admin-btn-secondary,
+    main .admin-btn-danger {
+        min-height: 44px;
+    }
+
+    main input:not([type='checkbox']):not([type='radio']),
+    main select,
+    main textarea {
+        min-height: 44px;
+    }
 }
 
 .admin-badge.info {

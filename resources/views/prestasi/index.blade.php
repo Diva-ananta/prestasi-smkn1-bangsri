@@ -225,7 +225,7 @@
                                 </h3>
 
                                 @if($item->nama_tim)
-                                    @php($ekstrakurikulerUrl = config('app.ekstrakurikuler.' . $item->nama_tim))
+                                    @php($ekstrakurikulerUrl = \App\Helpers\Ekstrakurikuler::url($item->nama_tim))
                                     <p class="mt-2 truncate text-sm font-semibold text-blue-700 dark:text-blue-400 sm:text-xs">
                                         <x-icon name="users" class="mr-1" />
                                         @if($ekstrakurikulerUrl)

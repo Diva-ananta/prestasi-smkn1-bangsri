@@ -67,7 +67,13 @@
                 <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 sm:gap-3">
                     <span class="hidden sm:inline">{{ now()->translatedFormat('d F Y') }}</span>
                     <a href="{{ route('home') }}" target="_blank" class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-slate-700 dark:hover:bg-slate-800" title="Buka portal publik" aria-label="Buka portal publik"><i class="fas fa-arrow-up-right-from-square"></i></a>
-                    <a href="{{ route('profile.edit') }}" class="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 font-bold text-emerald-700 transition hover:bg-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:hover:bg-emerald-900/70" title="Buka profil" aria-label="Buka profil">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</a>
+                    <a href="{{ route('profile.edit') }}" class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-emerald-100 font-bold text-emerald-700 transition hover:bg-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:hover:bg-emerald-900/70" title="Buka profil" aria-label="Buka profil">
+                        @if(Auth::user()->profile_photo_path)
+                            <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt="" class="h-full w-full object-cover">
+                        @else
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        @endif
+                    </a>
                 </div>
             </header>
             <main class="mx-auto w-full max-w-[1600px] flex-1 p-4 md:p-5 lg:p-6">
@@ -139,11 +145,20 @@
                 }
             });
 
-               async function loadPage(link, { replaceHistory = false } = {}) {
-                const response = await fetch(link.href, { headers: { 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' });
+               async function loadPage(link, { replaceHistory = false, targetSelector = null, signal } = {}) {
+                const response = await fetch(link.href, { headers: { 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin', signal });
                 if (!response.ok) throw new Error('Page request failed');
                 const html = await response.text();
                 const parsed = new DOMParser().parseFromString(html, 'text/html');
+                if (targetSelector) {
+                    const incomingTarget = parsed.querySelector(targetSelector);
+                    const currentTarget = document.querySelector(targetSelector);
+                    if (!incomingTarget || !currentTarget) throw new Error('Bagian hasil AJAX tidak ditemukan.');
+                    currentTarget.innerHTML = incomingTarget.innerHTML;
+                    if (replaceHistory) window.history.replaceState({}, '', link.href);
+                    else window.history.pushState({}, '', link.href);
+                    return;
+                }
                 const incoming = parsed.querySelector('main');
                 const current = document.querySelector('main');
                 if (!incoming || !current) throw new Error('Halaman AJAX tidak memiliki konten utama.');
@@ -187,27 +202,32 @@
 
             window.ajaxLoadPage = loadPage;
 
-            // Live search: filter halaman admin saat mengetik, tanpa klik tombol.
+            // Live search: update hasil tanpa mengganti seluruh halaman.
             let liveSearchTimer;
+            let liveSearchController;
+            let liveSearchSequence = 0;
             document.addEventListener('input', (event) => {
                 const input = event.target.closest('form[data-live-search] [name="search"]');
                 if (!input) return;
                 const form = input.closest('form');
                 clearTimeout(liveSearchTimer);
+                liveSearchController?.abort();
+                const sequence = ++liveSearchSequence;
                 liveSearchTimer = setTimeout(async () => {
                     const url = `${form.getAttribute('action')}?${new URLSearchParams(new FormData(form)).toString()}`;
-                    const cursorPos = input.selectionStart;
+                    liveSearchController = new AbortController();
                     try {
-                        await loadPage({ href: url }, { replaceHistory: true });
-                        const newInput = document.querySelector('form[data-live-search] [name="search"]');
-                        if (newInput) {
-                            newInput.focus();
-                            newInput.setSelectionRange(cursorPos, cursorPos);
-                        }
+                        await loadPage({ href: url }, {
+                            replaceHistory: true,
+                            targetSelector: form.dataset.ajaxTarget,
+                            signal: liveSearchController.signal,
+                        });
                     } catch (error) {
-                        window.adminNotify?.('Pencarian gagal dimuat. Silakan coba lagi.', 'error');
+                        if (error.name !== 'AbortError' && sequence === liveSearchSequence) {
+                            window.adminNotify?.('Pencarian gagal dimuat. Silakan coba lagi.', 'error');
+                        }
                     }
-                }, 400);
+                }, 220);
             });
 
             document.addEventListener('change', (event) => {
@@ -220,9 +240,10 @@
                 if (!form) return;
                 event.preventDefault();
                 clearTimeout(liveSearchTimer);
+                liveSearchController?.abort();
                 const url = `${form.getAttribute('action')}?${new URLSearchParams(new FormData(form)).toString()}`;
                 try {
-                    await loadPage({ href: url });
+                    await loadPage({ href: url }, { targetSelector: form.dataset.ajaxTarget });
                 } catch (error) {
                     window.adminNotify?.('Pencarian gagal dimuat. Silakan coba lagi.', 'error');
                 }
