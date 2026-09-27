@@ -56,11 +56,11 @@
     </style>
     </head>
     <body class="public-site bg-slate-100 text-slate-800 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
-        <nav x-data="{ open: false }" class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl transition-colors duration-300 dark:border-slate-800 dark:bg-slate-900/90">
+        <nav x-data="{ open: false, scrolled: false }" x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 24)" :class="scrolled ? 'bg-white/65 shadow-md shadow-slate-900/5 dark:bg-slate-900/65' : 'bg-white/90 dark:bg-slate-900/90'" class="sticky top-0 z-50 border-b border-slate-200/80 backdrop-blur-xl transition-all duration-300 dark:border-slate-800">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex min-h-16 items-center justify-between gap-2 py-2 sm:py-2.5">
                     <a href="{{ route('home') }}" class="flex items-center gap-3">
-                        <div class="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border border-emerald-200 bg-emerald-50 p-1 shadow-sm">
+                        <div class="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl">
                             <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK" class="h-full w-full object-contain">
                         </div>
                         <div class="min-w-0">

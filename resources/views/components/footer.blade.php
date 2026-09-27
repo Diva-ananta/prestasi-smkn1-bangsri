@@ -2,7 +2,9 @@
     <div class="mx-auto grid max-w-7xl gap-6 px-4 py-9 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.1fr_1fr_1fr_1.35fr] lg:px-8">
         <div class="lg:col-span-1">
             <div class="flex items-center gap-3">
-                <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK Negeri 1 Bangsri" class="h-11 w-11 rounded-full bg-white p-1 object-contain">
+                <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-white p-1.5 shadow-sm">
+                    <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK Negeri 1 Bangsri" class="h-full w-full object-contain">
+                </div>
                 <div>
                     <p class="font-bold">SIPRES ESKASABA</p>
                     <p class="text-xs text-slate-300">Sistem Informasi Prestasi Siswa</p>

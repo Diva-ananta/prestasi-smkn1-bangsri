@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="min-h-screen bg-[#f6faf7] dark:bg-slate-950">
+<div x-data="{ activeCatalog: 'all' }" class="min-h-screen bg-[#f6faf7] dark:bg-slate-950">
 
     {{-- HEADER --}}
     <section class="border-b border-emerald-100 bg-white dark:border-slate-800 dark:bg-slate-900">
@@ -35,7 +35,7 @@
 
 
     {{-- GALERI --}}
-    <section x-data="{ activeCatalog: 'all' }" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
 
         {{-- GRID KATALOG --}}
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

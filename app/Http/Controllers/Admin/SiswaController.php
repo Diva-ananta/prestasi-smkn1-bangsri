@@ -147,7 +147,7 @@ class SiswaController extends Controller
             ->orWhere('nisn', 'like', "%{$q}%")
             ->orderBy('nama')
             ->limit(15)
-            ->get(['id', 'nama', 'nis', 'kelas']);
+            ->get(['id', 'nama', 'nis', 'kelas', 'status']);
 
         return response()->json($results);
     }

@@ -37,7 +37,7 @@
     <div class="section-card animate-fade-in">
         <form action="{{ route('admin.prestasi.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row sm:items-center" data-live-search>
             <input id="search" name="search" type="search" value="{{ request('search') }}" placeholder="Cari nama lomba, jenis peserta, hasil, atau kategori" class="admin-form-input md:flex-1">
-            <button type="submit" class="admin-btn-primary w-full sm:w-auto">Cari</button>
+            <button type="submit" class="admin-btn-primary w-full sm:w-auto">Filter</button>
             @if(request()->filled('search'))
                 <a href="{{ route('admin.prestasi.index') }}" class="admin-btn-secondary w-full sm:w-auto">Reset</a>
             @endif
@@ -48,7 +48,7 @@
         <x-admin.table class="admin-table admin-table-mobile-cards min-w-[900px]">
             <thead>
                 <tr>
-                    <th data-export-column class="hidden"><input type="checkbox" id="select-all-prestasi" onclick="document.querySelectorAll('.prestasi-select').forEach((item) => item.checked = this.checked)" aria-label="Pilih semua"></th>
+                    <th data-export-column class="hidden"><input type="checkbox" id="select-all-prestasi" onclick="toggleAllPrestasiSelection(this)" aria-label="Pilih semua data prestasi di semua halaman"></th>
                     <th class="w-14 text-center">No</th>
                     <th class="w-24">Thumbnail</th>
                     <th class="min-w-[260px]">Nama Lomba</th>
@@ -137,10 +137,26 @@
 
     @if($errors->any()) document.body.classList.add('overflow-hidden'); @endif
 
+    function toggleAllPrestasiSelection(checkbox) {
+        document.querySelectorAll('.prestasi-select').forEach((item) => item.checked = checkbox.checked);
+    }
+
     function exportSelectedPrestasi(url) {
-        const ids = [...document.querySelectorAll('.prestasi-select:checked')].map((item) => `ids[]=${encodeURIComponent(item.value)}`);
-        if (!ids.length) return window.adminNotify?.('Pilih minimal satu data untuk diekspor.', 'error');
-        window.location.href = `${url}?${ids.join('&')}`;
+        const params = new URLSearchParams();
+        const selectAll = document.getElementById('select-all-prestasi');
+
+        if (selectAll?.checked) {
+            params.set('all', '1');
+            const search = document.querySelector('form[data-live-search] [name="search"]')?.value.trim();
+            if (search) params.set('search', search);
+            document.querySelectorAll('.prestasi-select:not(:checked)').forEach((item) => params.append('except_ids[]', item.value));
+        } else {
+            const selected = document.querySelectorAll('.prestasi-select:checked');
+            if (!selected.length) return window.adminNotify?.('Pilih minimal satu data untuk diekspor.', 'error');
+            selected.forEach((item) => params.append('ids[]', item.value));
+        }
+
+        window.location.href = `${url}?${params.toString()}`;
     }
 
     function togglePrestasiExportMode() {

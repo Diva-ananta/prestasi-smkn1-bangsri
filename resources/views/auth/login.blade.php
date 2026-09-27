@@ -1,24 +1,23 @@
 <x-guest-layout>
-    <div class="flex min-h-screen items-center bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50 px-4 py-8 text-slate-800 sm:px-8 lg:px-12">
-        <div class="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-5xl overflow-hidden rounded-3xl border border-emerald-200/50 bg-white shadow-2xl lg:grid-cols-[0.9fr_1.1fr]">
-            <!-- Left Panel - Login Form -->
-            <section class="flex items-center px-6 py-10 sm:px-12 lg:px-16">
-                <div class="mx-auto w-full max-w-sm">
+    <div class="flex min-h-screen items-center justify-center bg-slate-100 px-4 py-6 text-slate-800 sm:px-8 sm:py-10 dark:bg-slate-950">
+        <div class="mx-auto grid w-full max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.12)] dark:border-slate-800 dark:bg-slate-900 lg:grid-cols-[1fr_0.9fr]">
+            <section class="flex min-w-0 items-center px-5 py-8 sm:px-10 sm:py-12 lg:px-12 xl:px-16">
+                <div class="mx-auto w-full max-w-md">
                     <!-- Header -->
-                    <a href="{{ route('home') }}" class="mb-12 inline-flex items-center gap-3 transition-transform hover:scale-105">
-                        <div class="h-10 w-10 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 p-1.5 flex items-center justify-center">
+                    <a href="{{ route('home') }}" class="mb-8 inline-flex min-w-0 items-center gap-3 transition-opacity hover:opacity-80">
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 p-1.5 dark:bg-emerald-900/30">
                             <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK N 1 Bangsri" class="h-full w-full object-contain">
                         </div>
-                        <span class="text-sm font-bold bg-gradient-to-r from-emerald-700 to-emerald-900 bg-clip-text text-transparent">SMK Negeri 1 Bangsri</span>
+                        <span class="text-sm font-bold text-slate-800 dark:text-white">SMK Negeri 1 Bangsri</span>
                     </a>
 
-                    <div class="mb-10">
-                        <div class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-50 to-lime-50 px-3 py-1.5 border border-emerald-200/50">
-                            <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <span class="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-700">Admin Dashboard</span>
+                    <div class="mb-8">
+                        <div class="inline-flex items-center gap-2 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 dark:border-emerald-800 dark:bg-emerald-950/50">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span>
+                            <span class="text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-800 dark:text-emerald-300">Portal Administrator</span>
                         </div>
-                        <h1 class="mt-6 text-4xl font-bold tracking-tight text-slate-900">Selamat datang kembali</h1>
-                        <p class="mt-2 text-sm leading-6 text-slate-600">Masuk untuk mengelola data prestasi siswa dengan aman.</p>
+                        <h1 class="mt-5 text-3xl font-bold leading-tight text-slate-900 dark:text-white sm:text-[2rem]">Masuk ke akun Anda</h1>
+                        <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">Kelola data prestasi siswa melalui panel administrasi sekolah.</p>
                     </div>
 
                     <!-- Alerts -->
@@ -69,12 +68,12 @@
                     @endif
 
                     <!-- Login Form -->
-                    <form method="POST" action="{{ route('login') }}" class="space-y-6" id="loginForm">
+                    <form method="POST" action="{{ route('login') }}" class="space-y-5" id="loginForm">
                         @csrf
 
                         <!-- Email Input -->
                         <div class="space-y-2.5">
-                            <label for="email" class="block text-sm font-semibold text-slate-700">Email Address</label>
+                            <label for="email" class="block text-sm font-semibold text-slate-700 dark:text-slate-200">Email</label>
                             <div class="group relative">
                                 <div class="absolute left-0 top-0 h-full w-12 flex items-center justify-center text-emerald-600 group-focus-within:text-emerald-700 transition">
                                     <i class="fas fa-envelope text-sm"></i>
@@ -88,11 +87,11 @@
                                     autofocus
                                     autocomplete="username"
                                     placeholder="nama@email.com"
-                                    class="w-full rounded-xl border-2 border-slate-200 bg-white py-3.5 pl-12 pr-4 text-sm font-medium transition
+                                    class="w-full rounded-lg border border-slate-300 bg-white py-3.5 pl-12 pr-4 text-sm font-medium text-slate-900 transition
                                     placeholder:text-slate-400 placeholder:font-normal
-                                    focus:border-emerald-600 focus:bg-emerald-50/30 focus:outline-none focus:ring-0
-                                    hover:border-slate-300
-                                    @error('email') border-red-500 bg-red-50/30 @enderror"
+                                    focus:border-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-700/10
+                                    hover:border-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-white
+                                    @error('email') border-red-500 bg-red-50/30 dark:bg-red-950/20 @enderror"
                                 >
                                 @error('email')
                                     <div class="absolute right-0 top-0 h-full flex items-center justify-center text-red-500 pr-4">
@@ -109,7 +108,7 @@
 
                         <!-- Password Input -->
                         <div class="space-y-2.5">
-                            <label for="password" class="block text-sm font-semibold text-slate-700">Password</label>
+                            <label for="password" class="block text-sm font-semibold text-slate-700 dark:text-slate-200">Kata sandi</label>
                             <div class="group relative">
                                 <div class="absolute left-0 top-0 h-full w-12 flex items-center justify-center text-emerald-600 group-focus-within:text-emerald-700 transition">
                                     <i class="fas fa-lock text-sm"></i>
@@ -120,18 +119,18 @@
                                     name="password"
                                     required
                                     autocomplete="current-password"
-                                    placeholder="Masukkan password Anda"
-                                    class="w-full rounded-xl border-2 border-slate-200 bg-white py-3.5 pl-12 pr-12 text-sm font-medium transition
+                                    placeholder="Masukkan kata sandi"
+                                    class="w-full rounded-lg border border-slate-300 bg-white py-3.5 pl-12 pr-12 text-sm font-medium text-slate-900 transition
                                     placeholder:text-slate-400 placeholder:font-normal
-                                    focus:border-emerald-600 focus:bg-emerald-50/30 focus:outline-none focus:ring-0
-                                    hover:border-slate-300
-                                    @error('password') border-red-500 bg-red-50/30 @enderror"
+                                    focus:border-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-700/10
+                                    hover:border-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-white
+                                    @error('password') border-red-500 bg-red-50/30 dark:bg-red-950/20 @enderror"
                                 >
                                 <button
                                     type="button"
                                     onclick="togglePassword()"
                                     aria-label="Tampilkan/Sembunyikan password"
-                                    class="absolute right-0 top-0 h-full w-12 flex items-center justify-center text-slate-400 transition hover:text-emerald-700 focus:outline-none"
+                                    class="absolute right-0 top-0 flex h-full w-12 items-center justify-center rounded-r-lg text-slate-400 transition hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-600"
                                 >
                                     <i id="eyeIcon" class="fas fa-eye text-sm"></i>
                                 </button>
@@ -149,18 +148,18 @@
                         </div>
 
                         <!-- Remember & Forgot -->
-                        <div class="flex items-center justify-between gap-4 pt-2">
-                            <label class="flex items-center gap-3 cursor-pointer group">
+                        <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 pt-1">
+                            <label class="group flex cursor-pointer items-center gap-2.5">
                                 <input
                                     type="checkbox"
                                     name="remember"
-                                    class="h-5 w-5 rounded border-slate-300 text-emerald-700 transition focus:ring-emerald-600 cursor-pointer"
+                                    class="h-4 w-4 cursor-pointer rounded border-slate-300 text-emerald-700 transition focus:ring-emerald-600 dark:border-slate-600 dark:bg-slate-950"
                                 >
-                                <span class="text-sm text-slate-600 font-medium group-hover:text-slate-900">Ingat saya</span>
+                                <span class="text-sm font-medium text-slate-600 group-hover:text-slate-900 dark:text-slate-400 dark:group-hover:text-white">Ingat saya</span>
                             </label>
                             @if(Route::has('password.request'))
-                                <a href="{{ route('password.request') }}" class="text-sm font-semibold text-emerald-700 hover:text-emerald-900 transition">
-                                    Lupa password?
+                                <a href="{{ route('password.request') }}" class="text-sm font-semibold text-emerald-700 transition hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300">
+                                    Lupa kata sandi?
                                 </a>
                             @endif
                         </div>
@@ -169,11 +168,11 @@
                         <button
                             type="submit"
                             id="submitBtn"
-                            class="w-full rounded-xl bg-gradient-to-r from-emerald-700 to-emerald-800 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-900/20 transition duration-200
-                            hover:from-emerald-800 hover:to-emerald-900 hover:shadow-xl hover:shadow-emerald-900/30
-                            active:scale-[0.98]
+                            class="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-800 px-4 py-3.5 text-sm font-bold text-white shadow-sm shadow-emerald-950/20 transition duration-200
+                            hover:bg-emerald-900 hover:shadow-md
+                            active:scale-[0.99]
                             disabled:opacity-75 disabled:cursor-not-allowed disabled:shadow-none
-                            flex items-center justify-center gap-2"
+                            focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-700/20"
                         >
                             <i class="fas fa-arrow-right-to-bracket"></i>
                             <span id="btnText">Masuk ke Dashboard</span>
@@ -183,68 +182,39 @@
                     </form>
 
                     <!-- Footer -->
-                    <div class="mt-8 flex items-center justify-between gap-4 text-xs text-slate-500">
+                    <div class="mt-8 flex flex-col gap-2 border-t border-slate-100 pt-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800 dark:text-slate-400">
                         <span>&copy; {{ date('Y') }} SMK Negeri 1 Bangsri</span>
-                        <a href="{{ route('home') }}" class="font-semibold text-emerald-700 hover:text-emerald-900 transition">
-                            Kembali ke portal
+                        <a href="{{ route('home') }}" class="font-semibold text-emerald-700 transition hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300">
+                            Kembali ke beranda
                         </a>
                     </div>
                 </div>
             </section>
 
-            <!-- Right Panel - Illustration -->
-            <section class="relative hidden overflow-hidden bg-gradient-to-br from-emerald-700 via-emerald-800 to-emerald-900 lg:flex flex-col justify-between p-12 text-white xl:p-16">
-                <!-- Decorative Elements -->
-                <div class="absolute -right-24 -top-24 h-80 w-80 rounded-full border-[42px] border-lime-300/20 blur-3xl"></div>
-                <div class="absolute -bottom-32 -left-24 h-96 w-96 rounded-full border-[54px] border-white/5 blur-3xl"></div>
-                <div class="absolute right-12 top-16 h-4 w-4 rounded-full bg-lime-300 blur-sm"></div>
-                <div class="absolute bottom-24 right-28 h-7 w-7 rounded-full bg-red-400/60 blur-sm"></div>
-
-                <!-- Content -->
-                <div class="relative z-10">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="h-16 w-16 rounded-full bg-white/10 backdrop-blur-sm p-2 flex items-center justify-center border border-white/20">
-                            <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK" class="h-full w-full object-contain">
-                        </div>
-                        <div>
-                            <p class="text-2xl font-bold leading-tight">SMK N 1 Bangsri</p>
-                            <p class="text-sm text-emerald-100 font-medium">Sistem Informasi Prestasi Siswa</p>
-                        </div>
+            <section class="relative hidden min-w-0 flex-col justify-between overflow-hidden bg-emerald-950 p-10 text-white lg:flex xl:p-12">
+                <div class="absolute inset-0 bg-[linear-gradient(145deg,rgba(16,107,75,0.9),rgba(6,50,43,1)_72%)]"></div>
+                <div class="relative z-10 flex items-center gap-3">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-white/15 bg-white/10 p-2">
+                        <img src="{{ asset('images/logo-smk.png') }}" alt="" class="h-full w-full object-contain">
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold">SMK Negeri 1 Bangsri</p>
+                        <p class="mt-0.5 text-xs text-emerald-100/75">Sistem Informasi Prestasi Siswa</p>
                     </div>
                 </div>
 
-                <div class="relative z-10 max-w-md">
-                    <p class="mb-6 text-xs font-bold uppercase tracking-[0.25em] text-lime-200">Portal Pengelolaan Admin</p>
-                    <h2 class="text-5xl font-bold leading-tight xl:text-6xl mb-2">Rawat Setiap Pencapaian Siswa</h2>
-                    <p class="mt-6 text-sm leading-7 text-emerald-50 opacity-90">
-                        Kelola data prestasi sekolah dengan rapi, cepat, dan terhubung dalam satu ruang kerja yang aman dan terpercaya.
-                    </p>
-                    <div class="mt-8 flex items-center gap-3 text-xs text-emerald-100">
-                        <div class="h-2 w-2 rounded-full bg-lime-300"></div>
-                        <span class="font-medium">Akses aman untuk administrator sekolah</span>
+                <div class="relative z-10 my-12 max-w-md">
+                    <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-300/10 text-emerald-200">
+                        <i class="fas fa-award text-xl" aria-hidden="true"></i>
                     </div>
+                    <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-200">Portal Pengelolaan Admin</p>
+                    <h2 class="text-3xl font-bold leading-tight xl:text-4xl">Setiap pencapaian layak tercatat.</h2>
+                    <p class="mt-4 text-sm leading-6 text-emerald-50/80">Kelola data siswa, prestasi, dan publikasi sekolah dari satu ruang kerja yang tertata.</p>
                 </div>
 
-                <!-- Features -->
-                <div class="relative z-10 grid grid-cols-2 gap-4">
-                    <div class="flex items-start gap-3">
-                        <div class="h-8 w-8 rounded-lg bg-lime-300/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <i class="fas fa-shield text-lime-300 text-xs"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-emerald-100">Keamanan Tinggi</p>
-                            <p class="text-xs text-emerald-200/80">Enkripsi end-to-end</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <div class="h-8 w-8 rounded-lg bg-lime-300/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <i class="fas fa-bolt text-lime-300 text-xs"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-emerald-100">Performa Cepat</p>
-                            <p class="text-xs text-emerald-200/80">Loading instant</p>
-                        </div>
-                    </div>
+                <div class="relative z-10 flex items-center gap-3 border-t border-white/10 pt-5 text-xs text-emerald-100/80">
+                    <i class="fas fa-shield-halved text-emerald-300" aria-hidden="true"></i>
+                    <span>Akses khusus administrator sekolah</span>
                 </div>
             </section>
         </div>

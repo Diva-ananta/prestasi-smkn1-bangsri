@@ -54,12 +54,12 @@
 
     <!-- Search Form -->
     <div class="section-card animate-fade-in">
-        <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex flex-col gap-3 md:flex-row md:items-center">
+        <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex flex-col gap-3 md:flex-row md:items-center" data-live-search>
             @if($status)
                 <input type="hidden" name="status" value="{{ $status }}">
             @endif
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIS, kelas, atau Program Keahlian..." class="admin-form-input md:flex-1">
-            <button type="submit" class="admin-btn-primary">Cari</button>
+            <button type="submit" class="admin-btn-primary">Filter</button>
             @if(request('search') || request('status'))
                 <a href="{{ route('admin.siswa.index') }}" class="admin-btn-secondary">Reset Filter</a>
             @endif

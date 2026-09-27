@@ -151,6 +151,23 @@ class PrestasiController extends Controller
         return back()->with('success', 'Prestasi berhasil dihapus dari database.');
     }
 
-    public function export(Request $request) { return Excel::download(new PrestasiExport($request->input('ids', [])), 'data-prestasi.xlsx'); }
+    public function export(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => ['sometimes', 'array'],
+            'ids.*' => ['integer'],
+            'all' => ['sometimes', 'boolean'],
+            'search' => ['nullable', 'string'],
+            'except_ids' => ['sometimes', 'array'],
+            'except_ids.*' => ['integer'],
+        ]);
+
+        return Excel::download(new PrestasiExport(
+            $validated['ids'] ?? [],
+            $validated['search'] ?? null,
+            (bool) ($validated['all'] ?? false),
+            $validated['except_ids'] ?? [],
+        ), 'data-prestasi.xlsx');
+    }
 
 }

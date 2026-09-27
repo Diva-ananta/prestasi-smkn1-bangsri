@@ -7,7 +7,7 @@
 @endpush
 
 @section('content')
-<div class="page-shell">
+<div class="page-shell min-w-0">
     {{-- ===== HEADER ===== --}}
     <div class="page-header animate-fade-in overflow-hidden">
         <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
@@ -16,16 +16,16 @@
                     <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     Dashboard administrasi
                 </div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-800 dark:text-white md:text-3xl">Selamat datang, {{ Auth::user()->name }}</h1>
+                <h1 class="break-words text-2xl font-bold tracking-tight text-slate-800 dark:text-white md:text-3xl">Selamat datang, {{ Auth::user()->name }}</h1>
                 <p class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-300">Pantau perkembangan prestasi siswa dan aktivitas terbaru sekolah dalam satu tempat.</p>
             </div>
 
-            <div class="flex flex-wrap items-center gap-3">
-                <div class="admin-btn-secondary inline-flex items-center gap-2 px-3 py-2 text-xs">
+            <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
+                <div class="admin-btn-secondary inline-flex w-full items-center justify-center gap-2 px-3 py-2 text-xs sm:w-auto">
                     <i class="far fa-calendar-alt text-emerald-600 dark:text-emerald-400"></i>
                     {{ now()->translatedFormat('d M Y') }}
                 </div>
-                <a href="{{ route('admin.prestasi.create') }}" class="admin-btn-primary rounded-xl px-3.5 py-2" aria-label="Tambah prestasi baru">
+                <a href="{{ route('admin.prestasi.create') }}" class="admin-btn-primary w-full justify-center rounded-xl px-3.5 py-2 sm:w-auto" aria-label="Tambah prestasi baru">
                     <i class="fas fa-plus mr-2 text-xs "></i>Tambah Prestasi
                 </a>
             </div>
@@ -33,7 +33,7 @@
     </div>
 
     {{-- ===== QUICK ACTIONS ===== --}}
-    <div class="grid grid-cols-2 gap-3 animate-fade-in sm:grid-cols-4">
+    <div class="grid grid-cols-1 gap-3 animate-fade-in min-[400px]:grid-cols-2 sm:grid-cols-4">
         @php
             $quickActions = [
                 ['label' => 'Tambah Siswa', 'icon' => 'fas fa-user-plus', 'route' => 'admin.siswa.create', 'color' => 'text-blue-600 bg-blue-50 dark:bg-blue-900/30 dark:text-blue-300'],
@@ -43,7 +43,7 @@
             ];
         @endphp
         @foreach($quickActions as $action)
-            <a href="{{ route($action['route']) }}" class="section-card flex items-center gap-3 !p-3.5 transition hover:-translate-y-0.5 hover:shadow-md">
+            <a href="{{ route($action['route']) }}" class="section-card flex min-w-0 items-center gap-3 !p-3.5 transition hover:-translate-y-0.5 hover:shadow-md">
                 <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl {{ $action['color'] }}">
                     <i class="{{ $action['icon'] }}"></i>
                 </span>
@@ -64,11 +64,11 @@
         @endphp
 
         @foreach($metrics as $metric)
-            <div class="metric-card group relative flex min-h-[170px] flex-col justify-between overflow-hidden">
+            <div class="metric-card group relative flex min-h-[150px] min-w-0 flex-col justify-between overflow-hidden p-4 sm:min-h-[170px] sm:p-5">
                 <div class="absolute -right-8 -top-8 h-24 w-24 rounded-full {{ $metric['accent'] }} opacity-30 blur-2xl"></div>
                 <div class="flex items-start justify-between gap-3">
-                    <div>
-                        <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ $metric['label'] }}</p>
+                    <div class="min-w-0">
+                        <p class="text-xs font-medium leading-4 text-slate-500 dark:text-slate-400 sm:text-sm">{{ $metric['label'] }}</p>
                         <p class="mt-3 text-2xl font-bold text-slate-800 dark:text-white md:text-[2rem]">{{ $metric['value'] }}</p>
                     </div>
                     <div class="soft-ring flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br {{ $metric['color'] }} text-base text-white shadow-lg transition-transform duration-200 group-hover:scale-105">
@@ -137,13 +137,13 @@
                 </div>
             </div>
             <div class="pb-1">
-                <div class="h-[300px] rounded-2xl border border-slate-100 bg-gradient-to-b from-emerald-50/50 to-transparent p-3 sm:h-[330px] dark:border-slate-800 dark:from-emerald-950/10">
+                <div class="h-[240px] rounded-2xl border border-slate-100 bg-gradient-to-b from-emerald-50/50 to-transparent p-3 sm:h-[300px] md:h-[330px] dark:border-slate-800 dark:from-emerald-950/10">
                     <canvas id="chartPrestasi"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="section-card animate-fade-in flex min-h-[400px] w-full min-w-0 flex-col xl:justify-self-end">
+        <div class="section-card animate-fade-in flex min-h-[320px] w-full min-w-0 flex-col sm:min-h-[400px] xl:justify-self-end">
             <div class="mb-5 flex items-center justify-between">
                 <h2 class="text-lg font-semibold text-slate-800 dark:text-white">Top Siswa</h2>
                 <span class="rounded-full bg-blue-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">Top 5</span>
@@ -190,7 +190,6 @@
 
     {{-- ===== INSIGHT: DISTRIBUSI TINGKAT & STATUS SISWA ===== --}}
     <div class="grid gap-6 lg:grid-cols-2 animate-fade-in">
-        <div class="section-card">
             <div class="section-card">
             <div class="mb-5 flex items-center justify-between">
                 <h2 class="text-lg font-semibold text-slate-800 dark:text-white">Distribusi Tingkat Kompetisi</h2>
@@ -270,7 +269,7 @@
         </div>
 
         <div class="admin-table-wrap overflow-x-auto">
-            <table class="admin-table min-w-[760px] min-w-full text-left text-sm">
+            <table class="admin-table min-w-[760px] text-left text-sm">
                 <thead>
                     <tr>
                         <th class="px-4 py-3 text-sm font-semibold text-slate-600">Nama Lomba</th>
@@ -369,7 +368,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: { duration: 600, easing: 'easeOutQuart' },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutQuart',
+                        delay: (context) => context.type === 'data' && context.mode === 'default' ? context.dataIndex * 45 : 0,
+                    },
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { display: false },
@@ -484,7 +487,12 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     cutout: '72%',
-                    animation: { duration: 600, easing: 'easeOutQuart' },
+                    animation: {
+                        duration: 1100,
+                        easing: 'easeOutQuart',
+                        animateRotate: true,
+                        animateScale: true,
+                    },
                     plugins: {
                         legend: { display: false },
                         tooltip: {

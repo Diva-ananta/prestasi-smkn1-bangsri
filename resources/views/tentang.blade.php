@@ -4,74 +4,43 @@
 
 @section('content')
 <div class="min-h-screen bg-slate-50 dark:bg-slate-950">
-    <section class="border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80">
-        <div class="mx-auto max-w-7xl px-4 py-9 sm:px-6 lg:px-8 lg:py-11">
+    <section class="border-b border-emerald-100 bg-white dark:border-slate-800 dark:bg-slate-900">
+        <div class="mx-auto max-w-7xl px-4 pb-10 pt-12 text-center sm:px-6 lg:px-8 lg:pb-14 lg:pt-16">
             <div class="animate-fade-in">
-                <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300">
-                    <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-                    Tentang Sistem
-                </div>
-                <h1 class="mt-4 break-words text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-5xl">
-                    Tentang Sistem <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">Informasi Prestasi</span>
+                <p class="text-xs font-bold uppercase tracking-[0.24em] text-emerald-700 dark:text-emerald-400">Profil sistem</p>
+                <h1 class="mt-3 break-words text-3xl font-extrabold tracking-tight sm:text-5xl">
+                    <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">Tentang SIPRES</span>
                 </h1>
-                <p class="mt-5 max-w-3xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-base sm:leading-7">
-                    Platform inovatif yang mendokumentasikan, mengelola, dan merayakan pencapaian luar biasa siswa-siswi SMK N 1 Bangsri dengan profesional, terbuka, dan akuntabel.
+                <p class="page-subtitle mx-auto mt-4 max-w-xl text-sm leading-7 sm:text-base">
+                    Sistem informasi untuk mencatat, mengelola, dan membagikan pencapaian siswa SMK Negeri 1 Bangsri.
                 </p>
             </div>
         </div>
     </section>
 
     <main class="mx-auto max-w-7xl px-4 py-9 sm:px-6 lg:px-8">
-        <section class="mb-8 animate-fade-in rounded-2xl border border-slate-200 bg-white p-4 shadow-lg dark:border-slate-800 dark:bg-slate-900 sm:mb-10 sm:p-8">
-            <p class="text-sm leading-6 text-slate-700 dark:text-slate-300 sm:text-lg sm:leading-8">
-                <span class="font-bold text-emerald-600 dark:text-emerald-400">Sistem Informasi Prestasi Siswa (SIPRES)</span> adalah platform digital yang dirancang khusus untuk mendokumentasikan, mengelola, dan mempublikasikan pencapaian siswa SMK N 1 Bangsri. Kami percaya bahwa setiap prestasi, dari yang paling sederhana hingga yang paling prestisius, layak mendapatkan apresiasi dan catatan yang abadi.
-            </p>
-            <p class="mt-5 text-sm leading-6 text-slate-700 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
-                Dibangun dengan prinsip <strong class="text-slate-900 dark:text-white">transparansi</strong>, <strong class="text-slate-900 dark:text-white">akuntabilitas</strong>, dan <strong class="text-slate-900 dark:text-white">kebanggaan almamater</strong>, sistem ini menjadi jembatan yang menghubungkan siswa, sekolah, orang tua, dan masyarakat luas. Melalui pendokumentasian yang teratur dan terverifikasi, kami mendorong seluruh peserta didik untuk terus berkembang di bidang akademik maupun non-akademik.
-            </p>
-        </section>
-
-        <section class="mb-10 animate-fade-in">
-            <div class="mb-10">
-                <p class="text-xs font-bold uppercase tracking-[0.25em] text-emerald-700 dark:text-emerald-400">Manfaat</p>
-                <h2 class="mt-3 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">Untuk Siapa Saja</h2>
+        <section class="mb-8 grid animate-fade-in grid-cols-[64px_minmax(0,1fr)] items-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:mb-10 sm:grid-cols-[88px_minmax(0,1fr)] sm:gap-7 sm:p-8 lg:grid-cols-[200px_minmax(0,1fr)]">
+            <div class="flex min-w-0 flex-col items-center text-center">
+                <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50 p-2 dark:bg-emerald-950/40 sm:h-20 sm:w-20 lg:h-28 lg:w-28">
+                    <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK Negeri 1 Bangsri" class="h-full w-full object-contain" loading="lazy">
+                </div>
+                <p class="mt-2 text-[9px] font-bold uppercase leading-4 tracking-wide text-emerald-800 dark:text-emerald-300 sm:text-[10px]">SIPRES ESKASABA</p>
             </div>
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach([
-                    [
-                        'icon' => 'graduation-cap',
-                        'accent' => 'emerald',
-                        'title' => 'Untuk Siswa',
-                        'desc' => 'Platform untuk mendokumentasikan pencapaian dan membangun portofolio digital yang berguna untuk masa depan siswa.'
-                    ],
-                    [
-                        'icon' => 'school',
-                        'accent' => 'blue',
-                        'title' => 'Untuk Sekolah',
-                        'desc' => 'Sistem manajemen prestasi yang terorganisir, memudahkan sekolah dalam mencatat dan melaporkan pencapaian siswa.'
-                    ],
-                    [
-                        'icon' => 'users-line',
-                        'accent' => 'teal',
-                        'title' => 'Untuk Masyarakat',
-                        'desc' => 'Portal terbuka yang menampilkan prestasi siswa dan reputasi sekolah secara transparan dan profesional.'
-                    ]
-                ] as $index => $feature)
-                    @php
-                        $classes = [
-                            'emerald' => 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-950/20 dark:text-emerald-300',
-                            'blue' => 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900/40 dark:bg-blue-950/20 dark:text-blue-300',
-                            'teal' => 'border-teal-200 bg-teal-50 text-teal-700 dark:border-teal-900/40 dark:bg-teal-950/20 dark:text-teal-300',
-                        ][$feature['accent']];
-                    @endphp
-                    <div class="animate-fade-in rounded-2xl border-2 bg-white p-4 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-900 sm:rounded-[24px] sm:p-8 {{ $classes }}" style="animation-delay: {{ $index * 100 }}ms">
-                        <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-white/80 text-xl dark:bg-slate-900/60 sm:h-14 sm:w-14 sm:text-2xl">
-                            <x-icon :name="$feature['icon']" />
-                        </div>
-                        <h3 class="mt-4 text-lg font-bold text-slate-900 dark:text-white sm:mt-5 sm:text-xl">{{ $feature['title'] }}</h3>
-                        <p class="mt-2 text-sm leading-6 text-slate-700 dark:text-slate-400 sm:mt-3 sm:text-base">{{ $feature['desc'] }}</p>
-                    </div>
-                @endforeach
+
+            <div class="min-w-0">
+                <p class="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-700 dark:text-emerald-400">Mengenal SIPRES</p>
+                <h2 class="mt-2 text-xl font-bold leading-tight text-slate-900 dark:text-white sm:text-2xl">Setiap pencapaian punya cerita.</h2>
+                <p class="mt-3 text-sm leading-6 text-slate-700 dark:text-slate-300 sm:text-base sm:leading-7">
+                    <span class="font-semibold text-emerald-700 dark:text-emerald-400">Sistem Informasi Prestasi Siswa (SIPRES)</span> adalah platform digital SMK Negeri 1 Bangsri untuk mencatat, mengelola, dan membagikan pencapaian siswa. Setiap prestasi menjadi bagian dari perjalanan dan kebanggaan siswa.
+                </p>
+                <p class="mt-3 text-sm leading-6 text-slate-700 dark:text-slate-300 sm:text-base sm:leading-7">
+                    Data yang tersusun dan terverifikasi membantu sekolah menyampaikan informasi secara terbuka kepada siswa, orang tua, dan masyarakat. SIPRES juga mendorong siswa untuk terus berkembang, baik di bidang akademik maupun non-akademik.
+                </p>
+                <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-100 pt-4 text-xs font-semibold text-slate-600 dark:border-slate-800 dark:text-slate-300">
+                    <span><i class="fas fa-check mr-1.5 text-emerald-600" aria-hidden="true"></i>Transparan</span>
+                    <span><i class="fas fa-check mr-1.5 text-emerald-600" aria-hidden="true"></i>Terverifikasi</span>
+                    <span><i class="fas fa-check mr-1.5 text-emerald-600" aria-hidden="true"></i>Mengapresiasi prestasi</span>
+                </div>
             </div>
         </section>
 
@@ -89,7 +58,7 @@
                     ['step' => '4', 'icon' => 'chart-bar', 'title' => 'Analitik & Laporan', 'desc' => 'Sistem menampilkan ringkasan dan trend prestasi untuk mendukung evaluasi sekolah.']
                 ] as $index => $step)
                     <div class="animate-fade-in group relative flex gap-3 rounded-2xl border-2 border-slate-100 bg-white p-4 shadow-sm transition duration-300 hover:border-emerald-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-emerald-600 sm:gap-6 sm:p-6 lg:p-8" style="animation-delay: {{ $index * 100 }}ms">
-                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-50 font-bold text-emerald-700 dark:from-emerald-950/50 dark:to-emerald-950/30 dark:text-emerald-400 sm:h-16 sm:w-16">
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 sm:h-16 sm:w-16">
                             <span class="text-xl sm:text-2xl">{{ $step['step'] }}</span>
                         </div>
                         <div class="flex-1">
@@ -109,7 +78,7 @@
         </section>
 
         <div class="mb-12 animate-fade-in flex justify-center">
-            <div class="inline-flex items-center gap-3 rounded-full border-2 border-emerald-200 bg-gradient-to-r from-emerald-50 to-blue-50 px-6 py-4 dark:border-emerald-900/40 dark:from-emerald-950/30 dark:to-blue-950/20">
+            <div class="inline-flex items-center gap-3 rounded-full border border-emerald-200 bg-emerald-50 px-6 py-4 dark:border-emerald-900/40 dark:bg-emerald-950/30">
                 <div class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400">
                     <x-icon name="shield-check" />
                 </div>
@@ -120,7 +89,7 @@
             </div>
         </div>
 
-        <section class="rounded-2xl bg-gradient-to-r from-emerald-900 via-emerald-800 to-blue-900 px-6 py-9 text-white shadow-2xl sm:px-10 sm:py-11">
+        <section class="rounded-2xl bg-emerald-900 px-6 py-9 text-white shadow-md sm:px-10 sm:py-11">
             <div class="mx-auto max-w-3xl text-center">
                 <h2 class="text-3xl font-extrabold sm:text-4xl">Siap Menjelajahi Prestasi?</h2>
                 <p class="mt-4 text-lg text-emerald-100">Akses portal lengkap untuk melihat semua prestasi siswa dan data analitik sekolah kami.</p>
@@ -132,6 +101,20 @@
                         <x-icon name="home" /> Beranda
                     </a>
                 </div>
+            </div>
+        </section>
+
+        <section class="mt-10 border-t border-slate-200 py-8 dark:border-slate-800 sm:mt-12 sm:py-10">
+            <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-[0.16em] text-emerald-700 dark:text-emerald-400">Dikembangkan oleh</p>
+                    <h2 class="mt-2 text-xl font-bold text-slate-900 dark:text-white">Akasa Dev <span class="font-medium text-slate-500 dark:text-slate-400">(2026)</span></h2>
+                </div>
+                <ol class="grid gap-x-8 gap-y-3 text-sm text-slate-700 dark:text-slate-300 sm:grid-cols-2 lg:grid-cols-3">
+                    <li class="flex items-center gap-3"><span class="text-xs font-bold text-emerald-700 dark:text-emerald-400">01</span><span>Askia Khoirun Nisa</span></li>
+                    <li class="flex items-center gap-3"><span class="text-xs font-bold text-emerald-700 dark:text-emerald-400">02</span><span>Eka Kusnaini</span></li>
+                    <li class="flex items-center gap-3"><span class="text-xs font-bold text-emerald-700 dark:text-emerald-400">03</span><span>Saka Diva Ananta</span></li>
+                </ol>
             </div>
         </section>
     </main>

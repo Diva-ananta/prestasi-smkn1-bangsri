@@ -21,9 +21,9 @@ return [
         'Tidak terkait ekstrakurikuler' => null,
         'Organisari Siswa Intra Sekolah (OSIS)' => 'https://smkn1bangsri.sch.id/extracurriculars/organisasi-siswa-intra-sekolah',
         'Passus Wira Adhi Dhaya' => 'https://smkn1bangsri.sch.id/extracurriculars/passus-wira-adhi-dhaya',
-        'Pramuka Putra KH. Achmad Fauzan' => 'https://smkn1bangsri.sch.id/extracurriculars/pramuka-putra-kh-achmad-fauzan',
-        'Pramuka Putri KH. Achmad Fauzan' => 'https://smkn1bangsri.sch.id/extracurriculars/pramuka-putri-kh-achmad-fauzan',
-        'PMR Wira Sandya Adhimukti' => 'https://smkn1bangsri.sch.id/extracurriculars/pmr-wira-sandya-adhimukti',
+        'Pramuka Putra KH. Achmad Fauzan' => 'https://pramuka.smkn1bangsri.sch.id/',
+        'Pramuka Putri KH. Achmad Fauzan' => 'https://pramuka.smkn1bangsri.sch.id/',
+        'PMR Wira Sandya Adhimukti' => 'https://sikes.smkn1bangsri.sch.id/',
         'Pencak Silat Cempaka Putih' => 'https://smkn1bangsri.sch.id/extracurriculars/pencak-silat-cempaka-putih',
         'Palawa Futsal Skansaba' => 'https://smkn1bangsri.sch.id/extracurriculars/  ',
         'Voli Eskasaba' => 'https://smkn1bangsri.sch.id/extracurriculars/bola-voli-smk-negeri-1-bangsri',
@@ -34,7 +34,7 @@ return [
         'Webdev Taksan Nawasena' => 'https://smkn1bangsri.sch.id/extracurriculars/webdev-taksan-nawasena',
         'Badminton Eskasaba' => 'https://smkn1bangsri.sch.id/extracurriculars/badminton-skansaba',
         'Tari Arum Sekar Eskaba'=> 'https://smkn1bangsri.sch.id/extracurriculars/tari-arum-sekarsaba',
-        'Irmas Eskasaba'=>'https://smkn1bangsri.sch.id/extracurriculars/ikatan-remaja-masjid-irmas'
+        'Irmas Eskasaba'=>'https://simadi.smkn1bangsri.sch.id/'
     ],
 
     /*

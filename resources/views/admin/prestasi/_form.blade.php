@@ -141,10 +141,13 @@
                         @foreach($preselected as $sid)
                             @php $s = $siswas->firstWhere('id', $sid); @endphp
                             @if($s)
-                                <div class="selected-chip flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300" data-id="{{ $s->id }}">
-                                    <i class="fas fa-user-graduate text-xs"></i>
-                                    <span>{{ $s->nama }} ({{ $s->nis }})</span>
-                                    <button type="button" class="remove-chip ml-1 text-emerald-700/60 hover:text-red-600 dark:text-emerald-400/60">&times;</button>
+                                <div class="selected-chip flex max-w-full items-start gap-2 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300" data-id="{{ $s->id }}">
+                                    <i class="fas fa-user-graduate mt-0.5 text-xs"></i>
+                                    <div class="min-w-0">
+                                        <p class="break-words font-semibold">{{ $s->nama }}</p>
+                                        <p class="mt-0.5 text-xs text-slate-600 dark:text-slate-300">NIS {{ $s->nis ?: '-' }} · Kelas {{ $s->kelas ?: '-' }} · {{ $s->status ?: '-' }}</p>
+                                    </div>
+                                    <button type="button" class="remove-chip ml-auto shrink-0 text-emerald-700/60 hover:text-red-600 dark:text-emerald-400/60" aria-label="Hapus {{ $s->nama }}">&times;</button>
                                     <input type="hidden" name="siswa_id[]" value="{{ $s->id }}">
                                 </div>
                             @endif
@@ -439,8 +442,11 @@
             } else {
                 items.forEach(i => {
                     const li = document.createElement('li');
-                    li.className = 'cursor-pointer rounded-lg px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700 dark:text-slate-200';
-                    li.textContent = `${i.nama} - ${i.kelas ?? '-'}`;
+                    const statusClass = i.status === 'Alumni'
+                        ? 'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300'
+                        : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300';
+                    li.className = 'cursor-pointer rounded-lg px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700';
+                    li.innerHTML = `<div class="flex min-w-0 items-start justify-between gap-3"><div class="min-w-0"><p class="break-words font-semibold text-slate-800 dark:text-slate-100">${escapeHtml(i.nama)}</p><p class="mt-1 text-xs text-slate-500 dark:text-slate-400">NIS ${escapeHtml(i.nis || '-')} · Kelas ${escapeHtml(i.kelas || '-')}</p></div><span class="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${statusClass}">${escapeHtml(i.status || '-')}</span></div>`;
                     li.dataset.id = i.id;
                     li.dataset.nama = i.nama;
                     li.dataset.nis = i.nis;
@@ -461,13 +467,14 @@
             }
 
             const chip = document.createElement('div');
-            chip.className = 'selected-chip flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300';
+            chip.className = 'selected-chip flex max-w-full items-start gap-2 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300';
             chip.dataset.id = item.id;
-            chip.innerHTML = `<i class="fas fa-user-graduate text-xs"></i><span>${escapeHtml(item.nama)} - ${escapeHtml(item.kelas ?? '-')}</span>`;
+            chip.innerHTML = `<i class="fas fa-user-graduate mt-0.5 text-xs"></i><div class="min-w-0"><p class="break-words font-semibold">${escapeHtml(item.nama)}</p><p class="mt-0.5 text-xs text-slate-600 dark:text-slate-300">NIS ${escapeHtml(item.nis || '-')} · Kelas ${escapeHtml(item.kelas || '-')} · ${escapeHtml(item.status || '-')}</p></div>`;
 
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = 'remove-chip ml-1 text-emerald-700/60 hover:text-red-600 dark:text-emerald-400/60';
+            btn.className = 'remove-chip ml-auto shrink-0 text-emerald-700/60 hover:text-red-600 dark:text-emerald-400/60';
+            btn.setAttribute('aria-label', `Hapus ${item.nama}`);
             btn.innerHTML = '&times;';
             btn.addEventListener('click', () => chip.remove());
 
