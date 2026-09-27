@@ -19,18 +19,17 @@ class PrestasiController extends Controller
 {
     public function index(Request $request)
     {
+        $filters = $request->validate([
+            'tahun' => ['nullable', 'integer', 'min:1900', 'max:2100'],
+            'kategori' => ['nullable', 'string', 'max:100'],
+            'tingkat' => ['nullable', 'string', 'max:100'],
+            'jenis_peserta' => ['nullable', 'in:Individu,Tim'],
+            'status' => ['nullable', 'in:Draft,Publish'],
+        ]);
+
         $query = Prestasi::query();
 
-        // Pencarian berdasarkan nama lomba, hasil, kategori, atau tingkat
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('nama_lomba', 'like', "%{$search}%")
-                  ->orWhere('hasil', 'like', "%{$search}%")
-                  ->orWhere('kategori', 'like', "%{$search}%")
-                  ->orWhere('tingkat', 'like', "%{$search}%");
-            });
-        }
+        $this->applyFilters($query, $filters);
 
         $prestasis = $query->select([
             'id',
@@ -44,8 +43,16 @@ class PrestasiController extends Controller
 
         // Data siswa untuk form modal (pencarian akan pakai AJAX)
         $siswas = \App\Models\Siswa::orderBy('nama')->get();
+        $tahunOptions = Prestasi::query()
+            ->whereNotNull('tanggal_mulai')
+            ->selectRaw('YEAR(tanggal_mulai) as tahun')
+            ->distinct()
+            ->orderByDesc('tahun')
+            ->pluck('tahun');
+        $kategoriOptions = Prestasi::query()->whereNotNull('kategori')->distinct()->orderBy('kategori')->pluck('kategori');
+        $tingkatOptions = Prestasi::query()->whereNotNull('tingkat')->distinct()->orderBy('tingkat')->pluck('tingkat');
 
-        return view('admin.prestasi.index', compact('prestasis', 'siswas'));
+        return view('admin.prestasi.index', compact('prestasis', 'siswas', 'filters', 'tahunOptions', 'kategoriOptions', 'tingkatOptions'));
     }
 
     public function create()
@@ -157,17 +164,27 @@ class PrestasiController extends Controller
             'ids' => ['sometimes', 'array'],
             'ids.*' => ['integer'],
             'all' => ['sometimes', 'boolean'],
-            'search' => ['nullable', 'string'],
-            'except_ids' => ['sometimes', 'array'],
-            'except_ids.*' => ['integer'],
+            'tahun' => ['nullable', 'integer', 'min:1900', 'max:2100'],
+            'kategori' => ['nullable', 'string', 'max:100'],
+            'tingkat' => ['nullable', 'string', 'max:100'],
+            'jenis_peserta' => ['nullable', 'in:Individu,Tim'],
+            'status' => ['nullable', 'in:Draft,Publish'],
         ]);
 
         return Excel::download(new PrestasiExport(
             $validated['ids'] ?? [],
-            $validated['search'] ?? null,
             (bool) ($validated['all'] ?? false),
-            $validated['except_ids'] ?? [],
+            $validated,
         ), 'data-prestasi.xlsx');
+    }
+
+    private function applyFilters($query, array $filters): void
+    {
+        $query->when($filters['tahun'] ?? null, fn ($query, $tahun) => $query->whereYear('tanggal_mulai', $tahun))
+            ->when($filters['kategori'] ?? null, fn ($query, $kategori) => $query->where('kategori', $kategori))
+            ->when($filters['tingkat'] ?? null, fn ($query, $tingkat) => $query->where('tingkat', $tingkat))
+            ->when($filters['jenis_peserta'] ?? null, fn ($query, $jenis) => $query->where('jenis_peserta', $jenis))
+            ->when($filters['status'] ?? null, fn ($query, $status) => $query->where('status', $status));
     }
 
 }

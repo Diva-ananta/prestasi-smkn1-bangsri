@@ -14,6 +14,7 @@
             <div class="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-nowrap sm:gap-3" data-export-controls="prestasi">
                 <button type="button" onclick="togglePrestasiExportMode()" class="admin-btn-secondary w-full whitespace-nowrap sm:w-auto" data-export-start><i class="fas fa-file-export mr-2"></i><span data-export-start-label>Export Excel</span></button>
                 <button type="button" onclick="exportSelectedPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-primary w-full whitespace-nowrap sm:w-auto" data-export-download hidden style="display: none;"><i class="fas fa-download mr-2"></i>Download pilihan</button>
+                <button type="button" onclick="exportAllPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-secondary w-full whitespace-nowrap sm:w-auto" data-export-all hidden style="display: none;"><i class="fas fa-download mr-2"></i>Download semua hasil</button>
                 <a href="{{ route('admin.prestasi.import') }}" class="admin-btn-secondary w-full whitespace-nowrap sm:w-auto"><i class="fas fa-file-import mr-2"></i>Import Excel</a>
                 <button type="button" onclick="openPrestasiModal()" class="admin-btn-primary col-span-2 w-full whitespace-nowrap sm:col-span-1 sm:w-auto"><i class="fas fa-plus mr-2"></i>Tambah Prestasi</button>
             </div>
@@ -35,12 +36,41 @@
     </div>
 
     <div class="section-card animate-fade-in">
-        <form action="{{ route('admin.prestasi.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row sm:items-center" data-live-search>
-            <input id="search" name="search" type="search" value="{{ request('search') }}" placeholder="Cari nama lomba, jenis peserta, hasil, atau kategori" class="admin-form-input md:flex-1">
-            <button type="submit" class="admin-btn-primary w-full sm:w-auto">Filter</button>
-            @if(request()->filled('search'))
-                <a href="{{ route('admin.prestasi.index') }}" class="admin-btn-secondary w-full sm:w-auto">Reset</a>
-            @endif
+        <form action="{{ route('admin.prestasi.index') }}" method="GET" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6" data-prestasi-filters>
+            <select name="tahun" class="admin-form-input" aria-label="Filter tahun">
+                <option value="">Semua tahun</option>
+                @foreach($tahunOptions as $tahun)
+                    <option value="{{ $tahun }}" @selected(request('tahun') == $tahun)>{{ $tahun }}</option>
+                @endforeach
+            </select>
+            <select name="kategori" class="admin-form-input" aria-label="Filter kategori">
+                <option value="">Semua kategori</option>
+                @foreach($kategoriOptions as $kategori)
+                    <option value="{{ $kategori }}" @selected(request('kategori') === $kategori)>{{ $kategori }}</option>
+                @endforeach
+            </select>
+            <select name="tingkat" class="admin-form-input" aria-label="Filter tingkat">
+                <option value="">Semua tingkat</option>
+                @foreach($tingkatOptions as $tingkat)
+                    <option value="{{ $tingkat }}" @selected(request('tingkat') === $tingkat)>{{ $tingkat }}</option>
+                @endforeach
+            </select>
+            <select name="jenis_peserta" class="admin-form-input" aria-label="Filter jenis peserta">
+                <option value="">Semua jenis peserta</option>
+                <option value="Individu" @selected(request('jenis_peserta') === 'Individu')>Individu</option>
+                <option value="Tim" @selected(request('jenis_peserta') === 'Tim')>Tim</option>
+            </select>
+            <select name="status" class="admin-form-input" aria-label="Filter status">
+                <option value="">Semua status</option>
+                <option value="Publish" @selected(request('status') === 'Publish')>Publish</option>
+                <option value="Draft" @selected(request('status') === 'Draft')>Draft</option>
+            </select>
+            <div class="flex gap-2">
+                <button type="submit" class="admin-btn-primary w-full"><i class="fas fa-filter mr-2"></i>Filter</button>
+                @if(collect(['tahun', 'kategori', 'tingkat', 'jenis_peserta', 'status'])->contains(fn ($key) => request()->filled($key)))
+                    <a href="{{ route('admin.prestasi.index') }}" class="admin-btn-secondary">Reset</a>
+                @endif
+            </div>
         </form>
     </div>
 
@@ -48,7 +78,7 @@
         <x-admin.table class="admin-table admin-table-mobile-cards min-w-[900px]">
             <thead>
                 <tr>
-                    <th data-export-column class="hidden"><input type="checkbox" id="select-all-prestasi" onclick="toggleAllPrestasiSelection(this)" aria-label="Pilih semua data prestasi di semua halaman"></th>
+                    <th data-export-column class="hidden"><input type="checkbox" id="select-all-prestasi" onclick="toggleAllPrestasiSelection(this)" aria-label="Pilih semua data di halaman ini"></th>
                     <th class="w-14 text-center">No</th>
                     <th class="w-24">Thumbnail</th>
                     <th class="min-w-[260px]">Nama Lomba</th>
@@ -143,19 +173,16 @@
 
     function exportSelectedPrestasi(url) {
         const params = new URLSearchParams();
-        const selectAll = document.getElementById('select-all-prestasi');
+        const selected = document.querySelectorAll('.prestasi-select:checked');
+        if (!selected.length) return window.adminNotify?.('Pilih minimal satu data untuk diekspor.', 'error');
+        selected.forEach((item) => params.append('ids[]', item.value));
 
-        if (selectAll?.checked) {
-            params.set('all', '1');
-            const search = document.querySelector('form[data-live-search] [name="search"]')?.value.trim();
-            if (search) params.set('search', search);
-            document.querySelectorAll('.prestasi-select:not(:checked)').forEach((item) => params.append('except_ids[]', item.value));
-        } else {
-            const selected = document.querySelectorAll('.prestasi-select:checked');
-            if (!selected.length) return window.adminNotify?.('Pilih minimal satu data untuk diekspor.', 'error');
-            selected.forEach((item) => params.append('ids[]', item.value));
-        }
+        window.location.href = `${url}?${params.toString()}`;
+    }
 
+    function exportAllPrestasi(url) {
+        const params = new URLSearchParams(new FormData(document.querySelector('[data-prestasi-filters]')));
+        params.set('all', '1');
         window.location.href = `${url}?${params.toString()}`;
     }
 
@@ -164,6 +191,7 @@
         const startButton = document.querySelector('[data-export-controls="prestasi"] [data-export-start]');
         const startLabel = document.querySelector('[data-export-controls="prestasi"] [data-export-start-label]');
         const downloadButton = document.querySelector('[data-export-controls="prestasi"] [data-export-download]');
+        const downloadAllButton = document.querySelector('[data-export-controls="prestasi"] [data-export-all]');
         document.querySelector('.admin-table-mobile-cards')?.classList.toggle('export-mode', active);
         startButton?.classList.toggle('bg-amber-100', active);
         startButton?.classList.toggle('text-amber-800', active);
@@ -173,6 +201,8 @@
         downloadButton.disabled = !active;
         downloadButton.hidden = !active;
         downloadButton.style.display = active ? 'inline-flex' : 'none';
+        downloadAllButton.hidden = !active;
+        downloadAllButton.style.display = active ? 'inline-flex' : 'none';
         downloadButton?.classList.toggle('opacity-50', !active);
         downloadButton?.classList.toggle('cursor-not-allowed', !active);
         document.querySelectorAll('[data-export-column]').forEach((element) => element.classList.toggle('hidden', !active));

@@ -11,9 +11,8 @@ class PrestasiExport implements FromQuery, WithHeadings, WithMapping
 {
     public function __construct(
         private readonly array $ids = [],
-        private readonly ?string $search = null,
         private readonly bool $all = false,
-        private readonly array $exceptIds = [],
+        private readonly array $filters = [],
     ) {}
 
     public function query()
@@ -21,15 +20,12 @@ class PrestasiExport implements FromQuery, WithHeadings, WithMapping
         return Prestasi::query()
             ->with('siswa')
             ->when(!$this->all && $this->ids, fn ($query) => $query->whereIn('id', $this->ids))
-            ->when($this->all && $this->search, function ($query) {
-                $query->where(function ($query) {
-                    $query->where('nama_lomba', 'like', "%{$this->search}%")
-                        ->orWhere('hasil', 'like', "%{$this->search}%")
-                        ->orWhere('kategori', 'like', "%{$this->search}%")
-                        ->orWhere('tingkat', 'like', "%{$this->search}%");
-                });
-            })
-            ->when($this->all && $this->exceptIds, fn ($query) => $query->whereNotIn('id', $this->exceptIds))
+            ->when($this->all, fn ($query) => $query
+                ->when($this->filters['tahun'] ?? null, fn ($query, $tahun) => $query->whereYear('tanggal_mulai', $tahun))
+                ->when($this->filters['kategori'] ?? null, fn ($query, $kategori) => $query->where('kategori', $kategori))
+                ->when($this->filters['tingkat'] ?? null, fn ($query, $tingkat) => $query->where('tingkat', $tingkat))
+                ->when($this->filters['jenis_peserta'] ?? null, fn ($query, $jenis) => $query->where('jenis_peserta', $jenis))
+                ->when($this->filters['status'] ?? null, fn ($query, $status) => $query->where('status', $status)))
             ->latest();
     }
 
