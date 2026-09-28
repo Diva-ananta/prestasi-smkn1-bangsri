@@ -11,12 +11,12 @@
                 <h1 class="text-2xl font-bold text-slate-800 dark:text-white md:text-3xl">Data Prestasi</h1>
                 <p class="mt-2 text-sm text-slate-500 dark:text-slate-300">Kelola semua prestasi dan penempatan anggota dengan mudah.</p>
             </div>
-            <div class="grid w-full min-w-0 grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-nowrap sm:gap-3" data-export-controls="prestasi">
-                <button type="button" onclick="togglePrestasiExportMode()" class="admin-btn-secondary min-w-0 w-full whitespace-normal text-center text-xs leading-tight sm:w-auto sm:whitespace-nowrap sm:text-sm" data-export-start><i class="fas fa-file-export mr-1 shrink-0 sm:mr-2"></i><span data-export-start-label>Export Excel</span></button>
-                <button type="button" onclick="exportSelectedPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-primary min-w-0 w-full whitespace-normal text-center text-xs leading-tight sm:w-auto sm:whitespace-nowrap sm:text-sm" data-export-download hidden style="display: none;"><i class="fas fa-download mr-1 shrink-0 sm:mr-2"></i>Download pilihan</button>
-                <button type="button" onclick="exportAllPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-secondary min-w-0 w-full whitespace-normal text-center text-xs leading-tight sm:w-auto sm:whitespace-nowrap sm:text-sm" data-export-all hidden style="display: none;"><i class="fas fa-download mr-1 shrink-0 sm:mr-2"></i>Download semua hasil</button>
-                <a href="{{ route('admin.prestasi.import') }}" class="admin-btn-secondary min-w-0 w-full whitespace-normal text-center text-xs leading-tight sm:w-auto sm:whitespace-nowrap sm:text-sm"><i class="fas fa-file-import mr-1 shrink-0 sm:mr-2"></i>Import Excel</a>
-                <button type="button" onclick="openPrestasiModal()" class="admin-btn-primary col-span-2 min-w-0 w-full whitespace-normal text-center text-xs leading-tight sm:col-span-1 sm:w-auto sm:whitespace-nowrap sm:text-sm"><i class="fas fa-plus mr-1 shrink-0 sm:mr-2"></i>Tambah Prestasi</button>
+            <div class="flex w-full min-w-0 flex-wrap gap-2 sm:w-auto sm:justify-end sm:gap-3" data-export-controls="prestasi">
+                <button type="button" onclick="togglePrestasiExportMode()" class="admin-btn-secondary min-h-11 min-w-0 flex-1 basis-[calc(50%-0.25rem)] justify-center px-2 text-center text-[11px] leading-tight sm:flex-none sm:basis-auto sm:whitespace-nowrap sm:px-3 sm:text-sm" data-export-start><i class="fas fa-file-export mr-1 shrink-0 sm:mr-2"></i><span data-export-start-label>Export Excel</span></button>
+                <button type="button" onclick="exportSelectedPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-primary min-h-11 min-w-0 flex-1 basis-[calc(50%-0.25rem)] justify-center px-2 text-center text-[11px] leading-tight sm:flex-none sm:basis-auto sm:whitespace-nowrap sm:px-3 sm:text-sm" data-export-download hidden style="display: none;"><i class="fas fa-download mr-1 shrink-0 sm:mr-2"></i>Download pilihan</button>
+                <button type="button" onclick="exportAllPrestasi('{{ route('admin.prestasi.export') }}')" class="admin-btn-secondary min-h-11 min-w-0 flex-1 basis-[calc(50%-0.25rem)] justify-center px-2 text-center text-[11px] leading-tight sm:flex-none sm:basis-auto sm:whitespace-nowrap sm:px-3 sm:text-sm" data-export-all hidden style="display: none;"><i class="fas fa-download mr-1 shrink-0 sm:mr-2"></i>Download semua hasil</button>
+                <a href="{{ route('admin.prestasi.import') }}" class="admin-btn-secondary min-h-11 min-w-0 flex-1 basis-[calc(50%-0.25rem)] justify-center px-2 text-center text-[11px] leading-tight sm:flex-none sm:basis-auto sm:whitespace-nowrap sm:px-3 sm:text-sm"><i class="fas fa-file-import mr-1 shrink-0 sm:mr-2"></i>Import Excel</a>
+                <button type="button" onclick="openPrestasiModal()" class="admin-btn-primary min-h-11 min-w-0 flex-1 basis-full justify-center px-2 text-center text-[11px] leading-tight sm:flex-none sm:basis-auto sm:whitespace-nowrap sm:px-3 sm:text-sm"><i class="fas fa-plus mr-1 shrink-0 sm:mr-2"></i>Tambah Prestasi</button>
             </div>
         </div>
     </div>
@@ -35,13 +35,23 @@
         </div>
     </div>
 
-    <div class="section-card animate-fade-in p-3 sm:p-4">
-        <form action="{{ route('admin.prestasi.index') }}" method="GET" class="grid grid-cols-2 gap-x-3 gap-y-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7" data-prestasi-filters data-live-search data-ajax-target="#prestasi-results">
-            <label class="relative col-span-2 block min-w-0 sm:col-span-3 lg:col-span-2 xl:col-span-2">
+    <div class="section-card animate-fade-in relative z-30 p-3 sm:p-4">
+        <form action="{{ route('admin.prestasi.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row sm:items-end" data-prestasi-filters data-live-search data-ajax-target="#prestasi-results">
+            <label class="relative block min-w-0 flex-1">
                 <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Cari prestasi</span>
                 <span class="pointer-events-none absolute bottom-0 left-3 flex h-12 items-center text-slate-400" aria-hidden="true"><i class="fas fa-search"></i></span>
                 <input name="search" type="search" value="{{ request('search') }}" placeholder="Nama lomba, hasil, kategori..." aria-label="Cari prestasi" class="admin-form-input mt-0 min-w-0 pl-10">
             </label>
+            <details class="relative shrink-0">
+                <summary class="flex min-h-11 cursor-pointer list-none items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 [&::-webkit-details-marker]:hidden dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+                    <i class="fas fa-filter text-xs"></i>
+                    Filter
+                    @if(request()->hasAny(['tahun', 'kategori', 'tingkat', 'jenis_peserta', 'status']))
+                        <span class="h-2 w-2 rounded-full bg-blue-500" aria-label="Filter aktif"></span>
+                    @endif
+                </summary>
+                <div class="absolute right-0 top-full z-[70] mt-2 w-[min(90vw,56rem)] rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-700 dark:bg-slate-900">
+                <div class="grid grid-cols-2 gap-x-3 gap-y-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             <label class="block min-w-0">
                 <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Tahun</span>
                 <select name="tahun" class="admin-form-input mt-0 min-w-0 px-3 text-xs sm:text-sm" aria-label="Filter tahun">
@@ -85,7 +95,16 @@
                     <option value="Draft" @selected(request('status') === 'Draft')>Draft</option>
                 </select>
             </label>
+            <div class="col-span-2 flex items-center justify-end gap-2 border-t border-slate-200 pt-3 sm:col-span-3 lg:col-span-4 xl:col-span-5 dark:border-slate-700">
+                @if(request()->hasAny(['search', 'tahun', 'kategori', 'tingkat', 'jenis_peserta', 'status']))
+                    <a href="{{ route('admin.prestasi.index') }}" class="inline-flex min-h-10 items-center justify-center rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">Reset</a>
+                @endif
+                <button type="submit" class="admin-btn-primary"><i class="fas fa-check mr-2"></i>Terapkan</button>
+            </div>
+                </div>
+            </details>
         </form>
+        </div>
     </div>
 
     <div id="prestasi-results">

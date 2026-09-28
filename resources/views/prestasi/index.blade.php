@@ -32,31 +32,31 @@
         <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-emerald-100 blur-3xl dark:bg-emerald-900/20"></div>
         <div class="pointer-events-none absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-teal-100 blur-3xl dark:bg-teal-900/10"></div>
 
-        <div class="relative mx-auto max-w-7xl px-4 py-9 sm:px-6 lg:px-8 lg:py-11">
-            <div class="grid items-stretch gap-6 lg:grid-cols-2">
+        <div class="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-9 lg:px-8 lg:py-11">
+            <div class="grid items-stretch gap-4 sm:gap-6 lg:grid-cols-2">
                 <div class="animate-fade-in flex min-w-0 flex-col">
-                    <div class="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300">
+                    <div class="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-700 sm:mb-5 sm:text-xs sm:tracking-[0.2em] dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300">
                         <span class="relative flex h-2 w-2">
                             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
                             <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
                         </span>
                         Portal prestasi sekolah
                     </div>
-                    <h1 class="text-4xl font-black leading-[1.1] tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+                    <h1 class="text-2xl font-black leading-tight tracking-tight text-slate-900 dark:text-white sm:text-5xl">
                         Prestasi siswa <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-blue-400">SMK N 1 Bangsri</span>
                     </h1>
-                    <p class="mt-5 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">
+                    <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:mt-5 sm:text-base sm:leading-7 dark:text-slate-300">
                         Jelajahi pencapaian siswa, lihat distribusi prestasi per program keahlian, dan temukan data terbaik dari sekolah dalam satu tampilan yang profesional dan mudah dibaca.
                     </p>
-                    <form id="prestasi-search" action="{{ route('public.prestasi.index') }}" method="GET" class="mt-5 flex flex-col gap-2 sm:flex-row">
+                    <form id="prestasi-search" action="{{ route('public.prestasi.index') }}" method="GET" class="mt-4 flex flex-col gap-2 sm:mt-5 sm:flex-row">
                         <label for="hero-achievement-search" class="sr-only">Cari prestasi</label>
-                        <div class="relative flex-1"><x-icon name="search" class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-400" /><input id="hero-achievement-search" name="q" value="{{ request('q') }}" type="search" placeholder="Cari nama lomba, siswa, atau NIS" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pl-11 text-sm text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white"></div>
-                        <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-emerald-600/20 transition hover:-translate-y-0.5 hover:bg-emerald-700 hover:shadow-lg active:translate-y-0 active:shadow-md sm:w-auto"><x-icon name="search" />Cari prestasi</button>
+                        <div class="relative flex-1"><x-icon name="search" class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-400" /><input id="hero-achievement-search" name="q" value="{{ request('q') }}" type="search" placeholder="Cari nama lomba, siswa, atau NIS" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 pl-11 text-sm text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none sm:py-3 dark:border-slate-700 dark:bg-slate-900 dark:text-white"></div>
+                        <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-emerald-600/20 transition hover:-translate-y-0.5 hover:bg-emerald-700 hover:shadow-lg active:translate-y-0 active:shadow-md sm:w-auto sm:py-3"><x-icon name="search" />Cari prestasi</button>
                     </form>
-                    <a href="{{ route('public.siswa.search') }}" class="mt-3 inline-flex max-w-full items-center gap-2 self-start rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm font-bold text-emerald-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-100 hover:shadow-md active:translate-y-0 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300 dark:hover:bg-emerald-950/50"><x-icon name="user-graduate" /><span class="truncate">Lihat siswa berprestasi</span><x-icon name="arrow-right" class="shrink-0 text-xs" /></a>
+                    <a href="{{ route('public.siswa.search') }}" class="mt-2 inline-flex max-w-full items-center gap-2 self-start rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-100 hover:shadow-md active:translate-y-0 sm:mt-3 sm:px-3.5 sm:py-2.5 sm:text-sm dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300 dark:hover:bg-emerald-950/50"><x-icon name="user-graduate" /><span class="truncate">Lihat siswa berprestasi</span><x-icon name="arrow-right" class="shrink-0 text-xs" /></a>
                 </div>
 
-                <div id="prestasi-analytics" x-data="{ activeChart: 'tahun', selectChart(name) { this.activeChart = name; requestAnimationFrame(() => window.dispatchEvent(new Event('resize'))); } }" class="min-w-0 rounded-[20px] border border-slate-200 bg-white p-4 shadow-lg dark:border-slate-800 dark:bg-slate-900 sm:rounded-[24px] sm:p-5">
+                <div id="prestasi-analytics" x-data="{ activeChart: 'tahun', selectChart(name) { this.activeChart = name; requestAnimationFrame(() => window.dispatchEvent(new Event('resize'))); } }" class="min-w-0 rounded-2xl border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-800 dark:bg-slate-900 sm:rounded-[24px] sm:p-5">
                     <script id="prestasi-chart-data" type="application/json">{!! json_encode($chartData, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}</script>
                     <div class="flex min-h-10 items-center justify-between gap-3">
                         <div class="min-w-0">
@@ -65,11 +65,11 @@
                         </div>
                         <span class="hidden text-xs text-slate-400 sm:inline">Grafik Prestasi</span>
                     </div>
-                    <div class="mt-4 h-48 sm:h-56"><canvas id="tahunChart" x-show="activeChart === 'tahun'"></canvas><canvas id="jurusanChart" x-show="activeChart === 'jurusan'"></canvas><canvas id="tingkatChart" x-show="activeChart === 'tingkat'"></canvas></div>
-                    <div class="mt-4 grid grid-cols-3 gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
-                        <button type="button" @click="selectChart('tahun')" :class="activeChart === 'tahun' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="w-full rounded-lg px-2 py-2 text-xs font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0">Tahun</button>
-                        <button type="button" @click="selectChart('jurusan')" :class="activeChart === 'jurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="w-full rounded-lg px-2 py-2 text-xs font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0">Program Keahlian</button>
-                        <button type="button" @click="selectChart('tingkat')" :class="activeChart === 'tingkat' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="w-full rounded-lg px-2 py-2 text-xs font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0">Tingkat</button>
+                    <div class="mt-3 h-40 sm:mt-4 sm:h-56"><canvas id="tahunChart" x-show="activeChart === 'tahun'"></canvas><canvas id="jurusanChart" x-show="activeChart === 'jurusan'"></canvas><canvas id="tingkatChart" x-show="activeChart === 'tingkat'"></canvas></div>
+                    <div class="mt-3 grid grid-cols-3 gap-1.5 border-t border-slate-100 pt-3 sm:mt-4 sm:gap-2 sm:pt-4 dark:border-slate-800">
+                        <button type="button" @click="selectChart('tahun')" :class="activeChart === 'tahun' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="w-full rounded-lg px-1.5 py-1.5 text-[11px] font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 sm:px-2 sm:py-2 sm:text-xs">Tahun</button>
+                        <button type="button" @click="selectChart('jurusan')" :class="activeChart === 'jurusan' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="w-full rounded-lg px-1.5 py-1.5 text-[11px] font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 sm:px-2 sm:py-2 sm:text-xs">Program Keahlian</button>
+                        <button type="button" @click="selectChart('tingkat')" :class="activeChart === 'tingkat' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'" class="w-full rounded-lg px-1.5 py-1.5 text-[11px] font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 sm:px-2 sm:py-2 sm:text-xs">Tingkat</button>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
     </section>
 
     {{-- ===================== KARTU OVERVIEW ===================== --}}
-    <section id="prestasi-overview" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <section id="prestasi-overview" class="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             @php
                 $overview = [
@@ -89,13 +89,13 @@
             @endphp
 
             @foreach($overview as $item)
-                <div class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-emerald-800">
+                <div class="group rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-md sm:p-5 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-emerald-800">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">{{ $item['label'] }}</p>
-                            <p class="mt-3 text-3xl font-black text-slate-900 dark:text-white">{{ $item['value'] }}</p>
+                            <p class="text-xs text-slate-500 sm:text-sm dark:text-slate-400">{{ $item['label'] }}</p>
+                            <p class="mt-2 text-2xl font-black text-slate-900 sm:mt-3 sm:text-3xl dark:text-white">{{ $item['value'] }}</p>
                         </div>
-                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl transition duration-300 group-hover:scale-110 {{ $item['classes'] }}">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-2xl transition duration-300 group-hover:scale-110 sm:h-12 sm:w-12 {{ $item['classes'] }}">
                             <x-icon :name="$item['icon']" />
                         </div>
                     </div>

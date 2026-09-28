@@ -12,9 +12,9 @@
                 <p class="mt-2 text-sm text-slate-500 dark:text-slate-300">Kelola data siswa aktif dan alumni SMK N 1 Bangsri.</p>
             </div>
             <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
-                <div class="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto" data-export-controls="siswa">
-                    <button type="button" onclick="toggleSiswaExportMode()" class="admin-btn-secondary min-w-0 w-full sm:w-auto" data-export-start><i class="fas fa-file-export mr-2"></i>Export</button>
-                    <button type="button" onclick="exportSelectedSiswa('{{ route('admin.siswa.export') }}')" class="admin-btn-primary col-span-2 hidden min-w-0 w-full sm:w-auto" data-export-download><i class="fas fa-download mr-2"></i>Download</button>
+                <div class="flex w-full flex-wrap gap-2 sm:w-auto" data-export-controls="siswa">
+                    <button type="button" onclick="toggleSiswaExportMode()" class="admin-btn-secondary min-h-11 min-w-0 flex-1 basis-[calc(50%-0.25rem)] justify-center px-2 text-[11px] leading-tight sm:flex-none sm:basis-auto sm:whitespace-nowrap sm:px-3 sm:text-sm" data-export-start><i class="fas fa-file-export mr-1 sm:mr-2"></i><span data-export-start-label>Export Excel</span></button>
+                    <button type="button" onclick="exportSelectedSiswa('{{ route('admin.siswa.export') }}')" class="admin-btn-primary min-h-11 min-w-0 flex-1 basis-[calc(50%-0.25rem)] justify-center px-2 text-[11px] leading-tight sm:flex-none sm:basis-auto sm:whitespace-nowrap sm:px-3 sm:text-sm" data-export-download hidden style="display: none;" disabled><i class="fas fa-download mr-1 sm:mr-2"></i>Download pilihan</button>
                 </div>
                 <a href="{{ route('admin.sipintu.index') }}" class="inline-flex items-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300">
                     <i class="fas fa-arrows-rotate"></i>
@@ -52,16 +52,16 @@
         </a>
     </div>
 
-    <!-- Search Form -->
+    <!-- Search -->
     <div class="section-card animate-fade-in">
-        <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex flex-col gap-3 md:flex-row md:items-center" data-live-search>
+        <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row sm:items-center" data-live-search>
             @if($status)
                 <input type="hidden" name="status" value="{{ $status }}">
             @endif
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIS, kelas, atau Program Keahlian..." class="admin-form-input md:flex-1">
-            <button type="submit" class="admin-btn-primary">Filter</button>
+            <button type="submit" class="admin-btn-primary">Cari Siswa</button>
             @if(request('search') || request('status'))
-                <a href="{{ route('admin.siswa.index') }}" class="admin-btn-secondary">Reset Filter</a>
+                <a href="{{ route('admin.siswa.index') }}" class="inline-flex min-h-10 items-center justify-center rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">Reset Filter</a>
             @endif
         </form>
     </div>
@@ -138,10 +138,20 @@
 <script>
     function toggleSiswaExportMode() {
         const active = !document.querySelector('.admin-table-mobile-cards')?.classList.contains('export-mode');
+        const startButton = document.querySelector('[data-export-controls="siswa"] [data-export-start]');
+        const startLabel = document.querySelector('[data-export-controls="siswa"] [data-export-start-label]');
+        const downloadButton = document.querySelector('[data-export-controls="siswa"] [data-export-download]');
         document.querySelector('.admin-table-mobile-cards')?.classList.toggle('export-mode', active);
-        document.querySelector('[data-export-controls="siswa"] [data-export-start]')?.classList.toggle('bg-amber-100', active);
-        document.querySelector('[data-export-controls="siswa"] [data-export-start]')?.classList.toggle('text-amber-800', active);
-        document.querySelector('[data-export-controls="siswa"] [data-export-download]')?.classList.toggle('hidden', !active);
+        startButton?.classList.toggle('bg-amber-100', active);
+        startButton?.classList.toggle('text-amber-800', active);
+        startLabel.textContent = active ? 'Batal pilih' : 'Export Excel';
+        startButton?.querySelector('i')?.classList.toggle('fa-file-export', !active);
+        startButton?.querySelector('i')?.classList.toggle('fa-xmark', active);
+        downloadButton.disabled = !active;
+        downloadButton.hidden = !active;
+        downloadButton.style.display = active ? 'inline-flex' : 'none';
+        downloadButton?.classList.toggle('opacity-50', !active);
+        downloadButton?.classList.toggle('cursor-not-allowed', !active);
         document.querySelectorAll('[data-siswa-export-column]').forEach((element) => element.classList.toggle('hidden', !active));
         if (!active) document.querySelectorAll('.siswa-select, #select-all-siswa').forEach((item) => item.checked = false);
     }
