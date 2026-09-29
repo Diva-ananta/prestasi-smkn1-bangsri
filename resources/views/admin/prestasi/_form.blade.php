@@ -181,7 +181,7 @@
 
                     {{-- Preview foto hasil crop --}}
                     <div id="fotoPreviewWrap"
-                        class="flex aspect-[4/4] w-36 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-600 dark:bg-slate-800">
+                        class="flex aspect-square w-36 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-600 dark:bg-slate-800">
 
                         <img id="fotoPreview"
                             src="{{ $currentFoto }}"
@@ -205,13 +205,13 @@
 
                         <p class="mt-2 text-xs leading-5 text-slate-400">
                             JPG/PNG, maksimal 2MB.
-                            Foto akan dipotong manual dengan rasio <strong>4:5</strong>
+                            Foto akan dipotong manual dengan rasio <strong>1:1</strong>
                             sebelum disimpan.
                         </p>
 
                         <div class="mt-3 flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400">
                             <i class="fas fa-crop-alt"></i>
-                            <span>Gunakan crop 4:5 agar tampilan foto konsisten.</span>
+                            <span>Gunakan crop 1:1 agar tampilan foto konsisten.</span>
                         </div>
 
                         @if ($currentFoto)
@@ -241,7 +241,7 @@
                                 Potong Foto Prestasi
                             </h3>
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                Atur posisi foto sesuai keinginan. Rasio dikunci 4:5.
+                                Atur posisi foto sesuai keinginan. Rasio dikunci 1:1.
                             </p>
                         </div>
 
@@ -312,13 +312,6 @@
                 </div>
             </div>
 
-                <div class="md:col-span-2">
-                    <label for="video_url" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Link Video YouTube</label>
-                    <input id="video_url" type="url" name="video_url" value="{{ old('video_url', $prestasi->video_url ?? '') }}" class="{{ $inputClass }} w-full" placeholder="https://www.youtube.com/watch?v=...">
-                    <p class="mt-2 text-xs text-slate-400">Opsional. Link ini dapat otomatis ditambahkan ke galeri sebagai thumbnail dan embed.</p>
-                    @error('video_url') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
-                </div>
-
                 <div>
                     <label for="status" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Status Publikasi <span class="text-red-500">*</span></label>
                     <select id="status" name="status" class="{{ $inputClass }}" required>
@@ -354,7 +347,7 @@
             <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Pratinjau kartu publik</p>
 
             <div class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700">
-                <div class="relative flex aspect-[4/4] items-center justify-center overflow-hidden bg-gradient-to-br from-slate-100 to-emerald-50 dark:from-slate-800 dark:to-slate-900">
+                <div class="relative flex aspect-square items-center justify-center overflow-hidden bg-gradient-to-br from-slate-100 to-emerald-50 dark:from-slate-800 dark:to-slate-900">
                     <img id="previewFoto" src="{{ $currentFoto ?: asset('images/logo-smk.png') }}" class="h-full w-full object-cover" alt="Preview foto prestasi">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
                     <span id="previewHasil" class="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-black uppercase tracking-wide text-amber-700 shadow-lg dark:bg-slate-900/90 dark:text-amber-400">{{ old('hasil', $prestasi->hasil ?? 'Hasil') }}</span>
@@ -548,7 +541,7 @@
             previewStatus.className = 'text-[11px] font-semibold ' + (this.value === 'Publish' ? 'text-emerald-600' : 'text-slate-400');
         });
         // ============================================================
-        // CROP FOTO PRESTASI - RASIO 4:5
+        // CROP FOTO PRESTASI - RASIO 1:1
         // ============================================================
 
         const fotoInput = document.getElementById('foto');
@@ -593,7 +586,7 @@
                 }
 
                 cropper = new Cropper(cropImage, {
-                    aspectRatio: 4 / 4,
+                    aspectRatio: 1,
 
                     viewMode: 1,
 
@@ -762,10 +755,8 @@
             }
 
             const canvas = cropper.getCroppedCanvas({
-                aspectRatio: 4 / 5,
-
                 width: 1200,
-                height: 1500,
+                height: 1200,
 
                 imageSmoothingEnabled: true,
                 imageSmoothingQuality: 'high'
@@ -787,7 +778,7 @@
 
                 const croppedFile = new File(
                     [blob],
-                    'foto-prestasi-4x5.jpg',
+                    'foto-prestasi-1x1.jpg',
                     {
                         type: 'image/jpeg',
                         lastModified: Date.now()

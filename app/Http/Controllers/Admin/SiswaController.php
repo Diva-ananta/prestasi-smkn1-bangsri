@@ -16,32 +16,40 @@ class SiswaController extends Controller
 {
     public function index(Request $request)
     {
-        $status = $request->query('status'); // 'Aktif', 'Alumni', or null (all)
+        $filters = $request->validate([
+            'search' => ['nullable', 'string', 'max:100'],
+            'status' => ['nullable', 'in:Aktif,Alumni'],
+            'kelas' => ['nullable', 'string', 'max:10'],
+            'jurusan' => ['nullable', 'string', 'max:50'],
+            'angkatan' => ['nullable', 'integer', 'min:2000', 'max:' . (date('Y') + 1)],
+        ]);
 
-        $query = Siswa::query();
-
-        if ($request->filled('status') && in_array($request->status, ['Aktif', 'Alumni'])) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('nis', 'like', "%{$search}%")
-                  ->orWhere('nisn', 'like', "%{$search}%")
-                  ->orWhere('nama', 'like', "%{$search}%")
-                  ->orWhere('kelas', 'like', "%{$search}%")
-                  ->orWhere('jurusan', 'like', "%{$search}%");
+        $query = Siswa::query()
+            ->when($filters['status'] ?? null, fn ($query, $status) => $query->where('status', $status))
+            ->when($filters['kelas'] ?? null, fn ($query, $kelas) => $query->where('kelas', $kelas))
+            ->when($filters['jurusan'] ?? null, fn ($query, $jurusan) => $query->where('jurusan', $jurusan))
+            ->when($filters['angkatan'] ?? null, fn ($query, $angkatan) => $query->where('angkatan', $angkatan))
+            ->when($filters['search'] ?? null, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('nis', 'like', "%{$search}%")
+                        ->orWhere('nisn', 'like', "%{$search}%")
+                        ->orWhere('nama', 'like', "%{$search}%")
+                        ->orWhere('kelas', 'like', "%{$search}%")
+                        ->orWhere('jurusan', 'like', "%{$search}%");
+                });
             });
-        }
 
         $totalAll = Siswa::count();
         $totalAktif = Siswa::where('status', 'Aktif')->count();
         $totalAlumni = Siswa::where('status', 'Alumni')->count();
 
         $siswas = $query->orderBy('nama')->paginate(10)->withQueryString();
+        $kelasOptions = Siswa::query()->whereNotNull('kelas')->distinct()->orderBy('kelas')->pluck('kelas');
+        $jurusanOptions = Siswa::query()->whereNotNull('jurusan')->distinct()->orderBy('jurusan')->pluck('jurusan');
+        $angkatanOptions = Siswa::query()->whereNotNull('angkatan')->distinct()->orderByDesc('angkatan')->pluck('angkatan');
+        $status = $filters['status'] ?? null;
 
-        return view('admin.siswa.index', compact('siswas', 'totalAll', 'totalAktif', 'totalAlumni', 'status'));
+        return view('admin.siswa.index', compact('siswas', 'totalAll', 'totalAktif', 'totalAlumni', 'status', 'filters', 'kelasOptions', 'jurusanOptions', 'angkatanOptions'));
     }
 
     public function create()

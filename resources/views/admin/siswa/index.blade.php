@@ -28,6 +28,58 @@
         </div>
     </div>
 
+    <div class="section-card animate-fade-in relative z-30 p-3 sm:p-4">
+        <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row sm:items-end" data-live-search data-ajax-target="#siswa-results">
+            <label class="relative block min-w-0 flex-1">
+                <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Cari siswa</span>
+                <span class="pointer-events-none absolute bottom-0 left-3 flex h-12 items-center text-slate-400" aria-hidden="true"><i class="fas fa-search"></i></span>
+                <input name="search" type="search" value="{{ $filters['search'] ?? '' }}" placeholder="Nama, NIS, kelas, program keahlian..." aria-label="Cari siswa" class="admin-form-input mt-0 min-w-0 pl-10">
+            </label>
+            <details class="relative shrink-0">
+                <summary class="flex min-h-11 cursor-pointer list-none items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 [&::-webkit-details-marker]:hidden dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+                    <i class="fas fa-filter text-xs"></i>Filter
+                    @if(request()->hasAny(['status', 'kelas', 'jurusan', 'angkatan']))<span class="h-2 w-2 rounded-full bg-blue-500" aria-label="Filter aktif"></span>@endif
+                </summary>
+                <div class="absolute right-0 top-full z-[70] mt-2 w-[min(90vw,42rem)] rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-700 dark:bg-slate-900">
+                    <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                        <label class="block min-w-0 text-xs font-semibold text-slate-600 dark:text-slate-300">Status
+                            <select name="status" class="admin-form-input mt-1 min-w-0 px-3 text-xs sm:text-sm" aria-label="Filter status siswa">
+                                <option value="">Semua status</option>
+                                <option value="Aktif" @selected(($filters['status'] ?? '') === 'Aktif')>Aktif</option>
+                                <option value="Alumni" @selected(($filters['status'] ?? '') === 'Alumni')>Alumni</option>
+                            </select>
+                        </label>
+                        <label class="block min-w-0 text-xs font-semibold text-slate-600 dark:text-slate-300">Kelas
+                            <select name="kelas" class="admin-form-input mt-1 min-w-0 px-3 text-xs sm:text-sm" aria-label="Filter kelas">
+                                <option value="">Semua kelas</option>
+                                @foreach($kelasOptions as $kelasOption)<option value="{{ $kelasOption }}" @selected(($filters['kelas'] ?? '') == $kelasOption)>{{ $kelasOption }}</option>@endforeach
+                            </select>
+                        </label>
+                        <label class="block min-w-0 text-xs font-semibold text-slate-600 dark:text-slate-300">Program keahlian
+                            <select name="jurusan" class="admin-form-input mt-1 min-w-0 px-3 text-xs sm:text-sm" aria-label="Filter program keahlian">
+                                <option value="">Semua program</option>
+                                @foreach($jurusanOptions as $jurusanOption)<option value="{{ $jurusanOption }}" @selected(($filters['jurusan'] ?? '') === $jurusanOption)>{{ $jurusanOption }}</option>@endforeach
+                            </select>
+                        </label>
+                        <label class="block min-w-0 text-xs font-semibold text-slate-600 dark:text-slate-300">Angkatan
+                            <select name="angkatan" class="admin-form-input mt-1 min-w-0 px-3 text-xs sm:text-sm" aria-label="Filter angkatan">
+                                <option value="">Semua angkatan</option>
+                                @foreach($angkatanOptions as $angkatanOption)<option value="{{ $angkatanOption }}" @selected(($filters['angkatan'] ?? '') == $angkatanOption)>{{ $angkatanOption }}</option>@endforeach
+                            </select>
+                        </label>
+                    </div>
+                    <div class="mt-4 flex justify-end gap-2 border-t border-slate-200 pt-3 dark:border-slate-700">
+                        @if(request()->hasAny(['search', 'status', 'kelas', 'jurusan', 'angkatan']))
+                            <a data-ajax-page href="{{ route('admin.siswa.index') }}" class="inline-flex min-h-10 items-center justify-center rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">Reset</a>
+                        @endif
+                        <button type="submit" class="admin-btn-primary"><i class="fas fa-check mr-2"></i>Terapkan</button>
+                    </div>
+                </div>
+            </details>
+        </form>
+    </div>
+
+    <div id="siswa-results">
     <!-- Status Tabs (Semua, Siswa Aktif, Alumni) -->
     <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
         <a href="{{ route('admin.siswa.index', array_merge(request()->except('status', 'page'))) }}"
@@ -50,20 +102,6 @@
             <span>Alumni</span>
             <span class="rounded-full px-2 py-0.5 text-[10px] {{ $status === 'Alumni' ? 'bg-white/20 text-white' : 'bg-purple-100 text-purple-800 dark:bg-purple-950/60 dark:text-purple-300' }}">{{ $totalAlumni }}</span>
         </a>
-    </div>
-
-    <!-- Search -->
-    <div class="section-card animate-fade-in">
-        <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row sm:items-center" data-live-search>
-            @if($status)
-                <input type="hidden" name="status" value="{{ $status }}">
-            @endif
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIS, kelas, atau Program Keahlian..." class="admin-form-input md:flex-1">
-            <button type="submit" class="admin-btn-primary">Cari Siswa</button>
-            @if(request('search') || request('status'))
-                <a href="{{ route('admin.siswa.index') }}" class="inline-flex min-h-10 items-center justify-center rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">Reset Filter</a>
-            @endif
-        </form>
     </div>
 
     <!-- Data Table -->
@@ -133,6 +171,7 @@
 
     <div class="animate-fade-in">
         {{ $siswas->links() }}
+    </div>
     </div>
 </div>
 <script>

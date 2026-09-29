@@ -15,6 +15,7 @@ class AdminSiswaShowPhotoTest extends TestCase
     {
         $admin = User::factory()->create([
             'is_admin' => true,
+            'role' => 'master_admin',
         ]);
 
         $siswa = Siswa::create([
@@ -33,5 +34,41 @@ class AdminSiswaShowPhotoTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('src="' . asset('storage/' . $siswa->foto) . '"', false);
+    }
+
+    public function test_student_filters_render_matching_results_for_ajax_updates(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true, 'role' => 'master_admin']);
+        Siswa::create([
+            'nis' => '24001',
+            'nama' => 'Siswa Cocok',
+            'jenis_kelamin' => 'L',
+            'kelas' => '12',
+            'jurusan' => 'PPLG',
+            'angkatan' => 2024,
+            'status' => 'Aktif',
+        ]);
+        Siswa::create([
+            'nis' => '23002',
+            'nama' => 'Siswa Tidak Cocok',
+            'jenis_kelamin' => 'P',
+            'kelas' => '11',
+            'jurusan' => 'MPLB',
+            'angkatan' => 2023,
+            'status' => 'Alumni',
+        ]);
+
+        $response = $this->actingAs($admin)->get(route('admin.siswa.index', [
+            'search' => 'Siswa',
+            'status' => 'Aktif',
+            'kelas' => '12',
+            'jurusan' => 'PPLG',
+            'angkatan' => 2024,
+        ]), ['X-Requested-With' => 'XMLHttpRequest']);
+
+        $response->assertOk()
+            ->assertSee('Siswa Cocok')
+            ->assertDontSee('Siswa Tidak Cocok')
+            ->assertSee('id="siswa-results"', false);
     }
 }

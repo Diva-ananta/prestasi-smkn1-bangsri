@@ -64,6 +64,14 @@ class Prestasi extends Model
         return $query->where('status', 'Publish');
     }
 
+    public function scopeOrderByTanggalPrestasi($query)
+    {
+        return $query
+            ->orderByRaw('CASE WHEN tanggal_mulai IS NULL THEN 1 ELSE 0 END')
+            ->orderByDesc('tanggal_mulai')
+            ->orderByDesc('id');
+    }
+
     // Accessor untuk thumbnail (ambil foto atau default)
     public function getThumbnailAttribute()
     {

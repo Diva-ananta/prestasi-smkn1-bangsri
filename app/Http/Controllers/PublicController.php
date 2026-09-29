@@ -34,18 +34,15 @@ class PublicController extends Controller
             ->get();
         $prestasiTerbaru = Prestasi::with('detailPrestasi.siswa')
             ->where('status', 'Publish')
-            ->latest()
+            ->orderByTanggalPrestasi()
             ->take(4)
             ->get();
-        $heroPrestasi = Prestasi::where('status', 'Publish')
-            ->whereNotNull('foto')
-            ->latest()
-            ->first();
         $heroPrestasis = Prestasi::where('status', 'Publish')
             ->whereNotNull('foto')
-            ->latest()
+            ->orderByTanggalPrestasi()
             ->take(5)
             ->get();
+        $heroPrestasi = $heroPrestasis->first();
         $galeriPrestasi = Galeri::with('prestasi')
             ->where('is_published', true)
             ->take(6)
