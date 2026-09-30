@@ -39,7 +39,7 @@
         <form action="{{ route('admin.prestasi.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row sm:items-end" data-prestasi-filters data-live-search data-ajax-target="#prestasi-results">
             <label class="relative block min-w-0 flex-1">
                 <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Cari prestasi</span>
-                <span class="pointer-events-none absolute bottom-0 left-3 flex h-12 items-center text-slate-400" aria-hidden="true"><i class="fas fa-search"></i></span>
+                <span class="pointer-events-none absolute bottom-0 left-3 flex h-12 items-center text-slate-400" aria-hidden="true"></span>
                 <input name="search" type="search" value="{{ request('search') }}" placeholder="Nama lomba, hasil, kategori..." aria-label="Cari prestasi" class="admin-form-input mt-0 min-w-0 pl-10">
             </label>
             <details class="relative shrink-0">

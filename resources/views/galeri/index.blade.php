@@ -38,16 +38,21 @@
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
 
         {{-- GRID KATALOG --}}
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="columns-1 gap-5 sm:columns-2 lg:columns-3">
 
             @forelse($galeri as $item)
 
                 @php($videoUrl = $item->video_url ?: $item->prestasi?->video_url)
                 @php($platform = \App\Helpers\SocialMedia::platform($videoUrl))
                 @php($embedUrl = \App\Helpers\SocialMedia::embed($videoUrl))
-                <div x-show="activeCatalog === 'all' || activeCatalog === '{{ $platform ?: 'foto' }}'" class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
+                @php($photo = $item->prestasi?->foto ?: $item->foto)
+                <div x-show="activeCatalog === 'all' || activeCatalog === '{{ $platform ?: 'foto' }}'" class="group mb-5 break-inside-avoid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
 
-                    <div class="relative aspect-[4/5] overflow-hidden bg-emerald-50 dark:bg-emerald-950">
+                    <div @class([
+                        'relative overflow-hidden bg-emerald-50 dark:bg-emerald-950',
+                        'aspect-video' => $embedUrl && $platform === 'youtube',
+                        'aspect-[4/5]' => $embedUrl && $platform !== 'youtube',
+                    ])>
                         @if($embedUrl && $platform === 'youtube')
                             <details class="group/video h-full">
                                 <summary class="relative h-full cursor-pointer list-none">
@@ -58,8 +63,8 @@
                             </details>
                         @elseif($embedUrl)
                             <iframe src="{{ $embedUrl }}" title="{{ $item->judul ?: 'Konten ' . ucfirst($platform) }}" class="absolute inset-0 h-full w-full border-0" loading="lazy" allow="encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
-                        @elseif($item->prestasi?->foto || $item->foto)
-                            <img src="{{ asset('storage/' . ($item->prestasi?->foto ?: $item->foto)) }}" alt="{{ $item->judul ?: $item->prestasi?->nama_lomba ?: 'Foto galeri' }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+                        @elseif($photo)
+                            <img src="{{ asset('storage/' . $photo) }}" alt="{{ $item->judul ?: $item->prestasi?->nama_lomba ?: 'Foto galeri' }}" class="h-auto w-full transition duration-500 group-hover:scale-105" loading="lazy">
                         @endif
 
                     </div>

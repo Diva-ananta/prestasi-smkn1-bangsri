@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50/30 dark:from-slate-950 dark:to-slate-900 animate-page-load">
-    <div class="mx-auto max-w-5xl px-4 py-9 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl px-4 py-9 sm:px-6 lg:px-6">
         <!-- Breadcrumb -->
         <nav class="mb-10 animate-fade-in text-sm">
             <div class="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400">
@@ -20,7 +20,7 @@
             </div>
         </nav>
 
-        <div class="grid gap-7 lg:grid-cols-[1fr_280px]">
+        <div class="grid gap-7 lg:grid-cols-[minmax(0,1fr)_300px] xl:gap-9">
             <!-- Main Article -->
             <article class="animate-fade-in animate-delay-100 min-w-0">
                 <!-- Header -->

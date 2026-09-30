@@ -32,8 +32,8 @@
         <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row sm:items-end" data-live-search data-ajax-target="#siswa-results">
             <label class="relative block min-w-0 flex-1">
                 <span class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-300">Cari siswa</span>
-                <span class="pointer-events-none absolute bottom-0 left-3 flex h-12 items-center text-slate-400" aria-hidden="true"><i class="fas fa-search"></i></span>
-                <input name="search" type="search" value="{{ $filters['search'] ?? '' }}" placeholder="Nama, NIS, kelas, program keahlian..." aria-label="Cari siswa" class="admin-form-input mt-0 min-w-0 pl-10">
+                <span class="pointer-events-none absolute bottom-0 left-3 flex h-12 w-5 items-center justify-center text-slate-400" aria-hidden="true"></i></span>
+                <input name="search" type="search" value="{{ $filters['search'] ?? '' }}" placeholder="Nama, NIS, kelas, program keahlian..." aria-label="Cari siswa" class="admin-form-input mt-0 min-w-0 pl-12">
             </label>
             <details class="relative shrink-0">
                 <summary class="flex min-h-11 cursor-pointer list-none items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 [&::-webkit-details-marker]:hidden dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
