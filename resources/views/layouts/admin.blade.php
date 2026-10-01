@@ -47,7 +47,7 @@
         <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 z-40 bg-slate-950/50 md:hidden" x-transition.opacity></div>
 
         <aside
-            :class="sidebarOpen ? 'translate-x-0 md:w-72' : '-translate-x-full md:translate-x-0 md:w-16'"
+            :class="sidebarOpen ? 'translate-x-0 md:w-72' : '-translate-x-full md:translate-x-0 md:w-16 sidebar-collapsed'"
             class="fixed inset-y-0 left-0 z-50 h-screen w-72 border-r border-slate-200 bg-white transition-all duration-200 dark:border-slate-800 dark:bg-slate-900"
         >   
             <x-admin.sidebar />

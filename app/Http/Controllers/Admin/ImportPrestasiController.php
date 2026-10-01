@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class ImportPrestasiController extends Controller
 {
@@ -26,6 +27,10 @@ class ImportPrestasiController extends Controller
             DB::transaction(fn () => Excel::import(new PrestasiImport, $request->file('file')));
             return redirect()->route('admin.prestasi.index')
                 ->with('success', 'Data prestasi berhasil diimport.');
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->errors())
+                ->withInput();
         } catch (\Exception $e) {
             Log::error('Import prestasi gagal.', [
                 'exception' => $e,

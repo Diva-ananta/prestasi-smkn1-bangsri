@@ -36,14 +36,14 @@
     <div class="grid grid-cols-1 gap-3 animate-fade-in min-[400px]:grid-cols-2 sm:grid-cols-4">
         @php
             $quickActions = [
-                ['label' => 'Tambah Siswa', 'icon' => 'fas fa-user-plus', 'route' => 'admin.siswa.create', 'color' => 'text-blue-600 bg-blue-50 dark:bg-blue-900/30 dark:text-blue-300'],
-                ['label' => 'Tambah Prestasi', 'icon' => 'fas fa-award', 'route' => 'admin.prestasi.create', 'color' => 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 dark:text-emerald-300'],
-                ['label' => 'Kelola Artikel', 'icon' => 'fas fa-newspaper', 'route' => 'admin.artikel.index', 'color' => 'text-violet-600 bg-violet-50 dark:bg-violet-900/30 dark:text-violet-300'],
-                ['label' => 'Kelola Galeri', 'icon' => 'fas fa-images', 'route' => 'admin.galeri.index', 'color' => 'text-amber-600 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-300'],
+                ['label' => 'Tambah Siswa', 'icon' => 'fas fa-user-plus', 'route' => 'admin.siswa.create', 'color' => 'text-blue-600 bg-blue-50 dark:bg-blue-900/30 dark:text-blue-300', 'surface' => '!border-blue-200 !bg-blue-50 hover:!bg-blue-100 dark:!border-blue-900/60 dark:!bg-blue-950/40 dark:hover:!bg-blue-950/60'],
+                ['label' => 'Tambah Prestasi', 'icon' => 'fas fa-award', 'route' => 'admin.prestasi.create', 'color' => 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 dark:text-emerald-300', 'surface' => '!border-emerald-200 !bg-emerald-50 hover:!bg-emerald-100 dark:!border-emerald-900/60 dark:!bg-emerald-950/40 dark:hover:!bg-emerald-950/60'],
+                ['label' => 'Kelola Artikel', 'icon' => 'fas fa-newspaper', 'route' => 'admin.artikel.index', 'color' => 'text-violet-600 bg-violet-50 dark:bg-violet-900/30 dark:text-violet-300', 'surface' => '!border-violet-200 !bg-violet-50 hover:!bg-violet-100 dark:!border-violet-900/60 dark:!bg-violet-950/40 dark:hover:!bg-violet-950/60'],
+                ['label' => 'Kelola Galeri', 'icon' => 'fas fa-images', 'route' => 'admin.galeri.index', 'color' => 'text-amber-600 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-300', 'surface' => '!border-amber-200 !bg-amber-50 hover:!bg-amber-100 dark:!border-amber-900/60 dark:!bg-amber-950/40 dark:hover:!bg-amber-950/60'],
             ];
         @endphp
         @foreach($quickActions as $action)
-            <a href="{{ route($action['route']) }}" class="section-card flex min-w-0 items-center gap-3 !p-3.5 transition hover:-translate-y-0.5 hover:shadow-md">
+            <a href="{{ route($action['route']) }}" class="section-card flex min-w-0 items-center gap-3 !p-3.5 transition hover:-translate-y-0.5 hover:shadow-md {{ $action['surface'] }}">
                 <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl {{ $action['color'] }}">
                     <i class="{{ $action['icon'] }}"></i>
                 </span>
@@ -53,7 +53,7 @@
     </div>
 
     {{-- ===== METRIC CARDS ===== --}}
-    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 animate-fade-in">
+    <div class="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4 animate-fade-in">
         @php
             $metrics = [
                 ['label' => 'Total Siswa', 'value' => number_format($totalSiswa), 'icon' => 'fas fa-users', 'color' => 'from-blue-500 to-blue-600', 'accent' => 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300', 'note' => number_format($siswaAktif ?? 0) . ' siswa aktif'],
@@ -269,7 +269,7 @@
         </div>
 
         <div class="admin-table-wrap overflow-x-auto">
-            <table class="admin-table admin-table-stack-mobile min-w-[760px] text-left text-sm">
+            <table class="admin-table admin-table-stack-mobile w-full min-w-[760px] text-left text-sm">
                 <thead>
                     <tr>
                         <th class="px-4 py-3 text-sm font-semibold text-slate-600">Nama Lomba</th>
@@ -295,10 +295,10 @@
                                 @endif
                             </td>
                             <td data-label="Tingkat" class="px-4 py-3 text-slate-600 dark:text-slate-300 w-[120px]">{{ $prestasi->tingkat ?? '-' }}</td>
-                            <td data-label="Hasil" class="px-4 py-3 text-slate-600 dark:text-slate-300 max-w-[140px] truncate">{{ $prestasi->hasil }}</td>
+                            <td data-label="Hasil" class="px-4 py-3 text-slate-600 dark:text-slate-300 max-w-[140px] truncate">{{ filled($prestasi->hasil) ? $prestasi->hasil : '-' }}</td>
                             <td data-label="Status" class="px-4 py-3">
                                 <span class="inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold {{ $prestasi->status == 'Publish' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' }}">
-                                    {{ $prestasi->status }}
+                                    {{ filled($prestasi->status) ? $prestasi->status : '-' }}
                                 </span>
                             </td>
                             <td data-label="Tanggal" class="px-4 py-3 whitespace-nowrap text-slate-500 dark:text-slate-400">{{ $prestasi->created_at->diffForHumans() }}</td>

@@ -89,6 +89,7 @@ class PrestasiController extends Controller
 
         return redirect()->route('admin.prestasi.index')->with('success', 'Prestasi baru berhasil ditambahkan.');
     }
+
     public function edit(Prestasi $prestasi)
     {
         $siswas = Siswa::orderBy('nama')->get();
@@ -130,14 +131,14 @@ class PrestasiController extends Controller
     public function review(Request $request, Prestasi $prestasi)
     {
         $validated = $request->validate([
-            'status' => 'required|in:Draft,Publish',
+            'status' => ['required', 'in:Draft,Publish'],
         ]);
 
         $prestasi->update(['status' => $validated['status']]);
 
         return back()->with('success', $validated['status'] === 'Publish'
-            ? 'Prestasi berhasil disetujui dan dipublikasikan.'
-            : 'Prestasi dikembalikan menjadi draft.');
+            ? 'Prestasi berhasil dipublikasikan.'
+            : 'Prestasi dikembalikan ke Draft.');
     }
 
     public function destroy(Prestasi $prestasi)

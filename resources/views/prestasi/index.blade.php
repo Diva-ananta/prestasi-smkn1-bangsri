@@ -78,7 +78,7 @@
 
     {{-- ===================== KARTU OVERVIEW ===================== --}}
     <section id="prestasi-overview" class="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
-        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
             @php
                 $overview = [
                     ['label' => 'Total Prestasi', 'value' => number_format($analitikRingkasan['total']), 'icon' => 'trophy', 'classes' => 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300'],

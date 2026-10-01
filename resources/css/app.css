@@ -247,7 +247,7 @@ body {
 
 .page-header .inline-flex.items-center,
 .page-header button.inline-flex,
-.page-header a.inline-flex {
+.page-header a.inline-flex:not(.admin-btn-primary) {
     color: rgba(255,255,255,0.95) !important;
 }
 
@@ -331,6 +331,10 @@ body {
 
 .sidebar-link.active {
     @apply bg-emerald-700 text-white;
+}
+
+.sidebar-collapsed .sidebar-link.active {
+    @apply bg-transparent text-emerald-700 dark:text-emerald-400;
 }
 
 .floating-bubble {

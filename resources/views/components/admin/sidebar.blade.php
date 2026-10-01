@@ -1,20 +1,17 @@
 <aside class="flex h-full flex-col overflow-y-auto">
     <div class="border-b border-slate-200 px-3 py-5 transition-all dark:border-slate-700" :class="sidebarOpen ? 'md:px-5' : 'md:px-2'">
-        <div class="flex items-center gap-3" :class="sidebarOpen ? '' : 'md:justify-center'">
-            <button type="button" @click="sidebarOpen = !sidebarOpen" class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-transparent text-xl transition hover:bg-slate-100 dark:hover:bg-slate-800" title="Buka atau sembunyikan sidebar" aria-label="Buka atau sembunyikan sidebar">
-                <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK" class="h-9 w-9 object-contain">
-            </button>
-            <div x-show="sidebarOpen" x-transition.opacity>
-                <div class="flex items-center justify-between gap-3">
-                    <div>
-                        <h1 class="text-lg font-bold text-slate-800 dark:text-white">SIPRES</h1>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">SMK N 1 Bangsri</p>
-                    </div>
-                    <button type="button" @click="sidebarOpen = false" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-slate-800 dark:hover:text-emerald-300" title="Sembunyikan sidebar" aria-label="Sembunyikan sidebar">
-                        <i class="fas fa-bars text-sm"></i>
-                    </button>
+        <div class="flex items-center justify-between gap-3" :class="sidebarOpen ? '' : 'md:justify-center'">
+            <div x-show="sidebarOpen" x-transition.opacity class="flex min-w-0 items-center gap-3">
+                <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK" class="h-9 w-9 shrink-0 object-contain">
+                <div class="min-w-0">
+                    <h1 class="text-lg font-bold text-slate-800 dark:text-white">SIPRES</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">SMK N 1 Bangsri</p>
                 </div>
             </div>
+            <button type="button" @click="sidebarOpen = !sidebarOpen" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white" title="Buka atau sembunyikan sidebar" aria-label="Buka atau sembunyikan sidebar">
+                <i x-show="sidebarOpen" class="fas fa-bars text-sm"></i>
+                <img x-show="!sidebarOpen" src="{{ asset('images/logo-smk.png') }}" alt="Logo SIPRES" class="h-8 w-8 object-contain">
+            </button>
         </div>
     </div>
 

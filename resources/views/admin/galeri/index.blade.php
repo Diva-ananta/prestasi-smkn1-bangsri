@@ -25,20 +25,20 @@
     @endif
 
     <div class="section-card mb-6 animate-fade-in">
-        <form action="{{ route('admin.galeri.store') }}" method="POST" enctype="multipart/form-data" x-data="galleryForm()" class="grid gap-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
+        <form action="{{ route('admin.galeri.store') }}" method="POST" enctype="multipart/form-data" x-data="galleryForm()" class="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:items-end">
             @csrf
-            <div>
+            <div class="min-w-0">
                 <label for="judul" class="admin-form-label">Judul konten <span class="font-normal text-slate-400">(opsional)</span></label>
                 <input id="judul" name="judul" type="text" value="{{ old('judul') }}" placeholder="Contoh: Juara LKS 2026" class="admin-form-input w-full">
             </div>
-            <div>
+            <div class="min-w-0">
                 <label for="source" class="admin-form-label">Sumber media</label>
                 <select id="source" x-model="source" class="admin-form-input w-full">
                     <option value="manual">Input manual</option>
                     <option value="prestasi">Ikuti prestasi</option>
                 </select>
             </div>
-            <div x-show="source === 'prestasi'" x-cloak>
+            <div x-show="source === 'prestasi'" x-cloak class="min-w-0">
                 <label for="prestasi_id" class="admin-form-label">Prestasi</label>
                 <select id="prestasi_id" name="prestasi_id" x-bind:disabled="source !== 'prestasi'" class="admin-form-input w-full">
                     <option value="">Pilih prestasi bermedia</option>
@@ -47,15 +47,15 @@
                     @endforeach
                 </select>
             </div>
-            <div x-show="source === 'manual'" x-cloak>
+            <div x-show="source === 'manual'" x-cloak class="min-w-0">
                 <label for="foto" class="admin-form-label">Foto manual <span class="font-normal text-slate-400">(opsional)</span></label>
                 <input id="foto" name="foto" type="file" accept=".jpg,.jpeg,.png" class="admin-form-input w-full">
             </div>
-            <div x-show="source === 'manual'" x-cloak class="md:col-span-2">
+            <div x-show="source === 'manual'" x-cloak class="min-w-0 md:col-span-2">
                 <label for="video_url" class="admin-form-label">Link konten <span class="font-normal text-slate-400">(YouTube, TikTok, atau Instagram)</span></label>
                 <input id="video_url" name="video_url" type="url" value="{{ old('video_url') }}" placeholder="https://www.youtube.com/watch?v=..." class="admin-form-input w-full">
             </div>
-            <button type="submit" class="admin-btn-primary gap-2"><i class="fas fa-upload"></i>Tambah konten</button>
+            <button type="submit" class="admin-btn-primary w-full gap-2 md:col-span-2 md:w-auto md:justify-self-end"><i class="fas fa-upload"></i>Tambah konten</button>
         </form>
         @error('prestasi_id') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
         @error('foto') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror

@@ -151,7 +151,7 @@
                                     @csrf
                                     @method('PATCH')
                                     <input type="hidden" name="status" value="{{ $prestasi->status === 'Publish' ? 'Draft' : 'Publish' }}">
-                                    <button type="submit" title="{{ $prestasi->status === 'Publish' ? 'Kembalikan ke draft' : 'Review dan publikasikan' }}" aria-label="{{ $prestasi->status === 'Publish' ? 'Kembalikan ke draft' : 'Review dan publikasikan' }}" class="flex h-9 w-9 items-center justify-center rounded-xl {{ $prestasi->status === 'Publish' ? 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300' }}" onclick="return confirm('{{ $prestasi->status === 'Publish' ? 'Kembalikan prestasi menjadi draft?' : 'Setujui dan publikasikan prestasi ini?' }}')"><i class="fas {{ $prestasi->status === 'Publish' ? 'fa-eye-slash' : 'fa-check' }}"></i></button>
+                                    <button type="submit" title="{{ $prestasi->status === 'Publish' ? 'Kembalikan ke Draft' : 'Publikasikan prestasi' }}" aria-label="{{ $prestasi->status === 'Publish' ? 'Kembalikan ke Draft' : 'Publikasikan prestasi' }}" class="flex h-9 w-9 items-center justify-center rounded-xl {{ $prestasi->status === 'Publish' ? 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300' }}" onclick="return confirm('{{ $prestasi->status === 'Publish' ? 'Kembalikan prestasi menjadi Draft?' : 'Publikasikan prestasi ini?' }}')"><i class="fas {{ $prestasi->status === 'Publish' ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i></button>
                                 </form>
                                 <a data-ajax-page href="{{ route('admin.prestasi.edit', $prestasi) }}" title="Edit prestasi" aria-label="Edit prestasi" class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 text-amber-700 transition hover:bg-amber-200 dark:bg-amber-900/40 dark:text-amber-300"><i class="fas fa-pen"></i></a>
                                 <form action="{{ route('admin.prestasi.destroy', $prestasi) }}" method="POST" class="inline">
@@ -231,7 +231,7 @@
         startButton?.classList.toggle('bg-amber-100', active);
         startButton?.classList.toggle('text-amber-800', active);
         startLabel.textContent = active ? 'Batal pilih' : 'Export Excel';
-        startButton?.querySelector('i')?.classList.toggle('fa-list-check', !active);
+        startButton?.querySelector('i')?.classList.toggle('fa-file-export', !active);
         startButton?.querySelector('i')?.classList.toggle('fa-xmark', active);
         downloadButton.disabled = !active;
         downloadButton.hidden = !active;

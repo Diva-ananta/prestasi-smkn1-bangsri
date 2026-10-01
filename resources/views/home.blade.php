@@ -138,16 +138,16 @@
 
     <!-- Services Cards Section -->
     <section class="relative z-10 mx-auto -mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
             @foreach($services as $index => $service)
-                <div class="reveal reveal-left rounded-2xl border-2 border-slate-100 bg-white p-6 shadow-lg shadow-slate-900/10 transition-smooth hover:-translate-y-2 hover:shadow-xl dark:border-slate-700 dark:bg-slate-900" style="--reveal-delay: {{ $index * 100 }}ms">
-                    <div class="flex items-start gap-4">
-                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border {{ $service['class'] }} text-lg">
+                <div class="reveal reveal-left rounded-2xl border-2 border-slate-100 bg-white p-3 shadow-lg shadow-slate-900/10 transition-smooth hover:-translate-y-2 hover:shadow-xl sm:p-6 dark:border-slate-700 dark:bg-slate-900" style="--reveal-delay: {{ $index * 100 }}ms">
+                    <div class="flex h-full flex-col items-start gap-3 sm:flex-row sm:gap-4">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border {{ $service['class'] }} text-base sm:h-12 sm:w-12 sm:text-lg">
                             <i class="fas {{ $service['icon'] }}"></i>
                         </div>
                         <div class="flex-1">
-                            <h2 class="font-bold text-slate-900 dark:text-white">{{ $service['title'] }}</h2>
-                            <p class="mt-1 text-xs leading-6 text-slate-600 dark:text-slate-400">{{ $service['text'] }}</p>
+                            <h2 class="text-sm font-bold text-slate-900 sm:text-base dark:text-white">{{ $service['title'] }}</h2>
+                            <p class="mt-1 text-[11px] leading-5 text-slate-600 sm:text-xs sm:leading-6 dark:text-slate-400">{{ $service['text'] }}</p>
                         </div>
                     </div>
                 </div>
