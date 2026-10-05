@@ -11,7 +11,7 @@
 @endphp
 
 @if($message)
-    <div role="alert" aria-live="polite" class="relative isolate flex items-start gap-3 overflow-hidden rounded-2xl border px-4 py-3.5 shadow-sm {{ $style['wrapper'] }} animate-fade-in">
+    <div role="alert" aria-live="polite" @if($type === 'success') data-auto-dismiss="5000" @endif class="relative isolate flex items-start gap-3 overflow-hidden rounded-2xl border px-4 py-3.5 shadow-sm {{ $style['wrapper'] }} animate-fade-in">
         <span class="absolute inset-y-0 left-0 w-1 {{ $style['accent'] }}" aria-hidden="true"></span>
         <span class="ml-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl {{ $style['icon'] }}">
             <i class="fas {{ $style['iconName'] }} text-xs"></i>

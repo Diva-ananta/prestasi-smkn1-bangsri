@@ -21,6 +21,7 @@ class AdminFlashNotificationsTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Siswa berhasil ditambahkan.');
+        $response->assertSee('data-auto-dismiss="5000"', false);
     }
 
     public function test_login_redirect_sets_clear_success_message(): void

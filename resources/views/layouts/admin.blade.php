@@ -106,12 +106,18 @@
         (() => {
             const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
             const feedback = document.getElementById('ajax-feedback');
+            let feedbackTimeout;
+
+            document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
+                window.setTimeout(() => alert.remove(), Number(alert.dataset.autoDismiss));
+            });
 
             function notify(message, type = 'success') {
                 if (!feedback) return;
+                window.clearTimeout(feedbackTimeout);
                 feedback.textContent = message;
                 feedback.className = `pointer-events-auto fixed right-4 top-20 z-[80] max-w-sm rounded-xl px-4 py-3 text-sm font-semibold shadow-lg ${type === 'error' ? 'bg-red-600 text-white' : 'bg-emerald-600 text-white'}`;
-                window.setTimeout(() => feedback.classList.add('hidden'), 4500);
+                feedbackTimeout = window.setTimeout(() => feedback.classList.add('hidden'), type === 'success' ? 5000 : 4500);
             }
 
             window.adminNotify = notify;
