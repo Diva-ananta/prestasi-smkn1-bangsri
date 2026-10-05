@@ -50,9 +50,9 @@
             <div class="space-y-1 sm:text-right">
                 <p>
                     Dikembangkan oleh <span class="font-semibold text-slate-300">Akasa Dev</span>:
-                    <a href="https://www.instagram.com/askiakhoirunnisa/" target="_blank" rel="noopener noreferrer" class="transition hover:text-white hover:underline">Askia Khoirun Nisa</a>,
-                    <a href="https://www.instagram.com/ekakusnaini/" target="_blank" rel="noopener noreferrer" class="transition hover:text-white hover:underline">Eka Kusnaini</a>,
-                    <a href="https://www.instagram.com/khnsaskiaa/" target="_blank" rel="noopener noreferrer" class="transition hover:text-white hover:underline">Saka Diva Ananta</a>
+                    <a href="https://www.instagram.com/khnsaskiaa/" target="_blank" rel="noopener noreferrer" class="transition hover:text-white hover:underline">Askia Khoirun Nisa</a>,
+                    <a href="https://www.instagram.com/ekakusnainii/" target="_blank" rel="noopener noreferrer" class="transition hover:text-white hover:underline">Eka Kusnaini</a>,
+                    <a href="https://www.instagram.com/hii_divaaa/" target="_blank" rel="noopener noreferrer" class="transition hover:text-white hover:underline">Saka Diva Ananta</a>
                 </p>
             </div>
         </div>

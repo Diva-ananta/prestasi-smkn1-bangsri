@@ -87,7 +87,7 @@
 
                 <div>
                     <label for="tanggal_mulai" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Tanggal Perolehan</label>
-                    <input id="tanggal_mulai" type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai', $dateValue($prestasi->tanggal_mulai ?? null)) }}" class="{{ $inputClass }}">
+                    <input id="tanggal_mulai" type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai', $dateValue($prestasi->tanggal_mulai ?? null)) }}" max="{{ now()->endOfYear()->toDateString() }}" class="{{ $inputClass }}">
                     @error('tanggal_mulai') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
                 </div>
             </div>

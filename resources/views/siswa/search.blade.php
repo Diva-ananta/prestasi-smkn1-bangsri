@@ -60,6 +60,7 @@
                     <aside class="h-fit w-[min(88vw,300px)] bg-white p-3 shadow-xl dark:bg-slate-900 md:sticky md:top-24 md:self-start md:w-auto md:rounded-2xl md:border md:border-slate-200 md:shadow-sm dark:md:border-slate-700" @click.stop>
                 <div class="mb-3 flex items-center justify-between"><h3 class="text-sm font-bold text-slate-900 dark:text-white">Filter</h3><button type="button" @click="filtersOpen = false" class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 md:hidden dark:hover:bg-slate-800" aria-label="Tutup filter"><x-icon name="times" /></button></div>
                     <form id="siswa-filter" action="{{ route('public.siswa.search') }}" method="GET" class="space-y-3">
+                        <input type="hidden" name="q" value="{{ $keyword }}">
                         <div class="border-t border-slate-200 pt-3 dark:border-slate-700"><label class="text-xs font-bold text-slate-900 dark:text-white">Program Keahlian</label><select name="jurusan" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white"><option value="">Semua Program Keahlian</option>@foreach($jurusanOptions as $option)<option value="{{ $option }}" @selected(request('jurusan') === $option)>{{ $option }}</option>@endforeach</select></div>
                         <div class="border-t border-slate-200 pt-3 dark:border-slate-700"><label class="text-xs font-bold text-slate-900 dark:text-white">Kelas</label><select name="kelas" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white"><option value="">Semua kelas</option>@foreach($kelasOptions as $option)<option value="{{ $option }}" @selected(request('kelas') === $option)>{{ $option }}</option>@endforeach</select></div>
                         <div class="border-t border-slate-200 pt-3 dark:border-slate-700"><label class="text-xs font-bold text-slate-900 dark:text-white">Angkatan</label><select name="angkatan" class="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white"><option value="">Semua angkatan</option>@foreach($angkatanOptions as $option)<option value="{{ $option }}" @selected((string) request('angkatan') === (string) $option)>{{ $option }}</option>@endforeach</select></div>
@@ -160,9 +161,21 @@
                 if (value) url.searchParams.set(key, value);
                 else url.searchParams.delete(key);
             });
+            const filterKeyword = filterForm?.querySelector('[name="q"]');
+            if (filterKeyword) filterKeyword.value = url.searchParams.get('q') || '';
             applyFilter(url);
         });
-        document.querySelector('[data-ajax-filter-reset]')?.addEventListener('click', function (event) { event.preventDefault(); applyFilter(new URL(this.href, window.location.origin)); });
+        document.querySelector('[data-ajax-filter-reset]')?.addEventListener('click', function (event) {
+            event.preventDefault();
+            filterForm?.querySelectorAll('select').forEach(function (select) {
+                select.value = '';
+            });
+            const keywordInput = document.getElementById('hero-student-search');
+            if (keywordInput) keywordInput.value = '';
+            const filterKeyword = filterForm?.querySelector('[name="q"]');
+            if (filterKeyword) filterKeyword.value = '';
+            applyFilter(new URL(this.href, window.location.origin));
+        });
 
         function bindResultLinks() {
             document.querySelectorAll('#siswa-results nav[role="navigation"] a[href]').forEach(function (link) {

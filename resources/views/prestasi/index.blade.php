@@ -333,6 +333,8 @@
                 if (value) url.searchParams.set(key, value);
                 else url.searchParams.delete(key);
             });
+            const filterKeyword = filterForm?.querySelector('[name="q"]');
+            if (filterKeyword) filterKeyword.value = url.searchParams.get('q') || '';
             applyFilter(url);
         });
 
@@ -341,6 +343,10 @@
             filterForm?.querySelectorAll('select').forEach(function (select) {
                 select.value = '';
             });
+            const keywordInput = document.getElementById('hero-achievement-search');
+            if (keywordInput) keywordInput.value = '';
+            const filterKeyword = filterForm?.querySelector('[name="q"]');
+            if (filterKeyword) filterKeyword.value = '';
             applyFilter(new URL(this.href, window.location.origin));
         });
 

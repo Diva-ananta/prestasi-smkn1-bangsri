@@ -63,7 +63,7 @@
             </div>
             <div>
                 <label for="tanggal_publikasi" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Tanggal Publikasi</label>
-                <input id="tanggal_publikasi" type="date" name="tanggal_publikasi" value="{{ old('tanggal_publikasi', isset($artikel) && $artikel->tanggal_publikasi ? $artikel->tanggal_publikasi->format('Y-m-d') : date('Y-m-d')) }}" class="admin-form-input">
+                <input id="tanggal_publikasi" type="date" name="tanggal_publikasi" value="{{ old('tanggal_publikasi', isset($artikel) && $artikel->tanggal_publikasi ? $artikel->tanggal_publikasi->format('Y-m-d') : date('Y-m-d')) }}" max="{{ now()->endOfYear()->toDateString() }}" class="admin-form-input">
                 @error('tanggal_publikasi') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
         </div>

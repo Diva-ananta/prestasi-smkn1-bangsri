@@ -126,7 +126,7 @@
 
             <div>
                 <label for="angkatan" class="text-sm font-semibold text-slate-700 dark:text-slate-200">Angkatan <span class="text-red-500">*</span></label>
-                <input id="angkatan" type="number" name="angkatan" value="{{ old('angkatan', $siswa->angkatan ?? date('Y')) }}" min="2000" max="{{ date('Y') + 1 }}" class="admin-form-input" required>
+                <input id="angkatan" type="number" name="angkatan" value="{{ old('angkatan', $siswa->angkatan ?? now()->year) }}" min="2000" max="{{ now()->year }}" class="admin-form-input" required>
                 @error('angkatan') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
 

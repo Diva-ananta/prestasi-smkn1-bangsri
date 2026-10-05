@@ -19,7 +19,7 @@ class SiswaController extends Controller
             'status' => ['nullable', 'in:Aktif,Alumni'],
             'kelas' => ['nullable', 'string', 'max:10'],
             'jurusan' => ['nullable', 'string', 'max:50'],
-            'angkatan' => ['nullable', 'integer', 'min:2000', 'max:' . (date('Y') + 1)],
+            'angkatan' => ['nullable', 'integer', 'min:2000', 'max:' . now()->year],
         ]);
 
         $query = Siswa::query()

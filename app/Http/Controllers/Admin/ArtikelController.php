@@ -39,9 +39,11 @@ class ArtikelController extends Controller
             'isi' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'penulis' => 'nullable|string|max:100',
-            'tanggal_publikasi' => 'nullable|date',
+            'tanggal_publikasi' => 'nullable|date|before_or_equal:' . now()->endOfYear()->toDateString(),
             'prestasi_id' => 'nullable|exists:prestasi,id',
             'status' => 'required|in:Draft,Publish',
+        ], [
+            'tanggal_publikasi.before_or_equal' => 'Tahun tanggal publikasi tidak boleh melebihi tahun sekarang.',
         ]);
 
         $data = $request->only([
@@ -94,9 +96,11 @@ class ArtikelController extends Controller
             'isi' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'penulis' => 'nullable|string|max:100',
-            'tanggal_publikasi' => 'nullable|date',
+            'tanggal_publikasi' => 'nullable|date|before_or_equal:' . now()->endOfYear()->toDateString(),
             'prestasi_id' => 'nullable|exists:prestasi,id',
             'status' => 'required|in:Draft,Publish',
+        ], [
+            'tanggal_publikasi.before_or_equal' => 'Tahun tanggal publikasi tidak boleh melebihi tahun sekarang.',
         ]);
 
         $data = $request->only([

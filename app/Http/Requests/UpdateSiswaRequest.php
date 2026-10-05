@@ -26,7 +26,7 @@ class UpdateSiswaRequest extends FormRequest
             'jenis_kelamin' => 'required|in:L,P',
             'kelas' => 'required|string|max:10',
             'jurusan' => 'required|string|max:50',
-            'angkatan' => 'required|integer|min:2000|max:' . (date('Y') + 1),
+            'angkatan' => 'required|integer|min:2000|max:' . now()->year,
             'is_published' => 'boolean',
         ];
     }
@@ -43,7 +43,7 @@ class UpdateSiswaRequest extends FormRequest
             'jurusan.required' => 'Program Keahlian wajib diisi.',
             'angkatan.required' => 'Angkatan wajib diisi.',
             'angkatan.min' => 'Angkatan minimal tahun 2000.',
-            'angkatan.max' => 'Angkatan maksimal tahun ' . (date('Y') + 1) . '.',
+            'angkatan.max' => 'Angkatan maksimal tahun ' . now()->year . '.',
             'foto.max' => 'Ukuran foto maksimal 5MB.',
             'foto.mimes' => 'Format foto harus JPG, JPEG, atau PNG.',
         ];

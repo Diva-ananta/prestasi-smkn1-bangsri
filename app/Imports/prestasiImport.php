@@ -89,6 +89,7 @@ class PrestasiImport implements ToCollection, WithHeadingRow, WithValidation
         return [
             'nama_lomba' => 'required|string',
             'hasil' => 'required|string',
+            'tanggal_mulai' => 'nullable|date|before_or_equal:' . now()->endOfYear()->toDateString(),
             'jenis_peserta' => 'required|in:Individu,Tim',
             'siswa' => 'required|string',
         ];
