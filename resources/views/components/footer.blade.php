@@ -36,8 +36,7 @@
                 <a href="tel:0291772321" class="flex items-center gap-3 transition hover:text-emerald-300"><i class="fas fa-phone-alt w-4 text-center" aria-hidden="true"></i><span>(0291) 772321</span></a>
                 <a href="mailto:smkn1bangsri@yahoo.co.id" class="flex items-center gap-3 break-words transition hover:text-emerald-300"><i class="fas fa-envelope w-4 shrink-0 text-center" aria-hidden="true"></i><span>smkn1bangsri@yahoo.co.id</span></a>
             </div>
-        </div>
-
+        </div
         <div>
             <h2 class="text-lg font-bold text-white">Maps</h2>
             <div class="mt-4 overflow-hidden rounded-lg border border-white/10 bg-slate-900">

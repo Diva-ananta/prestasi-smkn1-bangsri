@@ -19,7 +19,7 @@
                 <span id="profile-photo-initial" class="{{ $user->profile_photo_path ? 'hidden' : '' }}">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
             </div>
             <div class="min-w-0">
-                <label for="photo" class="admin-btn-secondary min-h-11 cursor-pointer text-slate-700 dark:text-slate-100">
+                <label for="photo" class="admin-btn-primary min-h-11 cursor-pointer">
                     <i class="fas fa-camera" aria-hidden="true"></i>Ganti foto
                 </label>
                 <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" class="sr-only" aria-describedby="photo-help">
