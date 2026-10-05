@@ -15,6 +15,7 @@
                 <a href="https://www.instagram.com/smkn1bangsri.official?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="flex h-10 w-10 items-center justify-center rounded-md bg-white/10 transition hover:bg-emerald-700" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
                 <a href="https://youtube.com/@smkn1bangsri?si=8bC8yFdWzTy6Thdo" target="_blank" rel="noopener noreferrer" class="flex h-10 w-10 items-center justify-center rounded-md bg-white/10 transition hover:bg-emerald-700" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
                 <a href="https://www.tiktok.com/@smkn1bangsri.official?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" class="flex h-10 w-10 items-center justify-center rounded-md bg-white/10 transition hover:bg-emerald-700" aria-label="TikTok"><i class="fab fa-tiktok" aria-hidden="true"></i></a>
+                <a href="https://smkn1bangsri.sch.id/" target="_blank" rel="noopener noreferrer" class="flex h-10 w-10 items-center justify-center rounded-md bg-white/10 transition hover:bg-emerald-700" aria-label="Website Sekolah" title="Website Sekolah"><i class="fas fa-globe" aria-hidden="true"></i></a>
             </div>
         </div>
 
@@ -35,9 +36,6 @@
                 <a href="tel:0291772321" class="flex items-center gap-3 transition hover:text-emerald-300"><i class="fas fa-phone-alt w-4 text-center" aria-hidden="true"></i><span>(0291) 772321</span></a>
                 <a href="mailto:smkn1bangsri@yahoo.co.id" class="flex items-center gap-3 break-words transition hover:text-emerald-300"><i class="fas fa-envelope w-4 shrink-0 text-center" aria-hidden="true"></i><span>smkn1bangsri@yahoo.co.id</span></a>
             </div>
-            <a href="https://smkn1bangsri.sch.id/" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-2 rounded-xl bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-600">
-                <i class="fas fa-globe" aria-hidden="true"></i> Website Sekolah
-            </a>
         </div>
 
         <div>
@@ -48,9 +46,16 @@
         </div>
     </div>
     <div class="border-t border-white/10">
-        <div class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+        <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
             <p>&copy; {{ date('Y') }} SMK Negeri 1 Bangsri. Seluruh hak cipta dilindungi.</p>
-            <p>Portal Prestasi Siswa</p>
+            <div class="space-y-1 sm:text-right">
+                <p>
+                    Dikembangkan oleh <span class="font-semibold text-slate-300">Akasa Dev</span>:
+                    <a href="https://www.instagram.com/askiakhoirunnisa/" target="_blank" rel="noopener noreferrer" class="transition hover:text-white hover:underline">Askia Khoirun Nisa</a>,
+                    <a href="https://www.instagram.com/ekakusnaini/" target="_blank" rel="noopener noreferrer" class="transition hover:text-white hover:underline">Eka Kusnaini</a>,
+                    <a href="https://www.instagram.com/khnsaskiaa/" target="_blank" rel="noopener noreferrer" class="transition hover:text-white hover:underline">Saka Diva Ananta</a>
+                </p>
+            </div>
         </div>
     </div>
 </footer>

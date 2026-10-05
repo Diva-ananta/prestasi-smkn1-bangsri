@@ -105,17 +105,36 @@
         </section>
 
         <section class="mt-10 border-t border-slate-200 py-8 dark:border-slate-800 sm:mt-12 sm:py-10">
-            <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                     <p class="text-xs font-bold uppercase tracking-[0.16em] text-emerald-700 dark:text-emerald-400">Dikembangkan oleh</p>
-                    <h2 class="mt-2 text-xl font-bold text-slate-900 dark:text-white">Akasa Dev <span class="font-medium text-slate-500 dark:text-slate-400">(2026)</span></h2>
+                    <h2 class="mt-2 text-xl font-bold text-slate-900 dark:text-white">Akasa Dev</h2>
                 </div>
-                <ol class="grid gap-x-8 gap-y-3 text-sm text-slate-700 dark:text-slate-300 sm:grid-cols-2 lg:grid-cols-3">
-                    <li class="flex items-center gap-3"><span class="text-xs font-bold text-emerald-700 dark:text-emerald-400">01</span><span>Askia Khoirun Nisa</span></li>
-                    <li class="flex items-center gap-3"><span class="text-xs font-bold text-emerald-700 dark:text-emerald-400">02</span><span>Eka Kusnaini</span></li>
-                    <li class="flex items-center gap-3"><span class="text-xs font-bold text-emerald-700 dark:text-emerald-400">03</span><span>Saka Diva Ananta</span></li>
-                </ol>
+                <span class="w-fit rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300">2026</span>
             </div>
+            <ol class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <li>
+                    <a href="https://www.instagram.com/askiakhoirunnisa/" target="_blank" rel="noopener noreferrer" class="group flex h-full min-h-16 items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-emerald-700 dark:focus-visible:outline-emerald-400">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-xs font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">01</span>
+                        <span class="min-w-0 flex-1">Askia Khoirun Nisa</span>
+                        <i class="fab fa-instagram shrink-0 text-base text-slate-400 transition group-hover:text-pink-500" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/ekakusnaini/" target="_blank" rel="noopener noreferrer" class="group flex h-full min-h-16 items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-emerald-700 dark:focus-visible:outline-emerald-400">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-xs font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">02</span>
+                        <span class="min-w-0 flex-1">Eka Kusnaini</span>
+                        <i class="fab fa-instagram shrink-0 text-base text-slate-400 transition group-hover:text-pink-500" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/khnsaskiaa/" target="_blank" rel="noopener noreferrer" class="group flex h-full min-h-16 items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-emerald-700 dark:focus-visible:outline-emerald-400">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-xs font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">03</span>
+                        <span class="min-w-0 flex-1">Saka Diva Ananta</span>
+                        <i class="fab fa-instagram shrink-0 text-base text-slate-400 transition group-hover:text-pink-500" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ol>
         </section>
     </main>
 </div>

@@ -52,7 +52,6 @@ Route::middleware(['auth', AdminMiddleware::class])
 
         Route::get('prestasi/import', [ImportPrestasiController::class, 'index'])->name('prestasi.import');
         Route::post('prestasi/import', [ImportPrestasiController::class, 'store'])->name('prestasi.import.store');
-        Route::get('siswa/export', [SiswaController::class, 'export'])->name('siswa.export');
         Route::get('prestasi/export', [PrestasiController::class, 'export'])->name('prestasi.export');
         Route::patch('galeri/{galeri}/visibility', [GaleriController::class, 'toggleVisibility'])->name('galeri.visibility');
         Route::get('deleted-records', [\App\Http\Controllers\Admin\DeletedRecordController::class, 'index'])->name('deleted-records.index');

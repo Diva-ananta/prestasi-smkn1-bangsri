@@ -12,10 +12,6 @@
                 <p class="mt-2 text-sm text-slate-500 dark:text-slate-300">Kelola data siswa aktif dan alumni SMK N 1 Bangsri.</p>
             </div>
             <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
-                <div class="flex w-full flex-wrap gap-2 sm:w-auto" data-export-controls="siswa">
-                    <button type="button" onclick="toggleSiswaExportMode()" class="admin-btn-secondary min-h-11 min-w-0 flex-1 basis-[calc(50%-0.25rem)] justify-center px-2 text-[11px] leading-tight sm:flex-none sm:basis-auto sm:whitespace-nowrap sm:px-3 sm:text-sm" data-export-start><i class="fas fa-file-export mr-1 sm:mr-2"></i><span data-export-start-label>Export Excel</span></button>
-                    <button type="button" onclick="exportSelectedSiswa('{{ route('admin.siswa.export') }}')" class="admin-btn-primary min-h-11 min-w-0 flex-1 basis-[calc(50%-0.25rem)] justify-center px-2 text-[11px] leading-tight sm:flex-none sm:basis-auto sm:whitespace-nowrap sm:px-3 sm:text-sm" data-export-download hidden style="display: none;" disabled><i class="fas fa-download mr-1 sm:mr-2"></i>Download pilihan</button>
-                </div>
                 <a href="{{ route('admin.sipintu.index') }}" class="inline-flex items-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300">
                     <i class="fas fa-arrows-rotate"></i>
                     <span>SiPintu Gateway</span>
@@ -109,7 +105,6 @@
         <x-admin.table class="admin-table admin-table-mobile-cards">
             <thead>
                 <tr>
-                    <th data-siswa-export-column class="hidden"><input type="checkbox" id="select-all-siswa" onclick="document.querySelectorAll('.siswa-select').forEach((item) => item.checked = this.checked)" aria-label="Pilih semua"></th>
                     <th>No</th>
                     <th>NIS</th>
                     <th>Nama</th>
@@ -123,7 +118,6 @@
             <tbody>
                 @forelse($siswas as $siswa)
                     <tr>
-                        <td data-siswa-export-column class="hidden"><input type="checkbox" class="siswa-select" value="{{ $siswa->id }}" aria-label="Pilih {{ $siswa->nama }}"></td>
                         <td>{{ ($siswas->currentPage() - 1) * $siswas->perPage() + $loop->iteration }}</td>
                         <td class="font-semibold text-slate-700 dark:text-slate-200">{{ $siswa->nis }}</td>
                         <td class="font-medium text-slate-900 dark:text-white">{{ $siswa->nama }}</td>
@@ -174,31 +168,4 @@
     </div>
     </div>
 </div>
-<script>
-    function toggleSiswaExportMode() {
-        const active = !document.querySelector('.admin-table-mobile-cards')?.classList.contains('export-mode');
-        const startButton = document.querySelector('[data-export-controls="siswa"] [data-export-start]');
-        const startLabel = document.querySelector('[data-export-controls="siswa"] [data-export-start-label]');
-        const downloadButton = document.querySelector('[data-export-controls="siswa"] [data-export-download]');
-        document.querySelector('.admin-table-mobile-cards')?.classList.toggle('export-mode', active);
-        startButton?.classList.toggle('bg-amber-100', active);
-        startButton?.classList.toggle('text-amber-800', active);
-        startLabel.textContent = active ? 'Batal pilih' : 'Export Excel';
-        startButton?.querySelector('i')?.classList.toggle('fa-file-export', !active);
-        startButton?.querySelector('i')?.classList.toggle('fa-xmark', active);
-        downloadButton.disabled = !active;
-        downloadButton.hidden = !active;
-        downloadButton.style.display = active ? 'inline-flex' : 'none';
-        downloadButton?.classList.toggle('opacity-50', !active);
-        downloadButton?.classList.toggle('cursor-not-allowed', !active);
-        document.querySelectorAll('[data-siswa-export-column]').forEach((element) => element.classList.toggle('hidden', !active));
-        if (!active) document.querySelectorAll('.siswa-select, #select-all-siswa').forEach((item) => item.checked = false);
-    }
-
-    function exportSelectedSiswa(url) {
-        const ids = [...document.querySelectorAll('.siswa-select:checked')].map((item) => `ids[]=${encodeURIComponent(item.value)}`);
-        if (!ids.length) return window.adminNotify?.('Pilih minimal satu data untuk diekspor.', 'error');
-        window.location.href = `${url}?${ids.join('&')}`;
-    }
-</script>
 @endsection

@@ -74,18 +74,18 @@
     :class="scrolled
         ? 'rounded-[2rem] border border-white/70 bg-white/90 shadow-lg shadow-slate-900/10 dark:border-slate-700/80 dark:bg-slate-900/90'
         : 'rounded-none border-x-0 border-t-0 border-b border-slate-200/80 bg-white/90 shadow-none dark:border-slate-800 dark:bg-slate-900/90'"
-    :style="{ top: scrolled ? '0.625rem' : '0', width: scrolled ? 'max-content' : '100%', maxWidth: scrolled ? 'calc(100vw - 1.5rem)' : '100%' }"
+    :style="{ top: scrolled ? '0.5rem' : '0', width: scrolled ? 'max-content' : '100%', maxWidth: scrolled ? 'calc(100vw - 2rem)' : '100%' }"
     class="navbar-sipres fixed left-1/2 top-0 z-50 w-full -translate-x-1/2 border backdrop-blur-xl transition-[top,width,max-width,border-radius,background-color,box-shadow,border-color] duration-500 ease-in-out"
 >
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
-            class="flex min-h-16 items-center py-2.5"
-            :class="scrolled ? 'min-h-12 justify-between gap-2 py-1 md:justify-center md:gap-5' : 'justify-between gap-2'">
+            class="flex items-center"
+            :class="scrolled ? 'min-h-14 justify-between gap-1.5 py-1.5 md:justify-center md:gap-4' : 'min-h-16 justify-between gap-2 py-2.5'">
             {{-- LOGO DAN NAMA SIPRES --}}
             <a
                 href="{{ route('home') }}"
-                class="flex shrink-0 items-center gap-3 transition-[gap] duration-300":class="scrolled ? 'gap-0' : 'gap-3'">
-                <div class="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl" :class="scrolled ? 'h-10 w-10' : ''">
+                class="flex shrink-0 items-center transition-[gap] duration-300" :class="scrolled ? 'gap-0' : 'gap-3'">
+                <div class="flex items-center justify-center overflow-hidden rounded-xl" :class="scrolled ? 'h-10 w-10' : 'h-11 w-11'">
                     <img src="{{ asset('images/logo-smk.png') }}" alt="Logo SMK Negeri 1 Bangsri" class="h-full w-full object-contain">
                 </div>
 
@@ -204,8 +204,8 @@
                     rel="noopener noreferrer"
                     aria-label="Website Sekolah"
                     title="Website Sekolah"
-                    :class="scrolled ? 'px-2.5' : 'px-4'"
-                    class="hidden items-center gap-2 rounded-full bg-emerald-700 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-700/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-800 hover:shadow-lg sm:inline-flex"
+                    :class="scrolled ? 'px-2.5 py-2' : 'px-4 py-2'"
+                    class="hidden items-center gap-2 rounded-full bg-emerald-700 text-sm font-semibold text-white shadow-md shadow-emerald-700/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-800 hover:shadow-lg sm:inline-flex"
                 >
                     <i class="fa-solid fa-globe"></i>
                     <span
@@ -371,6 +371,9 @@
     .navbar-sipres[data-scrolled="true"] .nav-link {
         padding-left: .625rem;
         padding-right: .625rem;
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+        font-size: .875rem;
     }
 
     .navbar-sipres[data-scrolled="true"] .nav-link:not(.is-active) {
@@ -383,6 +386,8 @@
     }
 
     .navbar-sipres[data-scrolled="true"] #darkModeToggle {
+        width: 2.25rem;
+        height: 2.25rem;
         color: #334155;
         background-color: rgb(255 255 255 / 55%);
     }
@@ -402,6 +407,8 @@
     }
 
     .dark .navbar-sipres[data-scrolled="true"] #darkModeToggle {
+        width: 2.25rem;
+        height: 2.25rem;
         color: #e2e8f0;
         background-color: rgb(15 23 42 / 55%);
     }

@@ -7,8 +7,6 @@ use App\Models\Siswa;
 use App\Http\Requests\UpdateSiswaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\SiswaExport;
 use App\Models\DeletedRecord;
 use App\Services\ImageOptimizationService;
 
@@ -140,8 +138,6 @@ class SiswaController extends Controller
         return redirect()->route('admin.siswa.index')
             ->with('success', 'Siswa berhasil dihapus dari database.');
     }
-
-    public function export(Request $request) { return Excel::download(new SiswaExport($request->input('ids', [])), 'data-siswa.xlsx'); }
 
     /**
      * Endpoint AJAX untuk pencarian siswa.
