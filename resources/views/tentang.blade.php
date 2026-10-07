@@ -121,7 +121,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="https://www.instagram.com/ekakusnaini/" target="_blank" rel="noopener noreferrer" class="group flex h-full min-h-16 items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-emerald-700 dark:focus-visible:outline-emerald-400">
+                    <a href="https://www.instagram.com/ekaa.kusnainiiii/" target="_blank" rel="noopener noreferrer" class="group flex h-full min-h-16 items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-emerald-700 dark:focus-visible:outline-emerald-400">
                         <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-xs font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">02</span>
                         <span class="min-w-0 flex-1">Eka Kusnaini</span>
                         <i class="fab fa-instagram shrink-0 text-base text-slate-400 transition group-hover:text-pink-500" aria-hidden="true"></i>

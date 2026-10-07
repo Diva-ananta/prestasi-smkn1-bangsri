@@ -4,9 +4,6 @@
 
 @section('content')
 @php
-    $heroImage = $heroPrestasi?->foto
-        ? asset('storage/' . $heroPrestasi->foto)
-        : asset('images/logo-smk.png');
     $heroSlides = ($heroPrestasis ?? collect())->map(fn ($prestasi) => [
         'image' => asset('storage/' . $prestasi->foto),
         'title' => $prestasi->nama_lomba,
@@ -18,9 +15,9 @@
     $galleryImageThree = $galleryImages->get(2);
     $galleryImageFour = $galleryImages->get(3);
     $services = [
-        ['icon' => 'fa-trophy', 'title' => 'Galeri Prestasi', 'text' => 'Jelajahi pencapaian terbaik siswa dan sekolah dengan mudah.', 'class' => 'border-emerald-200 bg-emerald-50/70 text-emerald-700 dark:border-emerald-800/60 dark:bg-emerald-950/20 dark:text-emerald-300'],
-        ['icon' => 'fa-users', 'title' => 'Data Siswa', 'text' => 'Temukan riwayat prestasi siswa dengan pencarian NIS.', 'class' => 'border-blue-200 bg-blue-50/70 text-blue-700 dark:border-blue-800/60 dark:bg-blue-950/20 dark:text-blue-300'],
-        ['icon' => 'fa-chart-line', 'title' => 'Analitik', 'text' => 'Pantau perkembangan prestasi dengan data terukur.', 'class' => 'border-violet-200 bg-violet-50/70 text-violet-700 dark:border-violet-800/60 dark:bg-violet-950/20 dark:text-violet-300'],
+        ['icon' => 'fa-trophy', 'title' => 'Galeri Prestasi', 'text' => 'Jelajahi pencapaian terbaik siswa.', 'class' => 'border-emerald-200 bg-emerald-50/70 text-emerald-700 dark:border-emerald-800/60 dark:bg-emerald-950/20 dark:text-emerald-300'],
+        ['icon' => 'fa-users', 'title' => 'Data Siswa', 'text' => 'Temukan riwayat prestasi siswa .', 'class' => 'border-blue-200 bg-blue-50/70 text-blue-700 dark:border-blue-800/60 dark:bg-blue-950/20 dark:text-blue-300'],
+        ['icon' => 'fa-chart-line', 'title' => 'Analitik', 'text' => 'Pantau perkembangan prestasi.', 'class' => 'border-violet-200 bg-violet-50/70 text-violet-700 dark:border-violet-800/60 dark:bg-violet-950/20 dark:text-violet-300'],
         ['icon' => 'fa-folder-open', 'title' => 'Arsip', 'text' => 'Akses dokumentasi prestasi yang tersusun dengan rapi.', 'class' => 'border-amber-200 bg-amber-50/70 text-amber-700 dark:border-amber-800/60 dark:bg-amber-950/20 dark:text-amber-300'],
     ];
 @endphp
@@ -57,7 +54,6 @@
             <template x-for="(slide, index) in slides" :key="slide.image">
                 <img x-show="active === index" x-transition.opacity.duration.1000ms :src="slide.image" :alt="slide.title" class="absolute inset-0 h-full w-full object-cover" :fetchpriority="index === 0 ? 'high' : 'auto'">
             </template>
-            <img x-show="slides.length === 0" src="{{ $heroImage }}" alt="Prestasi siswa SMK N 1 Bangsri" class="h-full w-full object-cover" fetchpriority="high">
 
             <!-- Gradient Overlays -->
             <div class="absolute inset-0 bg-slate-950/50"></div>
@@ -88,18 +84,6 @@
             </div>
         </div>
 
-        <!-- Slide Indicators -->
-        <div x-show="slides.length > 1" class="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3">
-            <template x-for="(slide, index) in slides" :key="`dot-${index}`">
-                <button
-                    type="button"
-                    @click="goTo(index)"
-                    :aria-label="`Slide ${index + 1}`"
-                    :class="active === index ? 'w-8 bg-amber-300' : 'w-2 bg-white/60 hover:bg-white'"
-                    class="h-2 rounded-full transition-all duration-300"
-                ></button>
-            </template>
-        </div>
     </section>
 
     @push('scripts')
@@ -170,12 +154,14 @@
                         ] as $imageIndex => $galleryImage)
                             <div class="stack-gallery-card {{ ['stack-front', 'stack-middle', 'stack-back', 'stack-rear'][$imageIndex] }}" data-stack-index="{{ $imageIndex }}">
                                 <div class="h-full w-full overflow-hidden rounded-[1.75rem] border-4 border-white bg-slate-100 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:rounded-[2rem]">
-                                    <img
-                                        src="{{ $galleryImage?->foto ? asset('storage/' . $galleryImage->foto) : $heroImage }}"
-                                        alt="{{ $galleryImage?->nama_lomba ?: 'Dokumentasi prestasi sekolah' }}"
-                                        class="h-full w-full object-cover"
-                                        loading="lazy"
-                                    >
+                                    @if($galleryImage?->foto)
+                                        <img
+                                            src="{{ asset('storage/' . $galleryImage->foto) }}"
+                                            alt="{{ $galleryImage->nama_lomba }}"
+                                            class="h-full w-full object-cover"
+                                            loading="lazy"
+                                        >
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
