@@ -38,5 +38,5 @@ class PrestasiExport implements FromQuery, WithHeadings, WithMapping
     }
 
     public function headings(): array { return ['nama_lomba', 'penyelenggara', 'hasil', 'tingkat', 'kategori', 'lokasi', 'tanggal_mulai', 'jenis_peserta', 'nama_tim', 'siswa', 'foto', 'status', 'keterangan']; }
-    public function map($prestasi): array { return [$prestasi->nama_lomba, $prestasi->penyelenggara, $prestasi->hasil, $prestasi->tingkat, $prestasi->kategori, $prestasi->lokasi, $prestasi->tanggal_mulai?->format('Y-m-d'), $prestasi->jenis_peserta, $prestasi->nama_tim, $prestasi->siswa->pluck('nama')->implode(', '), $prestasi->foto ? asset('storage/' . $prestasi->foto) : null, $prestasi->status, $prestasi->keterangan]; }
+    public function map($prestasi): array { return [$prestasi->nama_lomba, $prestasi->penyelenggara, $prestasi->hasil, $prestasi->tingkat, $prestasi->kategori, $prestasi->lokasi, $prestasi->tanggal_mulai?->format('Y-m-d'), $prestasi->jenis_peserta, $prestasi->nama_tim, $prestasi->siswa->map(fn ($siswa) => "{$siswa->nama}({$siswa->nis})")->implode(', '), $prestasi->foto ? asset('storage/' . $prestasi->foto) : null, $prestasi->status, $prestasi->keterangan]; }
 }

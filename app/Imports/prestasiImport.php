@@ -42,7 +42,11 @@ class PrestasiImport implements ToCollection, WithHeadingRow, WithValidation
             ]);
 
             foreach (preg_split('/\s*,\s*/', (string) $row['siswa']) as $studentKey) {
-                $siswa = Siswa::where('nis', $studentKey)->first() ?? Siswa::where('nama', $studentKey)->first();
+                $studentKey = trim($studentKey);
+                $nis = preg_match('/\(([^()]*)\)$/', $studentKey, $matches) ? trim($matches[1]) : null;
+                $siswa = ($nis ? Siswa::where('nis', $nis)->first() : null)
+                    ?? Siswa::where('nis', $studentKey)->first()
+                    ?? Siswa::where('nama', $studentKey)->first();
                 if (!$siswa) {
                     throw ValidationException::withMessages(['file' => "Siswa {$studentKey} tidak ditemukan."]);
                 }

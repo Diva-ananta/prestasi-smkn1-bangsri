@@ -34,7 +34,7 @@
             <ul class="list-disc list-inside space-y-1 mt-2">
                 <li><span class="font-medium">nama_lomba</span>, <span class="font-medium">hasil</span>, <span class="font-medium">jenis_peserta</span>, dan <span class="font-medium">siswa</span> (wajib)</li>
                 <li><span class="font-medium">penyelenggara</span>, <span class="font-medium">tingkat</span>, <span class="font-medium">kategori</span>, <span class="font-medium">lokasi</span>, <span class="font-medium">tanggal_mulai</span> (opsional)</li>
-                <li><span class="font-medium">siswa</span> berisi nama siswa atau NIS; pisahkan beberapa peserta dengan koma</li>
+                <li><span class="font-medium">siswa</span> berisi nama siswa, NIS, atau format nama(NIS); pisahkan beberapa peserta dengan koma</li>
                 <li><span class="font-medium">nama_tim</span>, <span class="font-medium">status</span>, dan <span class="font-medium">keterangan</span> (opsional)</li>
                 <li>Kolom <span class="font-medium">foto</span> dapat berisi URL gambar publik. URL dari hasil export prestasi dapat langsung diimport kembali.</li>
             </ul>
